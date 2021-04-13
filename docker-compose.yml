@@ -44,3 +44,21 @@ services:
             - ./app/build:/var/www/build
         env_file:
             - .env
+
+    db:
+        init: true
+        image: timescale/timescaledb:2.2.0-pg11
+        volumes:
+            - volume-db:/var/lib/postgresql/data
+        env_file:
+            - .env
+
+    rabbitmq:
+        init: true
+        image: rabbitmq:3.8.14
+        env_file:
+            - .env
+
+volumes:
+    volume-db:
+        name: ${HOMEPAGE_URL}-volume-db
