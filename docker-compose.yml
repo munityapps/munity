@@ -1,0 +1,46 @@
+version: '3.7'
+
+services:
+    traefik:
+        init: true
+        image: "traefik:v2.4"
+        ports:
+            - "80:80"
+            - "8080:8080"
+        env_file:
+            - .env
+        command:
+            - "--api.insecure=true"
+            - "--providers.docker=true"
+            - "--providers.docker.exposedbydefault=false"
+        volumes:
+            - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
+    api:
+        init: true
+        build:
+            context: ./
+            dockerfile: ./configurations/api/Dockerfile
+        restart: always
+        command: gunicorn munity.asgi:application -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:80 --workers=${GUNICORN_WORKER_NUMBER} --timeout 90 --reload --log-level ${API_LOG_LEVEL} --access-logfile=- --error-logfile=-
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.api.rule=HostRegexp(`${API_SUFFIX_URL}`, `{workspace:[a-z]+}.${API_SUFFIX_URL}`)"
+        volumes:
+            - ./api/src:/usr/src/app
+        env_file:
+            - .env
+
+    app:
+        init: true
+        build:
+            context: ./
+            dockerfile: ./configurations/app/Dockerfile
+        restart: always
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.app.rule=HostRegexp(`${HOMEPAGE_URL}`, `{workspace:[a-z]+}.${APP_SUFFIX_URL}`)"
+        volumes:
+            - ./app/build:/var/www/build
+        env_file:
+            - .env
