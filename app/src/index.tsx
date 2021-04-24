@@ -4,6 +4,8 @@ import Core from './modules/core';
 import reportWebVitals from './reportWebVitals';
 import './i18n';
 
+import './styles.scss';
+
 ReactDOM.render(
     <React.StrictMode>
         <Core />

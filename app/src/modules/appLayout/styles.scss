@@ -1,0 +1,29 @@
+#app-layout {
+    height:100vh;
+    width:100vw;
+    background-color: red;
+    #app-layout-left-section {
+        background-color: darkblue;
+    }
+    #app-layout-center-section {
+        background-color: brown;
+        flex:1;
+        #app-layout-center-top-section {
+            background-color: yellow;
+            flex:1;
+        }
+        #app-layout-center-middle-section {
+            background-color: red;
+            flex:1;
+        }
+        #app-layout-center-bottom-section {
+            background-color: orange;
+            flex:1;
+        }
+    }
+    #app-layout-right-section {
+        background-color: green;
+        flex:0;
+        display:none !important;
+    }
+}

@@ -1,0 +1,23 @@
+// Override prime flex
+$sm:640px;
+$md:720px;
+$lg:960px;
+$xl:1080px;
+
+html {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    min-height: 100%;
+}
+
+@import 'primeflex/src/variables.scss';
+@import 'primeflex/src/grid.scss';
+@import 'primeflex/src/formlayout.scss';
+@import 'primeflex/src/display.scss';
+@import 'primeflex/src/text.scss';
+@import 'primeflex/src/flexbox/flexbox.scss';
+@import 'primeflex/src/spacing.scss';
+@import 'primeflex/src/elevation.scss';
