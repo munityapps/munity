@@ -1,0 +1,19 @@
+{
+    "name": "websocket",
+    "version": "1.0.0",
+    "description": "Websocket service for Munity",
+    "main": "./src/index.ts",
+    "author": "cyril@dbyzero.com",
+    "license": "MIT",
+    "scripts": {
+        "start": "nodemon --exec \"ts-node\" src/index.ts"
+    },
+    "dependencies": {
+        "socket.io": "^4.0.1",
+        "typescript": "^4.2.4"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.7",
+        "ts-node": "^9.1.1"
+    }
+}

@@ -2,8 +2,6 @@ FROM python:3.9.4
 
 WORKDIR /usr/src/app
 
-EXPOSE 80
-
 RUN apt-get update
 RUN apt-get install -y postgresql-client
 RUN apt-get install -y libffi-dev

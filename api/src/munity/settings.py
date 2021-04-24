@@ -74,9 +74,13 @@ WSGI_APPLICATION = 'munity.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {  # This DB is supposed to always have the latest version of the schema described by the Django Model
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.environ["DEFAULT_DB_NAME"],
+        "USER": os.environ["POSTGRES_USER"],
+        "PASSWORD": os.environ["POSTGRES_PASSWORD"],
+        "HOST": os.environ["DB_HOST"],
+        "PORT": os.environ["DB_PORT"],
     }
 }
 

@@ -1,8 +1,18 @@
 .env
+docker-compose.override.yml
 
 # API
 api/*/__pycache__
 api/*/*.sqlite3
+
+# APP
+app/node_modules/*
+app/build/*
+
+# WEBSOCKET
+websocket/node_modules
+
+# WEBSOCKET
 
 # EDITOR
 .idea
