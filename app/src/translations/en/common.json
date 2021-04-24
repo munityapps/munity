@@ -1,1 +1,11 @@
-{}
+{
+    "graph": "Graph",
+    "graphs": "Graph",
+    "source": "Source",
+    "sources": "Sources",
+    "dashboard": "Dashboard",
+    "dashboards": "Dashboards",
+    "user": "User",
+    "users": "Users",
+    "search": "Search"
+}

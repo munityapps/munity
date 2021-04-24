@@ -1,1 +1,11 @@
-{}
+{
+    "graph": "Graphique",
+    "graphs": "Graphiques",
+    "source": "Source",
+    "sources": "Sources",
+    "dashboard": "Tableau de bord",
+    "dashboards": "Tableaux de bord",
+    "user": "Utilisateur",
+    "users": "Utilisateurs",
+    "search": "Recherche"
+}
