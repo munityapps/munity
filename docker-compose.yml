@@ -27,13 +27,59 @@ services:
             - "traefik.enable=true"
             - "traefik.http.routers.api.rule=HostRegexp(`${API_SUFFIX_URL}`, `{workspace:[a-z]+}.${API_SUFFIX_URL}`)"
         volumes:
-            - ./api/src:/usr/src/app
+            - ./api:/usr/src/app
+            - ./plugins:/usr/src/plugins
+        depends_on:
+            - db
         environment:
             - DB_HOST=${DB_HOST}
             - DB_PORT=${DB_PORT}
             - DEFAULT_DB_NAME=${DEFAULT_DB_NAME}
             - POSTGRES_USER=${POSTGRES_USER}
             - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+            - API_DEBUG=${API_DEBUG}
+
+    celery_worker:
+        init: true
+        build:
+            context: ./
+            dockerfile: ./configurations/api/Dockerfile
+        restart: always
+        volumes:
+            - ./api:/usr/src/app
+            - ./plugins:/usr/src/plugins
+        depends_on:
+            - db
+            - redis
+        command: /usr/local/bin/watchmedo auto-restart --directory=/usr/src/ --pattern=*.py --recursive -- /usr/local/bin/celery -A munity worker -l info
+        environment:
+            - DB_HOST=${DB_HOST}
+            - DB_PORT=${DB_PORT}
+            - DEFAULT_DB_NAME=${DEFAULT_DB_NAME}
+            - POSTGRES_USER=${POSTGRES_USER}
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+            - API_DEBUG=${API_DEBUG}
+
+    celery_beat:
+        build:
+            context: ./
+            dockerfile: ./configurations/api/Dockerfile
+        restart: always
+        volumes:
+            - ./api:/usr/src/app
+            - ./plugins:/usr/src/plugins
+        depends_on:
+            - db
+            - redis
+        entrypoint: /docker-entrypoint.d/10-runplugins.sh
+        command: /usr/local/bin/celery -A munity beat -l INFO
+        environment:
+            - DB_HOST=${DB_HOST}
+            - DB_PORT=${DB_PORT}
+            - DEFAULT_DB_NAME=${DEFAULT_DB_NAME}
+            - POSTGRES_USER=${POSTGRES_USER}
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+            - API_DEBUG=${API_DEBUG}
 
     app:
         init: true
@@ -76,13 +122,14 @@ services:
             - POSTGRES_PORT=${POSTGRES_PORT}
             - PGDATA=${PGDATA}
 
-    rabbitmq:
+    redis:
         init: true
-        image: rabbitmq:3.8.14
-        environment:
-            - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
-            - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
+        image: redis:6.2.2
+        volumes:
+            - volume-redis:/data
 
 volumes:
     volume-db:
         name: ${HOMEPAGE_URL}-volume-db
+    volume-redis:
+        name: ${HOMEPAGE_URL}-volume-redis

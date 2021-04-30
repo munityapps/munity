@@ -1,9 +1,13 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
 import Core from './index';
+import Providers from '../../providers';
 
 test('renders learn react link', () => {
-    render(<Core />);
-    const linkElement = screen.getByText(/Munity/i);
+    render(
+        <Providers>
+            <Core />
+        </Providers>
+    );
+    const linkElement = screen.getByText(/NAVBAR/i);
     expect(linkElement).toBeInTheDocument();
 });

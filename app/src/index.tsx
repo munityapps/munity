@@ -1,15 +1,24 @@
+// Libs
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Core from './modules/core';
-import reportWebVitals from './reportWebVitals';
-import './i18n';
 
+// Component
+import Providers from './providers';
+import Core from './modules/core';
+
+// Configuration
+import reportWebVitals from './reportWebVitals';
+
+// Style
 import './styles.scss';
 
+
 ReactDOM.render(
-    <React.StrictMode>
-        <Core />
-    </React.StrictMode>,
+    <Providers>
+        <React.StrictMode>
+            <Core />
+        </React.StrictMode>
+    </Providers>,
     document.getElementById('root')
 );
 

@@ -16,7 +16,7 @@ COPY ./api/requirements.txt /requirements_all.txt
 RUN pip install --requirement /requirements_all.txt
 
 # COPY CODE
-COPY /api/src /usr/src/app
+COPY /api /usr/src/app
 
 # Plugins install deps
 COPY ./configurations/api/runplugins.sh /docker-entrypoint.d/10-runplugins.sh
