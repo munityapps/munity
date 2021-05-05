@@ -1,0 +1,11 @@
+
+
+{% extends "../../base.html" %}
+{% block picture %}
+<img style="margin-top:2.2rem" src="http://res.cloudinary.com/iotv-keepcontact/image/upload/v1529073323/iot-rocket/feedback.png" alt="padlock" height="83" width="83"> 
+{% endblock %}
+{% block title %}  Super, you have received an invitation! {% endblock %}
+{% block description %}Hello! You have been invited to a group, please click on the link below to join it.{% endblock %}
+{% block link %}
+<p style="margin: 0;font-size: 14px;line-height: 17px;text-align: center"><a href="{{domain}}/register?token={{token}}" style="text-decoration: underline; font-size: 15px; line-height: 16px; color: rgb(83, 48, 115);">Accept invitation</a></p>
+{% endblock %}

@@ -1,0 +1,1 @@
+IoT-Rocket - {{ user }}, vous avez une invitation pour rejoindre notre plateforme

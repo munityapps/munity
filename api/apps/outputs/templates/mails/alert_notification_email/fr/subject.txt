@@ -1,0 +1,1 @@
+IoT-Rocket - Cher {{ user.first_name }}, une de vos alertes a été declenchée dans le workspace {{workspace}}

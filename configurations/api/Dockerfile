@@ -14,6 +14,7 @@ RUN /usr/local/bin/python -m pip install --upgrade pip
 # REQUIREMENTS
 COPY ./api/requirements.txt /requirements_all.txt
 RUN pip install --requirement /requirements_all.txt
+RUN pip install requests
 
 # COPY CODE
 COPY /api /usr/src/app

@@ -1,0 +1,17 @@
+
+
+{% extends "../../base.html" %}
+{% block picture %}
+<img style="margin-top:2.2rem" src="http://res.cloudinary.com/iotv-keepcontact/image/upload/v1529073323/iot-rocket/feedback.png" alt="feedback" height="83" width="83"> 
+{% endblock %}
+{% block title %} Vos espaces de travail ! {% endblock %}
+{% block description %}Bonjour {{user}} ! Vous êtes membre de ces espaces de travail : {% endblock %}
+{% block workspaces %}
+{% for key, value in workspaces.items %}
+<div style="margin-left:38px;font-size: 14px;line-height: 67px;max-width:300px" >
+	<div style="width:210px; float:left;" ><p style="font-size:16px;line-height:35px"><strong>{{value}}</strong></p></div> 
+	<div  ><a href="{{header_url|add:key|add:".app."|add:domain_url}}" style="text-decoration:none;border: 1px solid rgb(178, 178, 178);color:rgb(178, 178, 178);border-style: solid;padding-left:1rem;padding-right:1rem;padding-top:0.15rem;padding-bottom:0.15rem" class="button">Lancer</a></div>
+</div>
+{% endfor %}
+{% endblock %}
+

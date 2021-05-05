@@ -17,7 +17,7 @@ from celery.schedules import crontab
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-APPS_DIR = os.path.realpath(os.path.join(BASE_DIR, "api"))
+APPS_DIR = os.path.realpath(os.path.join(BASE_DIR, "apps"))
 sys.path.append(APPS_DIR)
 
 # Quick-start development settings - unsuitable for production
@@ -34,7 +34,7 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-INSTALLED_APPS = [
+DJANGO_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -43,6 +43,25 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_celery_beat',
 ]
+
+MUNITY_APPS = [
+    "accounts",
+    "acl",
+    "authentication",
+    "base",
+    "dashboards",
+    "devices",
+    "graphs",
+    "groups",
+    "outputs",
+    "invites",
+    "workspace",
+]
+
+PLUGINS_APPS = []
+
+INSTALLED_APPS = DJANGO_APPS + PLUGINS_APPS + MUNITY_APPS
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -153,12 +172,12 @@ CELERY_TASK_SERIALIZER = "json"
 CELERY_TIMEZONE = TIME_ZONE
 CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 CELERY_BEAT_SCHEDULE = {}
-CELERY_BEAT_SCHEDULE.update(
-    {
-        "test": {
-            "task": "api.tasks.test",
-            "schedule": crontab(minute='*'),
-            "args": tuple(),
-        }
-    }
-)
+# CELERY_BEAT_SCHEDULE.update(
+#     {
+#         "test": {
+#             "task": "api.tasks.test",
+#             "schedule": crontab(minute='*'),
+#             "args": tuple(),
+#         }
+#     }
+# )

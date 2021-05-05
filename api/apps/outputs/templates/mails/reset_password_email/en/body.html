@@ -1,0 +1,11 @@
+
+
+{% extends "../../base.html" %}
+{% block picture %}
+<img style="margin-top:2.2rem" src="https://res.cloudinary.com/iotv-keepcontact/image/upload/v1529073323/iot-rocket/unlocked-padlock.png" alt="padlock" height="83" width="59">
+{% endblock %}
+{% block title %} Oh! Forgot your password? {% endblock %}
+{% block description %}You recently tried to reset your password. Click on the link below to continue.{% endblock %}
+{% block link %}
+<p style="margin: 0;font-size: 14px;line-height: 17px;text-align: center"><a href="{{domain}}/reset-password?token={{token}}" style="text-decoration: underline; font-size: 15px; line-height: 16px; color: rgb(83, 48, 115);">Change password</a></p>
+{% endblock %}

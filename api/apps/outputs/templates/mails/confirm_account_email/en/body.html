@@ -1,0 +1,11 @@
+
+
+{% extends "../../base.html" %}
+{% block picture %}
+<img style="margin-top:3rem" src="http://res.cloudinary.com/iotv-keepcontact/image/upload/v1529073323/iot-rocket/checked_1.png" alt="padlock" height="63" width="77"> 
+{% endblock %}
+{% block title %} You are almost there {{ user }}!  {% endblock %}
+{% block description %}Please check your email address by clicking on the link below to continue.{% endblock %}
+{% block link %}
+<p style="margin: 0;font-size: 14px;line-height: 17px;text-align: center"><a href="{{domain}}/account-activation/?token={{token}}" style="text-decoration: underline; font-size: 15px; line-height: 16px; color: rgb(83, 48, 115);">Confirm my address</a></p>
+{% endblock %}
