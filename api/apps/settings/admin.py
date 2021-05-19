@@ -1,9 +1,9 @@
 from django.contrib import admin
 
-from workspace.models import WorkspaceSettings
+from .models import Settings
 
 # WorkspaceSettings Model
-class WorkspaceSettingsAdmin(admin.ModelAdmin):
+class SettingsAdmin(admin.ModelAdmin):
     list_display = (
         "key",
         "value",
@@ -16,4 +16,4 @@ class WorkspaceSettingsAdmin(admin.ModelAdmin):
         "value",
     )
 
-admin.site.register(WorkspaceSettings, WorkspaceSettingsAdmin)
+admin.site.register(Settings, SettingsAdmin)

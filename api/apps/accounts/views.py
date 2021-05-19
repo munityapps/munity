@@ -159,7 +159,7 @@ def send_account_activation(request):
     user = request.data["user"]
     workspace = request.data["workspace"]
 
-    lang = helpers._get_request_lang(request)
+    lang = helpers.get_request_lang(request)
     exp = time.mktime(
         (
             datetime.datetime.today() + datetime.timedelta(minutes=settings.ACCOUNT_VALIDATION_KEY_EXPIRATION_MINUTES)
@@ -176,7 +176,7 @@ def send_account_activation(request):
 
     email_factory = ConfirmAccountEmail(email_params)
     email = email_factory.create_email_msg(
-        [user.get("email")], lang=helpers._get_request_lang(request), from_email=settings.SUPPORT_MAIL
+        [user.get("email")], lang=helpers.get_request_lang(request), from_email=settings.SUPPORT_MAIL
     )
     email.send()
 
@@ -232,7 +232,7 @@ def request_reset_password(request):
     """
 
     workspace = request.META.get("HTTP_X_WORKSPACE", None)
-    lang = helpers._get_request_lang(request)
+    lang = helpers.get_request_lang(request)
     try:
         user = User.objects.using(workspace).get(username__iexact=request.data["email"])
     except (User.DoesNotExist):
@@ -334,7 +334,7 @@ def invite(request):
         if User.objects.using(request.workspace_slug).filter(username=email).exists():
             raise PermissionDenied("email_already_exist")
     for email in request.data["email"]:
-        generate_invitation_token(email, request.workspace_slug, None, helpers._get_request_lang(request))
+        generate_invitation_token(email, request.workspace_slug, None, helpers.get_request_lang(request))
     return Response()
 
 

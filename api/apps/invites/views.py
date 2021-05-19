@@ -51,7 +51,7 @@ class InviteViewSet(MultipleDBModelViewSet):
             request_data["email"],
             request.workspace_slug,
             request_data["workspace_role_id"],
-            helpers._get_request_lang(request),
+            helpers.get_request_lang(request),
         )
         serializer = self.get_serializer(
             data={
@@ -111,7 +111,7 @@ def refresh(request):
         invite.email,
         workspace,
         str(invite.workspace_role.workspace_role_id),
-        helpers._get_request_lang(request),
+        helpers.get_request_lang(request),
     )
     invite.invite_token = token
     invite.invite_estimate_timestamp_invalid = exp

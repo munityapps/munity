@@ -13,7 +13,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 import os
 import sys
-from celery.schedules import crontab
+# from celery.schedules import crontab
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -42,12 +43,13 @@ DJANGO_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_celery_beat',
+    "django.contrib.sites",
 ]
 
 MUNITY_APPS = [
+    "admin_panel",
     "accounts",
     "acl",
-    "authentication",
     "base",
     "dashboards",
     "devices",
@@ -55,7 +57,8 @@ MUNITY_APPS = [
     "groups",
     "outputs",
     "invites",
-    "workspace",
+    "settings",
+    "rest_framework_simplejwt.token_blacklist",
 ]
 
 PLUGINS_APPS = []
@@ -71,7 +74,17 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "base.middlewares.TimezoneMiddleware",
 ]
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ),
+#     "DEFAULT_VERSIONING_CLASS": "rest_framework.versioning.URLPathVersioning",
+#     "DEFAULT_PAGINATION_CLASS": "base.pagination.CustomPagination",
+#     "PAGE_SIZE": 3000,
+}
 
 ROOT_URLCONF = 'munity.urls'
 
@@ -90,6 +103,19 @@ TEMPLATES = [
         },
     },
 ]
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'UPDATE_LAST_LOGIN': True,
+    'ALGORITHM': 'HS256',
+    'SIGNING_KEY': os.getenv("JWT_SECRET_KEY", "munityapps.comarecommunityapps!"),
+    'AUDIENCE': "munity frontend",
+    'ISSUER': "munity backend",
+    'JTI_CLAIM': 'jti',
+}
 
 WSGI_APPLICATION = 'munity.wsgi.application'
 

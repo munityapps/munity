@@ -76,7 +76,6 @@ class GroupViewSet(MultipleDBModelViewSet):
         group = self.get_object()
 
         ids = request.data.get("ids")
-        ids = request.data.get("ids")
         users = request.data.get("users")
 
         add_remove_devices(group, ids)

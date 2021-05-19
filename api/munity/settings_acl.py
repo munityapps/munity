@@ -16,7 +16,7 @@ from devices.models import Device
 from graphs.models import Graph, PreviewSettings
 from groups.models import Group
 from invites.models import Invite, InviteGroupMembership
-from workspace.models import WorkspaceSettings
+from settings.models import Settings
 from outputs.models import Log
 
 class DefaultWorkspaceRoleChoice(Enum):
@@ -66,7 +66,7 @@ DRF_ACTION_MAP = {
     "update": DefaultWorkspaceActionChoice.UPDATE.value,
     "bulk_update": DefaultWorkspaceActionChoice.UPDATE.value,
     "partial_update": DefaultWorkspaceActionChoice.UPDATE.value,
-    "bulk_partial_update": DefaultWorkspaceActionChoice.UPDATE.value,
+    "partial_bulk_update": DefaultWorkspaceActionChoice.UPDATE.value,
     "destroy": DefaultWorkspaceActionChoice.DELETE.value,
     "bulk_destroy": DefaultWorkspaceActionChoice.DELETE.value,
     "get_or_create": DefaultWorkspaceActionChoice.READ.value,
@@ -76,7 +76,7 @@ DRF_ACTION_MAP = {
 ALL_WORKSPACE_RESOURCES = [
     # Resources Workspace Owners and Admins have every right to.
     # If you change anything here, you will need to run `python manage.py init_db`
-    WorkspaceSettings,
+    Settings,
     WorkspaceRole,
     WorkspaceAction,
     WorkspaceResource,

@@ -4,8 +4,6 @@ from acl.operations import has_workspace_permission
 from devices.models import Device
 from groups.models import Group
 from django.conf import settings
-from workspace.operations import list_existing_workspaces
-from workspace.utils import db_name_to_slug
 
 
 def get_references_from_ids(user, ids, request_is_internal=False, request=None):
@@ -101,7 +99,8 @@ def hardwares_assignment(worksapce_slug, device_hw_id_by_ref):
     data = False
     # Update hardware_ids in startup api
     if bool(device_hw_id_by_ref):
-        status_code, response = update_hw_ids_in_api_startup(worksapce_slug, device_hw_id_by_ref) reference = list(response.keys())[0]
+        status_code, response = update_hw_ids_in_api_startup(worksapce_slug, device_hw_id_by_ref)
+        reference = list(response.keys())[0]
         data = {"reference": reference, "hardware_ids": response[reference]}
     return status_code, data
 
@@ -127,6 +126,8 @@ def update_hw_ids_in_api_startup(worksapce_slug, device_to_update):
 
 
 def hardware_ids_from_api_by_workspace_slug(my_workspace_slug):
+
+    return []
 
     db_names = list_existing_workspaces()
 

@@ -60,13 +60,12 @@ def get_graph_data(request):
     if not ids:
         return Response({"message": "devices_not_specified"}, status=status.HTTP_403_FORBIDDEN)
 
-    if not request.is_internal:
-        # Check that all ids are actually stored in the workspace (otherwise we would let users fetch data from devices in other workspaces)
-        if Device.objects.filter(pk__in=ids).count() < len(ids):
-            raise PermissionDenied("user_does_not_have_permission")
+    # Check that all ids are actually stored in the workspace (otherwise we would let users fetch data from devices in other workspaces)
+    if Device.objects.filter(pk__in=ids).count() < len(ids):
+        raise PermissionDenied("user_does_not_have_permission")
 
     references_and_names = get_references_from_ids(
-        user=request.user, ids=request.data["ids"], request_is_internal=request.is_internal
+        user=request.user, ids=request.data["ids"]
     )
     if not references_and_names:
         return Response({"message": "bad_rights_for_devices"}, status=status.HTTP_403_FORBIDDEN)

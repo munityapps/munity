@@ -1,8 +1,6 @@
 from django.contrib import admin
 from dashboards.models import Dashboard
 
-from workspace.operations import list_existing_workspaces
-
 
 # Dashboard Model
 class DashboardAdmin(admin.ModelAdmin):

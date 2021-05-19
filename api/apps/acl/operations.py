@@ -30,19 +30,18 @@ def has_workspace_permission(user, action, resource, request=None):
     Returns False otherwise.
     """
 
-    # bypass auth in development mode
-    if settings.DEBUG_BYPASS_ACL_AUTHORIZATION:
-        return True
-
     # master api key has all rights
-    if request and request.is_master_api_key:
+    if request and hasattr(request, 'is_master_api_key') and request.is_master_api_key:
         return True
 
-    return WorkspaceACL.objects.filter(
-        workspace_role_id=user.workspace_role_id,
-        workspace_action__workspace_action_name=DRF_ACTION_MAP.get(action, action),
-        workspace_resource__workspace_resource_name=resource,
-    ).exists()
+    if user and hasattr(user, 'workspace_role_id'):
+        return WorkspaceACL.objects.filter(
+            workspace_role_id=user.workspace_role_id,
+            workspace_action__workspace_action_name=DRF_ACTION_MAP.get(action, action),
+            workspace_resource__workspace_resource_name=resource,
+        ).exists()
+
+    return False
 
 
 def _has_group_permission_on_resource_object(
@@ -55,9 +54,6 @@ def _has_group_permission_on_resource_object(
     A user has group_permission if he has a 'role' in any of the resource's 'resource_group_objects', that can do
     'action' on 'resource'.
     """
-
-    if settings.DEBUG_BYPASS_ACL_AUTHORIZATION:
-        return True
 
     # You can choose to pass this function either ('resource_object') or ('resource_name' and 'group')
     if (resource_object is not None) and (resource_name is resource_group_objects is None):
@@ -246,7 +242,7 @@ def permission_required(viewset_function):
         # We use a middleware that adds an 'is_internal' attribute in the request object if this is a request that
         # comes from another docker container behind the nginx reverse proxy. Those requests are always
         # granted all the rights.
-        if request.is_internal or request.is_master_api_key:
+        if getattr(request, 'is_master_api_key', None):
             has_perm = True
         # If the user is not logged in, raise a NotAuthenticated exception
         elif not getattr(request, "user", None):
