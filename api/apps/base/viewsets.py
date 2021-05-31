@@ -1,7 +1,7 @@
 import json
 
-from accounts.models import User
-from accounts.serializers import UserSerializer
+from users.models import User
+from users.serializers import UserSerializer
 from acl.operations import permission_required
 from rest_framework.exceptions import MethodNotAllowed
 from rest_framework.response import Response

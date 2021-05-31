@@ -3,7 +3,7 @@ from django.db.models.signals import post_save, pre_delete
 from django.dispatch import receiver
 
 import redis
-from accounts.models import User
+from .models import User
 from singleton_decorator import singleton
 
 

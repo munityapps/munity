@@ -12,7 +12,7 @@ class InviteGroupMembershipSerializer(ModelSerializerWithFields):
 
     group = GroupSerializer(read_only=True, required=False, fields=("id", "name"))
     invite_id = serializers.UUIDField(write_only=True)
-    id = serializers.UUIDField(write_only=True)
+    group_id = serializers.UUIDField(write_only=True)
     group_role = GroupRoleSerializer(read_only=True, required=False)
     group_role_id = serializers.UUIDField(write_only=True)
 

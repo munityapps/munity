@@ -1,6 +1,6 @@
 from devices.models import Device
 from groups.models import Group
-from accounts.models import User, UserGroupMembership
+from users.models import User, UserGroupMembership
 from acl.models import GroupRole
 from rest_framework.exceptions import NotFound
 

@@ -1,4 +1,4 @@
-from accounts.models import User, UserGroupMembership
+from .models import User, UserGroupMembership
 from acl.models import WorkspaceRole
 from acl.serializers import GroupRoleSerializer, WorkspaceRoleSerializer
 from base.serializers import ModelSerializerWithFields
@@ -27,7 +27,7 @@ class UserSerializer(ModelSerializerWithFields):
 
     class Meta:
         model = User
-        exclude = ["is_superuser", "is_staff", "is_active", "password", "user_permissions", "groups"]
+        exclude = ["is_superuser", "is_staff", "is_active", "password", "groups"]
 
     username = serializers.CharField(required=False)
     group_memberships = serializers.SerializerMethodField()

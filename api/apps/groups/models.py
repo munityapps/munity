@@ -25,6 +25,9 @@ class Group(models.Model):
     updated_at = models.DateTimeField(auto_now=True, editable=False)
     groups = models.ManyToManyField("self", related_name="group+", symmetrical=False, blank=True)
 
+    icon = models.CharField(default="default", blank=True, max_length=64)
+    type = models.CharField(default="default", blank=True, max_length=64)
+
     custom_field = JSONField(null=False, blank=True, default=dict)
 
     def get_associated_groups(self):

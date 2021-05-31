@@ -228,7 +228,7 @@ class DeviceViewSet(MultipleDBModelViewSet):
             device_to_insert_ref = str(uuid.uuid4())
             devices_to_insert_ref.append(device_to_insert_ref)
 
-            # Create devices in IOT ROCKET
+            # Create devices in MUNITY
             new_device = Device(reference=device_to_insert_ref)
             for k, v in device.items():
                 if k != "groups":

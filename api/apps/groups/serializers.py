@@ -10,7 +10,7 @@ class GroupSerializer(ModelSerializerWithFields):
         exclude = ["groups"]
 
     user_role_in_group = serializers.SerializerMethodField()
-    ids = serializers.SerializerMethodField()
+    group_ids = serializers.SerializerMethodField()
 
     def get_user_role_in_group(self, group):
         try:
@@ -23,6 +23,6 @@ class GroupSerializer(ModelSerializerWithFields):
             serializer = GroupRoleSerializer(user_group_role)
             return serializer.data
 
-    def get_ids(self, group):
-        ids = [group.pk for group in group.get_all_groups()]
-        return ids
+    def get_group_ids(self, group):
+        group_ids = [group.pk for group in group.get_all_groups()]
+        return group_ids

@@ -1,7 +1,7 @@
 import copy
 import json
 
-from accounts.operations import generate_invitation_token
+from .operations import generate_invitation_token
 from acl.operations import permission_required
 from base import helpers
 from base.viewsets import MultipleDBModelViewSet
@@ -11,6 +11,7 @@ from outputs.models import Log
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework.exceptions import ValidationError
 from acl.operations import user_has_permission
 
 
@@ -33,6 +34,7 @@ class InviteViewSet(MultipleDBModelViewSet):
         else:
             return Invite.objects.none()
 
+    @permission_required
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
 
@@ -66,16 +68,16 @@ class InviteViewSet(MultipleDBModelViewSet):
             invitation = serializer.save()
 
         # Has to be in serializer but my limited skill fail on it :/ @dbyzero
-        for id in request_data.get("ids"):
+        for group_id in request_data.get("group_ids"):
             group_serializer = InviteGroupMembershipSerializer(
                 data={
-                    "id": id,
+                    "group_id": group_id,
                     "group_role_id": request_data.get("group_role_id"),
                     "invite_id": invitation.id,
                 }
             )
             if group_serializer.is_valid(raise_exception=True):
-                group = group_serializer.save()  # NOQA: F841
+                group_serializer.save() # NOQA: F841
 
         return Response(InviteSerializer(invitation).data, status=status.HTTP_201_CREATED)
 
@@ -99,7 +101,7 @@ def refresh(request):
     request_data = copy.deepcopy(request.data)
     token = request_data.get("token")
     invite_id = request_data.get("invite_id")
-    workspace = request.META.get("HTTP_X_WORKSPACE", None)
+    workspace = request.workspace_slug
 
     # Handle 2 cases - resend invitation from `Users` page, resend invitation from `Login` page
     if invite_id:
@@ -115,7 +117,7 @@ def refresh(request):
     )
     invite.invite_token = token
     invite.invite_estimate_timestamp_invalid = exp
-    invite.save(using=request.workspace_slug)
+    invite.save()
 
     log = Log(
         username=request.user.email if request.user.is_authenticated else None,
@@ -126,7 +128,7 @@ def refresh(request):
         modified_object_id=invite.id,
         role_name=invite.workspace_role.workspace_role_name,
     )
-    log.save(using=request.workspace_slug)
+    log.save()
 
     invite_serializer = InviteSerializer(invite)
     return Response(invite_serializer.data)

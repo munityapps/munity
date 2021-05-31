@@ -5,7 +5,6 @@ from datetime import datetime, timedelta
 from django.conf import settings
 
 import jwt
-from accounts.models import User
 from groups.models import Group
 from invites.models import Invite, InviteGroupMembership
 from invites.serializers import InviteSerializer
@@ -23,14 +22,18 @@ def generate_invitation_token(email, workspace_slug, workspace_role_id, lang, re
     if not refresh:
         exp = time.mktime((datetime.today() + timedelta(days=settings.INVITE_KEY_EXPIRATION_DAYS)).timetuple())
         data = {"mail": email, "workspace": workspace_slug, "workspace_role_id": workspace_role_id, "exp": exp}
-        token = jwt.encode(data, settings.SECRET_KEY, algorithm="HS256").decode("utf-8")
+        token = jwt.encode(data, settings.SECRET_KEY, algorithm="HS256")
     else:
         exp = invite.invite_estimate_timestamp_invalid
         token = invite.invite_token
     # build email
+    if workspace_slug == 'munity':
+        domain = "https://" + settings.APP_SUFFIX_URL
+    else :
+        domain = "https://" + workspace_slug + "." + settings.APP_SUFFIX_URL
     email_params = {
         "user": email,
-        "domain": "https://" + workspace_slug + ".app." + settings.DOMAIN_NAME,
+        "domain": domain,
         "token": token,
     }
     email_factory = InvitationEmail(email_params)
@@ -47,7 +50,7 @@ def validate_invitation_token(token, workspace):
             - the token has not been modified
     """
     try:
-        invite = InviteSerializer(Invite.objects.using(workspace).get(invite_token=token)).data
+        invite = InviteSerializer(Invite.objects.get(invite_token=token)).data
     except (Invite.DoesNotExist):
         raise NotFound("invite_not_found")
     except (InviteGroupMembership.DoesNotExist):
@@ -63,23 +66,6 @@ def validate_invitation_token(token, workspace):
     except jwt.exceptions.InvalidTokenError:
         raise PermissionDenied("token_error")
     else:
-        """
-        Structure:
-        "group": [
-                {
-                    "invite_group_membership_id": "8b98682a-a0bc-4863-86b0-955abf73f8bd",
-                    "group": {
-                        "id": "0e4818dd-0251-4bbb-a596-2fef0b4e6fa3",
-                        "name": "dev group 895"
-                    },
-                    "group_role": {
-                        "group_role_id": "78bd8025-7962-48f5-9721-55df2d0ddb7e",
-                        "group_role_name": "Admin"
-                    }
-                }
-            ],
-        """
-        # group handling
         groups = invite["invite_group_memberships"]
         out_groups = []
 
@@ -102,20 +88,3 @@ def validate_invitation_token(token, workspace):
         body["groups"] = out_groups
 
         return body, status.HTTP_200_OK
-
-
-def update_user_password(pk, old_password, new_password):
-    """
-        Check and update user password:
-            - check if old password correspond with user password
-            - update user password
-            - save user
-    """
-    user = User.objects.get(pk=pk)
-    user_password_is_correct = user.check_password(old_password)
-
-    if old_password and user_password_is_correct:
-        user.set_password(new_password)
-        user.save()
-    else:
-        raise PermissionDenied("wrong_password")

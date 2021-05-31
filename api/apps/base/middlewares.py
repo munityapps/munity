@@ -15,3 +15,13 @@ class TimezoneMiddleware:
             tzname = settings.TIME_ZONE
         timezone.activate(pytz.timezone(tzname))
         return self.get_response(request)
+
+class WorkspaceSlug:
+    def __init__(self, get_response):
+        self.get_response = get_response
+        # One-time configuration and initialization.
+
+    def __call__(self, request):
+        request.workspace_slug = "munity"
+        response = self.get_response(request)
+        return response

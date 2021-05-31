@@ -3,8 +3,8 @@ from django.utils.safestring import mark_safe
 
 from .models import User
 
-# Account Model
-class AccountAdmin(admin.ModelAdmin):
+# User Model
+class UserAdmin(admin.ModelAdmin):
     list_display = (
         "username",
         "email",
@@ -47,4 +47,4 @@ class AccountAdmin(admin.ModelAdmin):
             )
         return "No photo url"
 
-admin.site.register(User, AccountAdmin)
+admin.site.register(User, UserAdmin)

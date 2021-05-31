@@ -7,7 +7,6 @@ class InviteAdmin(admin.ModelAdmin):
         "workspace_role",
         "email",
         "invite_token",
-        "invite_estimate_timestamp_invalid",
         "created_at",
         "updated_at",
     )

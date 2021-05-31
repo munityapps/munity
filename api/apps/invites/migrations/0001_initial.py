@@ -23,7 +23,6 @@ class Migration(migrations.Migration):
                 ('updated_at', models.DateTimeField(auto_now=True)),
                 ('email', models.CharField(blank=True, max_length=64)),
                 ('invite_token', models.CharField(max_length=1000, unique=True)),
-                ('invite_estimate_timestamp_invalid', models.PositiveIntegerField()),
                 ('custom_field', models.JSONField(blank=True, default=dict)),
             ],
             options={

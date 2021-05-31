@@ -32,6 +32,8 @@ DEBUG = os.getenv("API_DEBUG", None)
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL = "users.User"
+EMAIL_BACKEND = "django_mailjet.backends.MailjetBackend"
 
 # Application definition
 
@@ -39,7 +41,7 @@ DJANGO_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
-    'django.contrib.sessions',
+    # 'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_celery_beat',
@@ -47,8 +49,9 @@ DJANGO_APPS = [
 ]
 
 MUNITY_APPS = [
+    "munity", # need to add munity to add commands
     "admin_panel",
-    "accounts",
+    "users",
     "acl",
     "base",
     "dashboards",
@@ -67,6 +70,7 @@ INSTALLED_APPS = DJANGO_APPS + PLUGINS_APPS + MUNITY_APPS
 
 
 MIDDLEWARE = [
+    "base.middlewares.WorkspaceSlug",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -207,3 +211,17 @@ CELERY_BEAT_SCHEDULE = {}
 #         }
 #     }
 # )
+
+PAGE_SIZE = os.getenv("DEFAULT_PAGE_SIZE", 20)
+INVITE_KEY_EXPIRATION_DAYS = os.getenv("INVITE_KEY_EXPIRATION_DAYS", 7)
+SECRET_KEY = os.getenv("SECRET_KEY", '\o/munityapps.comisacommunityofapps\o/')
+APP_SUFFIX_URL = os.getenv("APP_SUFFIX_URL", "localhost")
+SUPPORT_MAIL = os.getenv("SUPPORT_MAIL", "cyril@munityapps.com")
+RESET_PASSWORD_KEY_EXPIRATION_MINUTES = os.getenv("RESET_PASSWORD_KEY_EXPIRATION_MINUTES", 20)
+
+CLOUDINARY_CLOUD_NAME = os.getenv("CLOUDINARY_CLOUD_NAME", "")
+CLOUDINARY_API_SECRET = os.getenv("CLOUDINARY_API_SECRET", "")
+CLOUDINARY_API_KEY = os.getenv("CLOUDINARY_API_KEY", "")
+
+MAILJET_API_KEY = os.getenv("MAILJET_API_KEY", None)
+MAILJET_API_SECRET = os.getenv("MAILJET_API_SECRET", None)

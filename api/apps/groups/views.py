@@ -3,8 +3,8 @@ import copy
 from django.conf import settings
 from django.core.paginator import EmptyPage, Paginator
 
-from accounts.models import User, UserGroupMembership
-from accounts.serializers import UserGroupMembershipSerializer, UserSerializer
+from users.models import User, UserGroupMembership
+from users.serializers import UserGroupMembershipSerializer, UserSerializer
 from acl.operations import has_workspace_permission, permission_required
 from base.viewsets import MultipleDBModelViewSet
 from groups.models import Group
@@ -26,19 +26,22 @@ class GroupViewSet(MultipleDBModelViewSet):
         This would be where we would restrict visibility to a subset of all groups in function of the user
         who makes the request.
         """
-        if has_workspace_permission(self.request.user, self.action, self.queryset.model.__name__, self.request):
+        if self.request.user.is_authenticated is False:
+            return self.queryset
+        elif has_workspace_permission(self.request.user, self.action, self.queryset.model.__name__, self.request):
             return Group.objects.prefetch_related("groups").all()
         else:
             return Group.objects.prefetch_related("groups").filter(group_memberships__user=self.request.user).distinct()
 
+    @permission_required
     def list(self, request, page=None, step=None):
         queryset = self.get_queryset()
         serializer = self.get_serializer(queryset, many=True)
 
-        if step == None:
-            step = settings.PAGE_SIZE
         count = len(serializer.data)
         if page is not None:
+            if step == None:
+                step = settings.PAGE_SIZE
             # Pagination
             paginator = Paginator(serializer.data, step)
             try:
@@ -57,12 +60,12 @@ class GroupViewSet(MultipleDBModelViewSet):
         if group_created_id:
             group_created = Group.objects.get(id=group_created_id)
 
-            ids = request.data.get("ids")
-            ids = request.data.get("ids")
+            device_ids = request.data.get("device_ids")
+            group_ids = request.data.get("group_ids")
             users = request.data.get("users")
 
-            add_remove_devices(group_created, ids)
-            add_remove_groups(group_created, ids)
+            add_remove_devices(group_created, device_ids)
+            add_remove_groups(group_created, group_ids)
             add_remove_users(group_created, users)
 
             group_created = Group.objects.get(id=group_created_id)
@@ -75,11 +78,12 @@ class GroupViewSet(MultipleDBModelViewSet):
     def update(self, request, pk=None, *args, **kwargs):
         group = self.get_object()
 
-        ids = request.data.get("ids")
+        device_ids = request.data.get("device_ids")
+        group_ids = request.data.get("group_ids")
         users = request.data.get("users")
 
-        add_remove_devices(group, ids)
-        add_remove_groups(group, ids)
+        add_remove_devices(group, device_ids)
+        add_remove_groups(group, group_ids)
         add_remove_users(group, users)
 
         return super().update(request, *args, pk=pk, **kwargs)
@@ -164,16 +168,6 @@ class UserGroupMembershipViewSet(MultipleDBModelViewSet):
                     UserGroupMembership.objects.create(
                         user_id=element.get("user_id"), id=id, group_role_id=element.get("group_role_id")
                     )
-                # if has group but not same role, we update the role
-                # elif (
-                #    UserGroupMembership.objects.filter(
-                #        user_id=element.get("user_id"), id=id, group_role_id=element.get("group_role_id")
-                #    ).count()
-                #    < 1
-                # ):
-                #    UserGroupMembership.objects.filter(user_id=element.get("user_id"), id=id).update(
-                #        group_role_id=element.get("group_role_id")
-                #    ),
                 else:
                     # if the exact combination exists, it is removed
                     UserGroupMembership.objects.filter(user_id=element.get("user_id"), id=id).delete()
@@ -182,7 +176,6 @@ class UserGroupMembershipViewSet(MultipleDBModelViewSet):
 
     @permission_required
     def destroy(self, request, user_id, pk=None):
-
         return super().destroy(request, pk=pk)
 
 

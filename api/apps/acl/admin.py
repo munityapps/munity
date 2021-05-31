@@ -120,8 +120,6 @@ class WorkspaceResourceAdmin(admin.ModelAdmin):
     def group_resource_display(self, obj):
         return ", ".join([child.name for child in obj.children.all()])
 
-
-
 admin.site.register(GroupACL, AclAdmin)
 admin.site.register(GroupAction, GroupActionAdmin)
 admin.site.register(GroupResource, GroupResourceAdmin)

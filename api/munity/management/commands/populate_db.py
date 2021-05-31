@@ -6,7 +6,7 @@ from django.core import management
 from django.core.management.base import BaseCommand
 from django.db.transaction import atomic
 
-from accounts.models import User, UserGroupMembership
+from users.models import User, UserGroupMembership
 from acl.models import GroupRole, WorkspaceRole
 from devices.models import Device
 from dynamic_db_router import in_database

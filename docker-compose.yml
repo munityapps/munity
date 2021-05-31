@@ -38,6 +38,13 @@ services:
             - POSTGRES_USER=${POSTGRES_USER}
             - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
             - API_DEBUG=${API_DEBUG}
+            - APP_SUFFIX_URL=${APP_SUFFIX_URL}
+            - MAILJET_API_KEY=${MAILJET_API_KEY}
+            - MAILJET_API_SECRET=${MAILJET_API_SECRET}
+            - SUPPORT_EMAIL=cyril@munityapps.com
+            - CLOUDINARY_CLOUD_NAME=${CLOUDINARY_CLOUD_NAME}
+            - CLOUDINARY_API_KEY=${CLOUDINARY_API_KEY}
+            - CLOUDINARY_API_SECRET=${CLOUDINARY_API_SECRET}
 
     celery_worker:
         init: true
@@ -107,9 +114,6 @@ services:
         command: "yarn start"
         expose:
             - 80
-        environment:
-            - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
-            - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
 
     db:
         init: true

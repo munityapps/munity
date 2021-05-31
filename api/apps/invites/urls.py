@@ -8,6 +8,6 @@ router = BulkRouter()
 router.register(r"", views.InviteViewSet)
 
 urlpatterns = [
+    url(PREFIX + r"refresh", views.refresh),
     url(PREFIX, include(router.urls)),
-    url(PREFIX + r"refresh$", views.refresh),
 ]

@@ -1,6 +1,6 @@
 from enum import Enum
 
-from accounts.models import User, UserGroupMembership
+from users.models import User, UserGroupMembership
 from acl.models import (
     GroupACL,
     GroupAction,

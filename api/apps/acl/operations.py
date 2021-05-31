@@ -6,7 +6,7 @@ from inspect import signature
 
 from django.conf import settings
 
-from accounts.models import UserGroupMembership
+from users.models import UserGroupMembership
 from acl.models import GroupACL, WorkspaceACL
 from groups.models import Group
 from munity.settings_acl import (
@@ -250,6 +250,7 @@ def permission_required(viewset_function):
         # If this is a normal request with a logged in user coming from the frontend, do the normal permission check.
         else:
             has_perm = user_has_permission(request, user, action, pk=pk, resource_model=resource_model)
+
         # Go ahead only if user has_perm, else raise a 403 error
         if has_perm:
             if "pk" in signature(viewset_function).parameters.keys():
