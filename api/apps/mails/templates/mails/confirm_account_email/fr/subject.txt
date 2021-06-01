@@ -1,0 +1,1 @@
+Munity - Cher {{ user }}, veuillez confirmer votre adresse mail

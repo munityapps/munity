@@ -11,7 +11,7 @@ from base.operations import get_modification, update_or_delete_custom_field
 from data_connector import data_connector
 from devices.models import Device
 from groups.models import Group
-from outputs.models import Log
+from logs.models import Log
 from rest_framework.exceptions import ValidationError
 
 class GraphConditionalFormatting(models.Model):

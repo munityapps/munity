@@ -8,7 +8,7 @@ from django.dispatch import receiver
 from acl.models import GroupRole, WorkspaceRole
 from base.operations import get_modification
 from groups.models import Group
-from outputs.models import Log
+from logs.models import Log
 from base.operations import update_or_delete_custom_field
 
 

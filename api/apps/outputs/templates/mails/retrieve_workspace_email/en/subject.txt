@@ -1,1 +1,0 @@
-IoT-Rocket - Dear {{ user }}, here are your workspaces

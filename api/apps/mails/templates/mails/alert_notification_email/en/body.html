@@ -1,0 +1,19 @@
+
+
+{% extends "../../base.html" %}
+
+{% block picture %}
+<img style="margin-top:3rem" src="https://res.cloudinary.com/munityapps/image/upload/v1622549518/email/checked_1_o2fy4m.png" alt="padlock" height="63" width="77">
+{% endblock %}
+
+{% block title %} Your alert '{{alert_notification.alert.alert_name}}' has been triggered <br> by device '{{alert_notification.offending_device.name}}' in workspace {{workspace}}{% endblock %}
+
+{% block description %}
+The last verification of your device <strong>'{{alert_notification.offending_device.name}}'</strong> ({{alert_notification.offending_device.reference}}) revealed an unusual value.<br/><br/>
+The value of type <strong>'{{alert_notification.data_type_from_alert}}'</strong> is the cause of this notification because it is out of interval [{{alert_notification.min_value_from_alert}}:{{alert_notification.max_value_from_alert}}].<br/>
+The device emitted <strong>{{alert_notification.offending_value}}</strong> at <strong>{{formated_notification_timestamp}}</strong>
+{% if alert_notification.offending_group is not None %}
+from group <strong>{{alert_notification.offending_group.name}}</strong>.<br/>
+{% else %}
+.<br/>
+{% endif %}{% endblock %}

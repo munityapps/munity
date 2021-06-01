@@ -9,7 +9,7 @@ from base.operations import get_modification
 from data_connector import data_connector
 from django_bulk_update.manager import BulkUpdateManager
 from groups.models import Group
-from outputs.models import Log, log_group_relation_changes
+from logs.models import Log, log_group_relation_changes
 from base.operations import update_or_delete_custom_field
 
 DROP_FIELD_LOG = ["updated_at"]

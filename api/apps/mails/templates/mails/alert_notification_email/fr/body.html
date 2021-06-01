@@ -1,0 +1,16 @@
+
+
+{% extends "../../base.html" %}
+{% block picture %}
+<img style="margin-top:3rem" src="https://res.cloudinary.com/munityapps/image/upload/v1622549518/email/checked_1_o2fy4m.png" alt="padlock" height="63" width="77">
+{% endblock %}
+{% block title %} Votre alerte '{{alert_notification.alert.alert_name}}' a été declenchée <br> par '{{alert_notification.offending_device.name}}' dans le workspace '{{workspace}}' !  {% endblock %}
+{% block description %}
+La dernière vérification montre que le device <strong>'{{alert_notification.offending_device.name}}'</strong> ({{alert_notification.offending_device.reference}}) a remonté une valeur suspecte.<br/><br/>
+La valeur de type <strong>'{{alert_notification.data_type_from_alert}}'</strong> est la cause de cette notification car en dehors de l'intervalle [{{alert_notification.min_value_from_alert}}:{{alert_notification.max_value_from_alert}}].<br/>
+Le device a émis la valeur de <strong>{{alert_notification.offending_value}}</strong> le <strong>{{formated_notification_timestamp}}</strong>
+{% if alert_notification.offending_group is not None %}
+et fait partie du groupe <strong>{{alert_notification.offending_group.name}}</strong>.<br/>
+{% else %}
+.<br/>
+{% endif %}{% endblock %}

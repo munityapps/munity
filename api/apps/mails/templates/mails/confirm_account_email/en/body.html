@@ -1,0 +1,11 @@
+
+
+{% extends "../../base.html" %}
+{% block picture %}
+<img style="margin-top:3rem" src="https://res.cloudinary.com/munityapps/image/upload/v1622549518/email/checked_1_o2fy4m.png" alt="padlock" height="63" width="77">
+{% endblock %}
+{% block title %} You are almost there {{ user }}!  {% endblock %}
+{% block description %}Please check your email address by clicking on the link below to continue.{% endblock %}
+{% block link %}
+<p style="margin: 0;font-size: 14px;line-height: 17px;text-align: center"><a href="{{domain}}/account-activation/?token={{token}}" style="text-decoration: underline; font-size: 15px; line-height: 16px; color: rgb(83, 48, 115);">Confirm my address</a></p>
+{% endblock %}

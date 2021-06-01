@@ -8,7 +8,7 @@ import jwt
 from groups.models import Group
 from invites.models import Invite, InviteGroupMembership
 from invites.serializers import InviteSerializer
-from outputs.emails import InvitationEmail
+from mails.emails import InvitationEmail
 from rest_framework import status
 from rest_framework.exceptions import NotFound, PermissionDenied
 

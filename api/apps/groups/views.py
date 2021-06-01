@@ -15,6 +15,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from groups.operations import add_remove_groups, add_remove_devices, add_remove_users
+from logs.models import Log
 
 
 class GroupViewSet(MultipleDBModelViewSet):
@@ -254,7 +255,6 @@ class InviteGroupMembershipViewSet(MultipleDBModelViewSet):
 
 @api_view(["GET"])
 def group_summary(request, id, page):
-    from outputs.models import Log
 
     # Get log list associated with device
     logs = (

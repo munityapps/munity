@@ -1,0 +1,1 @@
+Munity - Dear {{ user }}, you have an invitation to join our platform

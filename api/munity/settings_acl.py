@@ -17,7 +17,7 @@ from graphs.models import Graph, PreviewSettings
 from groups.models import Group
 from invites.models import Invite, InviteGroupMembership
 from settings.models import Settings
-from outputs.models import Log
+from logs.models import Log
 
 class DefaultWorkspaceRoleChoice(Enum):
     """Enum for workspace Roles

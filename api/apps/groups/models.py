@@ -4,6 +4,7 @@ from django.db.models import JSONField
 from django.db import models
 from django.db.models.signals import post_delete, post_save, pre_delete, pre_save
 from django.dispatch import receiver
+from logs.models import Log
 
 from base.operations import get_modification
 from base.operations import update_or_delete_custom_field
@@ -112,7 +113,6 @@ def get_old(sender, instance, **kwargs):
 
 @receiver(post_save, sender=Group)
 def add_group(sender, instance, created, **kwargs):
-    from outputs.models import Log
 
     action_type = "CREATE" if created else "UPDATE"
     model_fields = Group._meta.get_fields()
@@ -133,7 +133,6 @@ def add_group(sender, instance, created, **kwargs):
 
 @receiver(post_delete, sender=Group)
 def delete_group(sender, instance, using, **kwargs):
-    from outputs.models import Log
 
     action_type = "REMOVE"
     model_fields = Group._meta.get_fields()

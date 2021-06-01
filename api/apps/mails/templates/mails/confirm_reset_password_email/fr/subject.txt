@@ -1,0 +1,1 @@
+Munity - Cher {{ user.first_name }}, Votre mot de passe a été mis à jour

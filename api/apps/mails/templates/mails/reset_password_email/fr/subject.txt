@@ -1,0 +1,1 @@
+Munity - Cher {{ user.first_name }}, veuillez confimer votre demande de changement de mot de passe

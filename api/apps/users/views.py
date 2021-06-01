@@ -29,9 +29,9 @@ from acl.models import GroupRole, WorkspaceRole
 from acl.operations import permission_required
 from acl.serializers import WorkspaceRoleSerializer
 from groups.models import Group
-from outputs.emails import ConfirmAccountEmail, ConfirmResetPasswordEmail, ResetPasswordEmail
+from mails.emails import ConfirmAccountEmail, ConfirmResetPasswordEmail, ResetPasswordEmail
 from munity.settings_acl import DefaultWorkspaceRoleChoice
-from outputs.models import Log
+from logs.models import Log
 from settings.models import Settings
 from invites.models import Invite
 

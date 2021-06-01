@@ -1,1 +1,0 @@
-IoT-Rocket - Dear {{ user.first_name }}, please confirm your password change request

@@ -10,6 +10,7 @@ from acl.models import GroupRole, WorkspaceRole
 from base.operations import get_modification
 from groups.models import Group
 from base.operations import update_or_delete_custom_field
+from logs.models import Log, log_group_relation_changes
 
 
 class User(AbstractUser):
@@ -93,8 +94,6 @@ def get_old(sender, instance, using, **kwargs):
 
 @receiver(post_save, sender=User)
 def add_user(sender, instance, created, using, update_fields, **kwargs):
-    from outputs.models import Log
-
     action_type = "CREATE" if created else "UPDATE"
 
     if update_fields and "is_active" in update_fields:
@@ -123,8 +122,6 @@ def add_user(sender, instance, created, using, update_fields, **kwargs):
 
 @receiver(post_delete, sender=User)
 def delete_user(sender, instance, using, **kwargs):
-    from outputs.models import Log
-
     action_type = "REMOVE"
     model_fields = User._meta.get_fields()
     log = Log(
@@ -140,8 +137,6 @@ def delete_user(sender, instance, using, **kwargs):
 
 @receiver(post_save, sender=UserGroupMembership)
 def add_user_group_membership(sender, instance, created, **kwargs):
-    from outputs.models import log_group_relation_changes
-
     log_group_relation_changes(
         "UserGroupMembership",
         instance.user.email,
@@ -154,8 +149,6 @@ def add_user_group_membership(sender, instance, created, **kwargs):
 
 @receiver(post_delete, sender=UserGroupMembership)
 def remove_user_group_membership(sender, instance, **kwargs):
-    from outputs.models import log_group_relation_changes
-
     log_group_relation_changes(
         "UserGroupMembership",
         instance.user.email,

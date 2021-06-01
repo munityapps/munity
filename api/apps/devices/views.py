@@ -27,7 +27,7 @@ from devices.serializers import DeviceSerializer
 from graphs.models import PreviewSettings
 from graphs.serializers import PreviewSettingsSerializer
 from groups.models import Group
-from outputs.models import Log
+from logs.models import Log
 
 
 class DeviceViewSet(MultipleDBModelViewSet):

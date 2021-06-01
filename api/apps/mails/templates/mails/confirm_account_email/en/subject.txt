@@ -1,0 +1,1 @@
+Munity - Dear {{ user }}, confirm your email address

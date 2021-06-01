@@ -1,0 +1,1 @@
+Munity - Cher {{ user }}, voici vos espaces de travail

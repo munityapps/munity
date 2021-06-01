@@ -7,7 +7,7 @@ from base import helpers
 from base.viewsets import MultipleDBModelViewSet
 from invites.models import Invite
 from invites.serializers import InviteGroupMembershipSerializer, InviteSerializer
-from outputs.models import Log
+from logs.models import Log
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response

@@ -1,1 +1,0 @@
-IoT-Rocket - Dear {{ user.first_name }}, one of your alerts has been triggered in {{workspace}} workspace
