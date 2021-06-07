@@ -7,7 +7,7 @@ cryptography==3.4.7
     cffi==1.14.5
         pycparser==2.20
 django-bulk-update==2.2.0
-    Django==3.2
+    Django==3.2.1
         asgiref==3.3.4
         pytz==2021.1
         sqlparse==0.4.1
@@ -29,12 +29,12 @@ django-celery-beat==2.2.0
                 vine==5.0.0
         # pytz==2021.1
         # vine==5.0.0
-    # Django==3.2
+    # Django==3.2.1
         # asgiref==3.3.4
         # pytz==2021.1
         # sqlparse==0.4.1
     django-timezone-field==4.1.2
-        # Django==3.2
+        # Django==3.2.1
             # asgiref==3.3.4
             # pytz==2021.1
             # sqlparse==0.4.1
@@ -43,19 +43,19 @@ django-celery-beat==2.2.0
         python-dateutil==2.8.1
             # six==1.15.0
 django-dynamic-db-router==0.3.0
-    # Django==3.2
+    # Django==3.2.1
         # asgiref==3.3.4
         # pytz==2021.1
         # sqlparse==0.4.1
 django-filter==2.4.0
-    # Django==3.2
+    # Django==3.2.1
         # asgiref==3.3.4
         # pytz==2021.1
         # sqlparse==0.4.1
 django-mail-factory==0.22
     html2text==2020.1.16
 django-mailjet==0.3.1
-    # Django==3.2
+    # Django==3.2.1
         # asgiref==3.3.4
         # pytz==2021.1
         # sqlparse==0.4.1
@@ -66,23 +66,23 @@ django-mailjet==0.3.1
             idna==2.10
             # urllib3==1.26.4
 djangorestframework-bulk==0.2.1
-    # Django==3.2
+    # Django==3.2.1
         # asgiref==3.3.4
         # pytz==2021.1
         # sqlparse==0.4.1
     djangorestframework==3.12.4
-        # Django==3.2
+        # Django==3.2.1
             # asgiref==3.3.4
             # pytz==2021.1
             # sqlparse==0.4.1
     # setuptools
 djangorestframework-simplejwt==4.6.0
-    # Django==3.2
+    # Django==3.2.1
         # asgiref==3.3.4
         # pytz==2021.1
         # sqlparse==0.4.1
     # djangorestframework==3.12.4
-        # Django==3.2
+        # Django==3.2.1
             # asgiref==3.3.4
             # pytz==2021.1
             # sqlparse==0.4.1
