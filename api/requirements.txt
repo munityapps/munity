@@ -2,7 +2,7 @@ argh==0.26.2
 cloudinary==1.25.0
     certifi==2020.12.5
     six==1.15.0
-    urllib3==1.26.4
+    urllib3==1.26.5
 cryptography==3.4.7
     cffi==1.14.5
         pycparser==2.20
@@ -64,7 +64,7 @@ django-mailjet==0.3.1
             # certifi==2020.12.5
             chardet==4.0.0
             idna==2.10
-            # urllib3==1.26.4
+            # urllib3==1.26.5
 djangorestframework-bulk==0.2.1
     # Django==3.2.1
         # asgiref==3.3.4
