@@ -1,9 +1,24 @@
+# CUSTOMIZATION
 .env
 docker-compose.override.yml
 
+# OS
+.DS_Store
+
 # API
-api/*/__pycache__
-api/*/*.sqlite3
+api/dist
+api/node_modules
+api/coverage
+api/.nyc_output
+
+# Logs
+logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
 
 # APP
 app/node_modules/*
@@ -17,13 +32,19 @@ websocket/node_modules
 # EDITOR
 .idea
 .vscode
+.vscode/*
 *~
 **/*.sw*
 **/*un~
 **/*.pyc.*
 **/*.pyc
+*.launch
 *.sublime-project
 *.sublime-workspace
+.project
+.classpath
+.c9/
+.settings/
 
 # VIM
 [._]*.s[a-v][a-z]

@@ -14,11 +14,23 @@ services:
         volumes:
             - "/var/run/docker.sock:/var/run/docker.sock:ro"
 
+    app:
+        init: true
+        build:
+            context: ./
+            dockerfile: ./app/Dockerfile
+        restart: always
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.app.rule=HostRegexp(`${HOMEPAGE_URL}`, `{workspace:[a-z]+}.${APP_SUFFIX_URL}`)"
+        volumes:
+            - ./app:/var/www
+
     api:
         init: true
         build:
             context: ./
-            dockerfile: ./configurations/api/Dockerfile
+            dockerfile: ./api/Dockerfile
         restart: always
         expose:
             - "80"
@@ -46,65 +58,11 @@ services:
             - CLOUDINARY_API_KEY=${CLOUDINARY_API_KEY}
             - CLOUDINARY_API_SECRET=${CLOUDINARY_API_SECRET}
 
-    celery_worker:
-        init: true
-        build:
-            context: ./
-            dockerfile: ./configurations/api/Dockerfile
-        restart: always
-        volumes:
-            - ./api:/usr/src/app
-            - ./plugins:/usr/src/plugins
-        depends_on:
-            - db
-            - redis
-        command: /usr/local/bin/watchmedo auto-restart --directory=/usr/src/ --pattern=*.py --recursive -- /usr/local/bin/celery -A munity worker -l info
-        environment:
-            - DB_HOST=${DB_HOST}
-            - DB_PORT=${DB_PORT}
-            - DEFAULT_DB_NAME=${DEFAULT_DB_NAME}
-            - POSTGRES_USER=${POSTGRES_USER}
-            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-            - API_DEBUG=${API_DEBUG}
-
-    celery_beat:
-        build:
-            context: ./
-            dockerfile: ./configurations/api/Dockerfile
-        restart: always
-        volumes:
-            - ./api:/usr/src/app
-            - ./plugins:/usr/src/plugins
-        depends_on:
-            - db
-            - redis
-        entrypoint: /docker-entrypoint.d/10-runplugins.sh
-        command: /usr/local/bin/celery -A munity beat -l INFO
-        environment:
-            - DB_HOST=${DB_HOST}
-            - DB_PORT=${DB_PORT}
-            - DEFAULT_DB_NAME=${DEFAULT_DB_NAME}
-            - POSTGRES_USER=${POSTGRES_USER}
-            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-            - API_DEBUG=${API_DEBUG}
-
-    app:
-        init: true
-        build:
-            context: ./
-            dockerfile: ./configurations/app/Dockerfile
-        restart: always
-        labels:
-            - "traefik.enable=true"
-            - "traefik.http.routers.app.rule=HostRegexp(`${HOMEPAGE_URL}`, `{workspace:[a-z]+}.${APP_SUFFIX_URL}`)"
-        volumes:
-            - ./app:/var/www
-
     websocket:
         init: true
         build:
             context: ./
-            dockerfile: ./configurations/websocket/Dockerfile
+            dockerfile: ./websocket/Dockerfile
         restart: always
         labels:
             - "traefik.enable=true"
@@ -126,14 +84,6 @@ services:
             - POSTGRES_PORT=${POSTGRES_PORT}
             - PGDATA=${PGDATA}
 
-    redis:
-        init: true
-        image: redis:6.2.2
-        volumes:
-            - volume-redis:/data
-
 volumes:
     volume-db:
         name: ${HOMEPAGE_URL}-volume-db
-    volume-redis:
-        name: ${HOMEPAGE_URL}-volume-redis

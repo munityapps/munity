@@ -1,1 +1,0 @@
-Munity - Dear {{ user }}, here are your workspaces
