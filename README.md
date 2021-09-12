@@ -1,2 +1,4 @@
 # munity
-Munity is an open source platform, easily and highly customizable.
+![logo-munity](./docs/logo.png)
+
+Munity is an open source framework/boilerplate, easily and highly customizable.
