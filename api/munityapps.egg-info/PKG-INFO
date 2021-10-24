@@ -1,0 +1,25 @@
+Metadata-Version: 2.1
+Name: munityapps
+Version: 0.0.9
+Summary: API for munity project
+Home-page: https://munityapps.com
+Author: Cyril ALFARO
+Author-email: cyril@munityapps.com
+License: UNKNOWN
+Project-URL: Bug Tracker, https://github.com/munityapps/munity
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
+# MUNITY API
+
+Set of application used by *Django Rest Framework* to bootstrap brand new SaaS in an **awesome** way!
+
+**Munity** limit ***technical depth***, so you can focus on your buisness.
+
+[Munity github project](https://github.com/munityapps/munity)
+

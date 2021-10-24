@@ -1,0 +1,13 @@
+munity
+munity/authorization/
+munity/authorization/migrations
+munity/generic_groups/
+munity/generic_groups/migrations
+munity/records/
+munity/records/migrations
+munity/settings/
+munity/settings/migrations
+munity/users/
+munity/users/migrations
+munity/workspaces/
+munity/workspaces/migrations
