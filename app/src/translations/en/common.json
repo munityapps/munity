@@ -1,11 +1,8 @@
 {
-    "graph": "Graph",
-    "graphs": "Graph",
-    "source": "Source",
-    "sources": "Sources",
-    "dashboard": "Dashboard",
-    "dashboards": "Dashboards",
     "user": "User",
+    "password": "Password",
     "users": "Users",
-    "search": "Search"
+    "search": "Search",
+    "submit":"Submit",
+    "login":"Log in"
 }

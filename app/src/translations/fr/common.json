@@ -1,11 +1,8 @@
 {
-    "graph": "Graphique",
-    "graphs": "Graphiques",
-    "source": "Source",
-    "sources": "Sources",
-    "dashboard": "Tableau de bord",
-    "dashboards": "Tableaux de bord",
     "user": "Utilisateur",
+    "password": "Mot de passe",
     "users": "Utilisateurs",
-    "search": "Recherche"
+    "search": "Recherche",
+    "submit": "Envoyer",
+    "login":"Se connecter"
 }

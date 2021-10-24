@@ -1,24 +1,16 @@
-FROM python:3.9.4
+# syntax = docker/dockerfile:experimental
 
-WORKDIR /usr/src/app
+FROM python:3.9-slim
+ENV PYTHONUNBUFFERED 1
 
-RUN apt-get update
-RUN apt-get install -y postgresql-client
-RUN apt-get install -y libffi-dev
-RUN apt-get install -y gcc
+RUN apt update
+RUN apt-get install -y libgdal-dev libffi-dev git curl
 
-COPY ./plugins /usr/src/plugins/
+RUN mkdir /code
+WORKDIR /code
+COPY requirements.txt /code/
+RUN --mount=type=cache,target=/root/.cache/pip pip install -r requirements.txt
 
-RUN /usr/local/bin/python -m pip install --upgrade pip
+EXPOSE 8000
 
-# REQUIREMENTS
-COPY ./api/requirements.txt /requirements_all.txt
-RUN pip install --requirement /requirements_all.txt
-RUN pip install requests
-
-# COPY CODE
-COPY /api /usr/src/app
-
-# Plugins install deps
-COPY ./configurations/api/runplugins.sh /docker-entrypoint.d/10-runplugins.sh
-RUN chmod +x /docker-entrypoint.d/10-runplugins.sh
+COPY . /code/

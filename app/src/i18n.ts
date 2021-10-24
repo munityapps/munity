@@ -6,7 +6,7 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 // the translations
 // (tip move them in a JSON file and import them)
 const resources: {[key: string]: {[key:string]: string}} = { fr: {}, en: {} };
-['common'].forEach((local: string) => {
+['common', 'app', 'errors'].forEach((local: string) => {
     try {
         resources.fr[local] = require(`./translations/fr/${local}.json`); // eslint-disable-line
         resources.en[local] = require(`./translations/en/${local}.json`); // eslint-disable-line

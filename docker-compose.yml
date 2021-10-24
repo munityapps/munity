@@ -1,89 +1,60 @@
 version: '3.7'
 
 services:
-    traefik:
-        init: true
-        image: "traefik:v2.4"
-        ports:
-            - "80:80"
-            - "8080:8080"
-        command:
-            - "--api.insecure=true"
-            - "--providers.docker=true"
-            - "--providers.docker.exposedbydefault=false"
-        volumes:
-            - "/var/run/docker.sock:/var/run/docker.sock:ro"
+  traefik:
+    image: "traefik:v2.4"
+    ports:
+      - "80:80"
+      - "8080:8080"
+    command:
+      - "--api.insecure=true"
+      - "--api.dashboard=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
 
-    app:
-        init: true
-        build:
-            context: ./
-            dockerfile: ./app/Dockerfile
-        restart: always
-        labels:
-            - "traefik.enable=true"
-            - "traefik.http.routers.app.rule=HostRegexp(`${HOMEPAGE_URL}`, `{workspace:[a-z]+}.${APP_SUFFIX_URL}`)"
-        volumes:
-            - ./app:/var/www
+  app:
+    build:
+      context: ./app
+      dockerfile: ./Dockerfile
+    restart: always
+    depends_on:
+      - api
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.app.rule=HostRegexp(`${APP_URL}`)"
+        # - "traefik.http.routers.app.rule=HostRegexp(`${APP_URL}`, `{workspace:[a-z]+}.${APP_URL}`)"
+    volumes:
+      - ./app:/var/www
 
-    api:
-        init: true
-        build:
-            context: ./
-            dockerfile: ./api/Dockerfile
-        restart: always
-        expose:
-            - "80"
-        command: gunicorn munity.asgi:application -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:80 --workers=${GUNICORN_WORKER_NUMBER} --timeout 90 --reload --log-level ${API_LOG_LEVEL} --access-logfile=- --error-logfile=-
-        labels:
-            - "traefik.enable=true"
-            - "traefik.http.routers.api.rule=HostRegexp(`${API_SUFFIX_URL}`, `{workspace:[a-z]+}.${API_SUFFIX_URL}`)"
-        volumes:
-            - ./api:/usr/src/app
-            - ./plugins:/usr/src/plugins
-        depends_on:
-            - db
-        environment:
-            - DB_HOST=${DB_HOST}
-            - DB_PORT=${DB_PORT}
-            - DEFAULT_DB_NAME=${DEFAULT_DB_NAME}
-            - POSTGRES_USER=${POSTGRES_USER}
-            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-            - API_DEBUG=${API_DEBUG}
-            - APP_SUFFIX_URL=${APP_SUFFIX_URL}
-            - MAILJET_API_KEY=${MAILJET_API_KEY}
-            - MAILJET_API_SECRET=${MAILJET_API_SECRET}
-            - SUPPORT_EMAIL=cyril@munityapps.com
-            - CLOUDINARY_CLOUD_NAME=${CLOUDINARY_CLOUD_NAME}
-            - CLOUDINARY_API_KEY=${CLOUDINARY_API_KEY}
-            - CLOUDINARY_API_SECRET=${CLOUDINARY_API_SECRET}
+  api:
+    build:
+      context: ./api
+      dockerfile: ./Dockerfile
+    restart: always
+    depends_on:
+      - db
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.api.rule=HostRegexp(`api.${APP_URL}`)"
+    env_file:
+      - ./.env
+    volumes:
+      - ./api:/code
+    command: python manage.py runserver 0:8000
 
-    websocket:
-        init: true
-        build:
-            context: ./
-            dockerfile: ./websocket/Dockerfile
-        restart: always
-        labels:
-            - "traefik.enable=true"
-            - "traefik.http.routers.websocket.rule=HostRegexp(`{workspace:[a-z]+}.websocket.${APP_SUFFIX_URL}`)"
-        volumes:
-            - ./websocket:/home/node/app
-        command: "yarn start"
-        expose:
-            - 80
-
-    db:
-        init: true
-        image: timescale/timescaledb:2.2.0-pg11
-        volumes:
-            - volume-db:/var/lib/postgresql/data
-        environment:
-            - POSTGRES_USER=${POSTGRES_USER}
-            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-            - POSTGRES_PORT=${POSTGRES_PORT}
-            - PGDATA=${PGDATA}
+  db:
+    image: timescale/timescaledb:2.2.0-pg11
+    volumes:
+      - volume-db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_PORT=${POSTGRES_PORT}
+      - PGDATA=/var/lib/postgresql/data
 
 volumes:
-    volume-db:
-        name: ${HOMEPAGE_URL}-volume-db
+  volume-db:
+    name: ${APP_URL}-munity-volume-db

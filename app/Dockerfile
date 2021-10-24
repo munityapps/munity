@@ -6,5 +6,5 @@ RUN apt update
 RUN apt install -y git npm nodejs
 RUN npm install -g yarn
 
-COPY ./app/build /var/www/build
-COPY ./configurations/app/server.conf /etc/nginx/conf.d/default.conf
+COPY ./build /var/www/build
+COPY ./server.conf /etc/nginx/conf.d/default.conf
