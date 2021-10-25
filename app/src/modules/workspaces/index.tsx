@@ -1,23 +1,21 @@
-import { useParams } from "react-router";
+import { Route, Switch, useParams } from "react-router";
 import LayoutDispatcher from "../core/components/LayoutDispatcher";
-import Navbar from "../layouts/components/Navbar";
-import { useGetUsersQuery, User } from "../user/slice";
+import WorkspaceNavbar from "./components/WorkspaceNavbar";
+import Users from "../user";
 
 const Workspace = () => {
-    let { workspace_slug } = useParams<{workspace_slug: string}>();
-
-    const {data} = useGetUsersQuery();
-
-    console.log(data?.results);
-
+    let { workspace_slug } = useParams<{ workspace_slug: string }>();
     return <LayoutDispatcher
-        layoutName="LayoutNavbar2Columns"
-        navbarSlot={<Navbar workspace={workspace_slug} /> }
-        mainSlot={<Navbar workspace={workspace_slug} /> }
-        rightPanelSlot={<div> {data?.results.map((user:User) => <div key={user.id}>{user.username}</div>)}</div>}
-        footbarSlot={<div> Footbar </div>}
-    />;
+        layoutName="TwoColumns"
+		navbarSlot={<WorkspaceNavbar workspace={workspace_slug}/>}
+        mainSlot={<>
+            <Switch>
+                <Route path="/workspace/:workspace_slug/groups" component={() => <div>Groups</div>} />
+                <Route path="/workspace/:workspace_slug/users" component={Users} />
+                <Route path="/" component={() => <div>{`Welcome to worksapce ${workspace_slug}`}</div>} />
+            </Switch>
+        </>}
+    />
 }
-
 
 export default Workspace;

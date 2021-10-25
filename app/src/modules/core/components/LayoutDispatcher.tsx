@@ -1,5 +1,5 @@
 import { ReactElement } from "react";
-import LayoutNavbar2Columns from "../../layouts/LayoutNavbar2Columns";
+import TwoColumns from "../../layouts/TwoColumns";
 import LayoutOvermind from "../../layouts/LayoutOvermind";
 
 export interface LayoutConfiguration {
@@ -16,7 +16,7 @@ export interface LayoutDispatchConfiguration extends LayoutConfiguration{
 
 
 const layoutRepository: {[key: string]: ((props: LayoutConfiguration) => ReactElement)} = {
-	LayoutNavbar2Columns,
+	TwoColumns,
 	LayoutOvermind
 }
 

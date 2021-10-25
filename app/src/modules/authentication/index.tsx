@@ -18,7 +18,7 @@ const LoginForm = () => {
     const sendAuthentication = async () => {
         dispatch(authenticate({
             username: username,
-            password: password
+            password: password,
         }))
     }
 

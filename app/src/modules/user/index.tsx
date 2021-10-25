@@ -1,7 +1,20 @@
-const Users = () => {
-    <div>
+import LayoutDispatcher from "../core/components/LayoutDispatcher";
+import { UserForm } from "./form";
+import { User } from "./slice";
+import { useState } from "react";
+import UserList from "./list";
 
-    </div>
+
+const Users = () => {
+
+    const [editUser, setEditUser] = useState<User | null>(null);
+
+    return <LayoutDispatcher
+        layoutName="TwoColumns"
+        mainSlot={ <UserForm user={editUser}/> }
+        rightPanelSlot={<UserList setEditUser={setEditUser}/>}
+    />;
 }
 
-export default Users ;
+
+export default Users;

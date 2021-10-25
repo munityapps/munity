@@ -9,20 +9,22 @@ import { useRef } from 'react';
 import { useAppDispatch } from '../../../hooks';
 import { logout } from '../../authentication/slice';
 
-import './Navbar.scss';
+import './OvermindNavbar.scss';
+import { useHistory, useLocation } from 'react-router';
 
-const Navbar = (props:{workspace:string|null}) => {
+const Navbar = () => {
     let menu = useRef<Menu>(null);
     const dispatch = useAppDispatch();
+    const location = useLocation();
+    const history = useHistory();
 
     return <div className="navbar">
         <div className="left-part p-d-flex p-ai-center">
-            <img src={logo} alt="logo" />
-            <div className="workspace-name">{props.workspace}</div>
+            <Button onClick={() => history.push('/')} className="p-button-link"><img src={logo} alt="logo" /></Button>
         </div>
         <div className="middle-part">
-            <Button className="p-button-link active">Projects</Button>
-            <Button className="p-button-link">Partenaires</Button>
+            <Button  onClick={() => history.push('/workspaces')} className={`p-button-link ${location.pathname.match(/^\/workspaces/g) ? ' active' : ''}`}>Workspaces</Button>
+            <Button  onClick={() => history.push('/users')} className={`p-button-link ${location.pathname.match(/^\/users/g) ? ' active' : ''}`}>Users</Button>
         </div>
         <div className="right-part">
             <Button className="p-button-link">

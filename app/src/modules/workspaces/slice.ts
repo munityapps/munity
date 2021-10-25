@@ -1,15 +1,16 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { RootState } from '../../store'
+import { getDefaultAPIUrl } from '../../helper';
 
 export interface Workspace {
-    uuid: string,
     slug: string,
+    db_connection: string
 }
 
 export const workspaceSlice = createApi({
     reducerPath: 'workspace',
     baseQuery: fetchBaseQuery({
-        baseUrl: `/`,
+        baseUrl: getDefaultAPIUrl(),
         prepareHeaders: (headers:Headers, { getState }) => {
             const token = (getState() as RootState).auhentication.access;
             if (token) {
@@ -20,49 +21,49 @@ export const workspaceSlice = createApi({
     }),
     tagTypes: ['Workspace'],
     endpoints: builder => ({
-        getWorkspaces: builder.query<Workspace[], void>({
+        getWorkspaces: builder.query<{count: number, results: Workspace[]}, void>({
             query: () => {
                 return {
-                    url:`/workspaces`,
+                    url:`/workspaces/`,
                 }
             },
             providesTags: (result, error, args) =>
-                result
-                    ? [...result.map(({ uuid }) => ({ type: 'Workspace' as const, uuid })), 'Workspace']
+                result && result.count > 0
+                    ? [...result.results.map(({ slug}) => ({ type: 'Workspace' as const, slug})), 'Workspace']
                     : ['Workspace'],
         }),
-        getWorkspace: builder.query<Workspace, number>({
-            query: uuid => {
+        getWorkspace: builder.query<Workspace, string>({
+            query: slug => {
                 return {
-                    url:`/workspaces/${uuid}`,
+                    url:`/workspaces/${slug}/`,
                 }
             },
-            providesTags: (result, error, uuid) => [{ type: 'Workspace', uuid }],
+            providesTags: (result, error, slug) => [{ type: 'Workspace', slug}],
         }),
         createWorkspace: builder.mutation<Workspace, Partial<Workspace>>({
-            query: args => {
+            query: body => {
                 return {
-                    url: `/workspaces`,
+                    url: `/workspaces/`,
                     method: 'POST',
-					args
+                    body
                 }
             },
             invalidatesTags: () => [{ type: 'Workspace' }],
         }),
-        updateWorkspace: builder.mutation<Workspace, Partial<Workspace> & Pick<Workspace, 'uuid'>>({
-            query: args => {
+        updateWorkspace: builder.mutation<Workspace, Partial<Workspace> & Pick<Workspace, 'slug'>>({
+            query: body => {
                 return {
-                    url: `/workspaces/${args.uuid}`,
+                    url: `/workspaces/${body.slug}/`,
                     method: 'PATCH',
-					args
+                    body
                 }
             },
             invalidatesTags: () => [{ type: 'Workspace' }],
         }),
-        deleteWorkspace: builder.mutation<void, number>({
-            query: uuid => {
+        deleteWorkspace: builder.mutation<void, string>({
+            query: slug => {
                 return {
-                    url: `/workspaces/${uuid}`,
+                    url: `/workspaces/${slug}/`,
                     method: 'DELETE'
                 }
             }
@@ -74,8 +75,8 @@ export const workspaceSlice = createApi({
 export const {
     useGetWorkspacesQuery,
     useGetWorkspaceQuery,
-	useDeleteWorkspaceMutation,
-	useUpdateWorkspaceMutation,
-	useCreateWorkspaceMutation,
+    useDeleteWorkspaceMutation,
+    useUpdateWorkspaceMutation,
+    useCreateWorkspaceMutation,
 } = workspaceSlice
 

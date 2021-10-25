@@ -13,6 +13,7 @@ import { Route, Switch } from 'react-router';
 import Workspace from '../workspaces';
 import Overmind from '../overmind';
 import axios from 'axios';
+import { getDefaultAPIUrl } from '../../helper';
 
 const Core = () => {
     const dispatch = useAppDispatch();
@@ -53,7 +54,7 @@ const Core = () => {
     // -------
 
     useEffect(() => {
-        axios.defaults.baseURL = `${window.location.protocol}//api.${window.location.hostname}/v1/`
+        axios.defaults.baseURL = getDefaultAPIUrl();
     }, [])
 
     useEffect(() => {
