@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 
 // Component
 import Providers from './providers';
-import Core from './modules/core';
+import MunityRouter from './router';
 
 // Configuration
 import reportWebVitals from './reportWebVitals';
@@ -16,7 +16,9 @@ import './styles.scss';
 ReactDOM.render(
     <Providers>
         <React.StrictMode>
-            <Core />
+            <MunityRouter>
+                {/* Custom routes */}
+            </MunityRouter>
         </React.StrictMode>
     </Providers>,
     document.getElementById('root')

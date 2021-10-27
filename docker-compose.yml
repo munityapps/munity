@@ -1,60 +1,60 @@
 version: '3.7'
 
 services:
-  traefik:
-    image: "traefik:v2.4"
-    ports:
-      - "80:80"
-      - "8080:8080"
-    command:
-      - "--api.insecure=true"
-      - "--api.dashboard=true"
-      - "--providers.docker=true"
-      - "--providers.docker.exposedbydefault=false"
-    volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    traefik:
+        image: "traefik:v2.4"
+        ports:
+            - "80:80"
+            - "8080:8080"
+        command:
+            - "--api.insecure=true"
+            - "--api.dashboard=true"
+            - "--providers.docker=true"
+            - "--providers.docker.exposedbydefault=false"
+        volumes:
+            - "/var/run/docker.sock:/var/run/docker.sock:ro"
 
-  app:
-    build:
-      context: ./app
-      dockerfile: ./Dockerfile
-    restart: always
-    depends_on:
-      - api
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.app.rule=HostRegexp(`${APP_URL}`)"
-        # - "traefik.http.routers.app.rule=HostRegexp(`${APP_URL}`, `{workspace:[a-z]+}.${APP_URL}`)"
-    volumes:
-      - ./app:/var/www
+    app:
+        build:
+            context: ./app
+            dockerfile: ./Dockerfile
+        restart: always
+        depends_on:
+            - api
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.app.rule=HostRegexp(`${APP_URL}`)"
+                # - "traefik.http.routers.app.rule=HostRegexp(`${APP_URL}`, `{workspace:[a-z]+}.${APP_URL}`)"
+        volumes:
+            - ./app:/var/www
 
-  api:
-    build:
-      context: ./api
-      dockerfile: ./Dockerfile
-    restart: always
-    depends_on:
-      - db
-      - traefik
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.api.rule=HostRegexp(`api.${APP_URL}`)"
-    env_file:
-      - ./.env
-    volumes:
-      - ./api:/code
-    command: python manage.py runserver 0:8000
+    api:
+        build:
+            context: ./api
+            dockerfile: ./Dockerfile
+        restart: always
+        depends_on:
+            - db
+            - traefik
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.api.rule=HostRegexp(`api.${APP_URL}`)"
+        env_file:
+            - ./.env
+        volumes:
+            - ./api:/code
+        command: python manage.py runserver 0:8000
 
-  db:
-    image: timescale/timescaledb:2.2.0-pg11
-    volumes:
-      - volume-db:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_PORT=${POSTGRES_PORT}
-      - PGDATA=/var/lib/postgresql/data
+    db:
+        image: timescale/timescaledb:2.2.0-pg11
+        volumes:
+            - volume-db:/var/lib/postgresql/data
+        environment:
+            - POSTGRES_USER=${POSTGRES_USER}
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+            - POSTGRES_PORT=${POSTGRES_PORT}
+            - PGDATA=/var/lib/postgresql/data
 
 volumes:
-  volume-db:
-    name: ${APP_URL}-munity-volume-db
+    volume-db:
+        name: ${APP_URL}-munity-volume-db

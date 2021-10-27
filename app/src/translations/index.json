@@ -1,0 +1,18 @@
+[
+    {
+        "lang":"en",
+        "category": ["common", "app", "errors"]
+    },
+    {
+        "lang":"fr",
+        "category": ["common", "app", "errors"]
+    },
+    {
+        "lang":"en",
+        "category": ["common", "app", "errors"]
+    },
+    {
+        "lang":"fr",
+        "category": ["common", "app", "errors"]
+    }
+]

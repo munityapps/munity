@@ -1,29 +1,35 @@
 import { configureStore } from '@reduxjs/toolkit'
 
-import coreReducer from './modules/core/slice';
-import { userSlice } from './modules/user/slice';
-import permissionSlice from './modules/permissions/slice';
-import { workspaceSlice } from './modules/workspaces/slice';
-import authenticationSlice from './modules/authentication/slice';
-import notificationSlice from './modules/notifications/slice';
-import { settingSlice } from './modules/settings/slice';
+import appReducer from './app/slice';
+import layoutReducer from './layouts/slice';
+import { userSlice } from './user/slice';
+import permissionSlice from './permissions/slice';
+import { workspaceSlice } from './workspaces/slice';
+import authenticationSlice from './authentication/slice';
+import notificationSlice from './notifications/slice';
+import { settingSlice } from './settings/slice';
+
+export const munityReducer = {
+    app: appReducer,
+    layout: layoutReducer,
+    permission: permissionSlice,
+    auhentication: authenticationSlice,
+    notification: notificationSlice,
+    [userSlice.reducerPath] : userSlice.reducer,
+    [workspaceSlice.reducerPath] : workspaceSlice.reducer,
+    [settingSlice.reducerPath] : settingSlice.reducer
+}
+
+export const munityMiddleware = [
+    userSlice.middleware,
+    workspaceSlice.middleware
+]
 
 const store = configureStore({
-    reducer: {
-        core: coreReducer,
-        permission: permissionSlice,
-        auhentication: authenticationSlice,
-        notification: notificationSlice,
-        [userSlice.reducerPath] : userSlice.reducer,
-        [workspaceSlice.reducerPath] : workspaceSlice.reducer,
-        [settingSlice.reducerPath] : settingSlice.reducer
-    },
+    reducer: munityReducer,
     middleware: getDefaultMiddleware =>
         getDefaultMiddleware()
-            .concat([
-                userSlice.middleware,
-                workspaceSlice.middleware
-            ])
+            .concat(munityMiddleware)
 })
 
 export default store;
