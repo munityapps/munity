@@ -7,7 +7,6 @@ docker-compose.override.yml
 
 # API
 api/dist
-api/lib
 api/node_modules
 api/coverage
 api/.nyc_output
@@ -24,6 +23,7 @@ lerna-debug.log*
 # APP
 app/node_modules/*
 app/build/*
+app/lib/
 
 # WEBSOCKET
 websocket/node_modules
