@@ -2,17 +2,15 @@ import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import XHR from 'i18next-xhr-backend';
 import LanguageDetector from 'i18next-browser-languagedetector';
+import translationFiles from './translations/config.json';
 // the translations
 // (tip move them in a JSON file and import them)
 var resources = { fr: {}, en: {} };
-['common', 'app', 'errors'].forEach(function (local) {
-    try {
-        resources.fr[local] = require("./translations/fr/" + local + ".json"); // eslint-disable-line
-        resources.en[local] = require("./translations/en/" + local + ".json"); // eslint-disable-line
-    }
-    catch (e) {
-        throw new Error("i18n Error, the translation " + local + " is not found and cannot be imported !: " + e);
-    }
+translationFiles.forEach(function (langFile) {
+    langFile.category.forEach(function (cat) {
+        var json = require("./translations/" + langFile.lang + "/" + cat + ".json"); // eslint-disable-line
+        resources[langFile.lang][cat] = json;
+    });
 });
 i18n
     .use(XHR)

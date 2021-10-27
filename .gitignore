@@ -7,6 +7,7 @@ docker-compose.override.yml
 
 # API
 api/dist
+api/lib
 api/node_modules
 api/coverage
 api/.nyc_output

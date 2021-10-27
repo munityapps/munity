@@ -3,7 +3,7 @@ import { initReactI18next } from "react-i18next";
 import XHR from 'i18next-xhr-backend';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
-import translationFiles from './translations/index.json';
+import translationFiles from './translations/config.json';
 
 // the translations
 // (tip move them in a JSON file and import them)
