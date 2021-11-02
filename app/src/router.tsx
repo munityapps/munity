@@ -14,7 +14,13 @@ import Overmind from './overmind';
 import axios from 'axios';
 import { getDefaultAPIUrl } from './helper';
 
-const MunityRouter = (props: { children: object }) => {
+const MunityRouter = (props: {
+    children: object,
+    newOvermindRoutes: Partial<Route>[],
+    newWorkspaceRoutes: Partial<Route>[],
+    overmindNavbar ?: Partial<React.Component>,
+    workspaceNavbar ?: Partial<React.Component>
+}) => {
     const dispatch = useAppDispatch();
     const isReady = useAppSelector((state) => state.app.isReady);
     const access = useAppSelector((state) => state.auhentication.access);
@@ -31,8 +37,8 @@ const MunityRouter = (props: { children: object }) => {
 
     const AppRouter = <Switch>
         {props.children}
-        <Route path="/workspace/:workspace_slug" component={Workspace} />
-        <Route path="/" component={Overmind} />
+        <Route path="/workspace/:workspace_slug" children={<Workspace newRoutes={props.newWorkspaceRoutes}/>} />
+        <Route path="/" children={<Overmind newRoutes={props.newOvermindRoutes}/>}/>
     </Switch>;
 
     return <>
