@@ -4,7 +4,6 @@ import { faQuestionCircle, faBell } from '@fortawesome/free-regular-svg-icons'
 import { Avatar } from 'primereact/avatar';
 import { Menu } from 'primereact/menu';
 import logo from '../../assets/logo.png';
-import avatar from '../../assets/avatar_male.png';
 import { useRef } from 'react';
 import { useAppDispatch } from '../../hooks';
 import { logout } from '../../authentication/slice';
@@ -36,7 +35,7 @@ const Navbar = () => {
             <div className="hi-message">
                 Salut,&nbsp;<strong>Patrick</strong>
             </div>
-            <Avatar shape="circle" image={avatar} />
+            <Avatar shape="circle" icon="pi pi-user" />
             <Menu
                 model={
                     [

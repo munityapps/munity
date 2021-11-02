@@ -8,8 +8,9 @@ import { workspaceSlice } from './workspaces/slice';
 import authenticationSlice from './authentication/slice';
 import notificationSlice from './notifications/slice';
 import { settingSlice } from './settings/slice';
+import { Reducer, AnyAction, Middleware, Dispatch } from 'redux';
 
-export const munityReducer = {
+export const munityReducer: {[key: string]:Reducer<any, AnyAction>} = {
     app: appReducer,
     layout: layoutReducer,
     permission: permissionSlice,
@@ -20,7 +21,7 @@ export const munityReducer = {
     [settingSlice.reducerPath] : settingSlice.reducer
 }
 
-export const munityMiddleware = [
+export const munityMiddleware: Middleware<any, any, Dispatch<AnyAction>>[] = [
     userSlice.middleware,
     workspaceSlice.middleware
 ]

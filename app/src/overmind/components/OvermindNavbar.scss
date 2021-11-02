@@ -46,6 +46,9 @@
         }
         .p-avatar {
             margin-left: var(--content-padding);
+            .p-avatar-icon {
+                color:#222 !important;
+            }
         }
         .hi-message {
             font-size:12px;
