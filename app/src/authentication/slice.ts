@@ -70,8 +70,8 @@ export const permissionSlice = createSlice({
         })
         builder.addCase(authenticate.fulfilled, (state, action) => {
             state.pending = false
-            state.refresh = action.payload.access
-            state.access = action.payload.refresh
+            state.access = action.payload.access
+            state.refresh = action.payload.refresh
             localStorage.setItem('access_token', action.payload.access);
             localStorage.setItem('refresh_token', action.payload.refresh);
         })
@@ -81,4 +81,3 @@ export const permissionSlice = createSlice({
 export const { logout } = permissionSlice.actions
 
 export default permissionSlice.reducer
-

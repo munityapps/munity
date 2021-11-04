@@ -16,6 +16,8 @@ body {
 #root {
     height:100%;
     min-height: 100%;
+    display:flex;
+    flex-direction: column;
 }
 
 .app-loading {
@@ -47,3 +49,5 @@ body {
 @import './assets/fonts/roboto.css';
 @import 'primereact/resources/primereact.min.css';
 @import './theme.scss';
+
+@import './layouts/styles.scss';

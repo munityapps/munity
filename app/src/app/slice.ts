@@ -1,15 +1,18 @@
+import { STATEMENT_OR_BLOCK_KEYS } from '@babel/types';
 import { createSlice } from '@reduxjs/toolkit'
 
 export interface AppState {
     isReady: boolean,
     loading: boolean,
-    resourceLoaded: boolean
+    resourceLoaded: boolean,
+    workspace_slug: string | null
 }
 
 const initialState: AppState = {
     isReady: false,
     loading: false,
-    resourceLoaded: false
+    resourceLoaded: false,
+    workspace_slug: null
 }
 
 export const appSlice = createSlice({
@@ -21,10 +24,13 @@ export const appSlice = createSlice({
         },
         resourceLoaded: (state) => {
             state.resourceLoaded= true;
+        },
+        setWorkspace: (state, ws_slug) => {
+            state.workspace_slug = ws_slug.payload;
         }
     },
 })
 
-export const { ready, resourceLoaded } = appSlice.actions
+export const { ready, resourceLoaded, setWorkspace } = appSlice.actions
 
 export default appSlice.reducer

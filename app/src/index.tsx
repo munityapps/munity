@@ -5,7 +5,8 @@ import { Provider as ReduxProvider } from 'react-redux'
 
 // Component
 import Providers from './providers';
-import MunityRouter from './router';
+import MunityApp from './app';
+import Navbar from './layouts/components/Navbar';
 
 // Configuration
 import reportWebVitals from './reportWebVitals';
@@ -14,17 +15,21 @@ import reportWebVitals from './reportWebVitals';
 import './styles.scss';
 import store from './store';
 import { Route } from 'react-router';
-import OvermindNavbar from './overmind/components/OvermindNavbar';
-import WorkspaceNavbar from './workspaces/components/WorkspaceNavbar';
+import NavbarLeft from './layouts/components/NavbarComponents/NavbarLeft';
+import NavbarCenter from './layouts/components/NavbarComponents/NavbarCenter';
+import NavbarRight from './layouts/components/NavbarComponents/NavbarRight';
 
 
 ReactDOM.render(
     <ReduxProvider store={store}>
         <Providers>
             <React.StrictMode>
-                <MunityRouter
-                    // overmindNavbar={ <OvermindNavbar /> }
-                    // workspaceNavbar={ <WorkspaceNavbar workspace={'asd'}/> }
+                <MunityApp
+                    navbar={<Navbar
+                        leftPart={NavbarLeft}
+                        centerPart={NavbarCenter}
+                        rightPart={NavbarRight}
+                    />}
                     newOvermindRoutes={[
                         <Route key={'foobar'} path="/foobar" component={() => <>OVERMIND FOOBAR</>} />
                     ]}
@@ -33,7 +38,7 @@ ReactDOM.render(
                     ]}
                 >
                     {/* Custom routes */}
-                </MunityRouter>
+                </MunityApp>
             </React.StrictMode>
         </Providers>
     </ReduxProvider>,

@@ -1,4 +1,3 @@
-import LayoutDispatcher from "../layouts/LayoutDispatcher";
 import { UserForm } from "./form";
 import { User } from "./slice";
 import { useState } from "react";
@@ -9,11 +8,10 @@ const Users = () => {
 
     const [editUser, setEditUser] = useState<User | null>(null);
 
-    return <LayoutDispatcher
-        layoutName="TwoColumns"
-        mainSlot={ <UserForm user={editUser}/> }
-        rightPanelSlot={<UserList setEditUser={setEditUser}/>}
-    />;
+    return <div className="layout-two-columns">
+        <UserForm user={editUser}/>
+        <UserList setEditUser={setEditUser}/>
+    </div>;
 }
 
 
