@@ -1,0 +1,16 @@
+.layout-mainpage{
+    background-color: bisque;
+    border:0;
+    margin:0;
+    padding:0;
+    flex:1;
+    display:flex;
+    .mainpage-root {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        justify-content: center;
+        align-items: center;
+    }
+}
