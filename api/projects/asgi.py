@@ -1,5 +1,5 @@
 """
-ASGI config for optimbtp_portal project.
+ASGI config for munity projects.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'optimbtp_portal.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'projects.settings')
 
 application = get_asgi_application()

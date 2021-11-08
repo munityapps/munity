@@ -1,18 +1,14 @@
 .navbar {
     flex:0;
     display: flex;
-    background-color: #222;
-    color:#fff;
+    background-color: var(--navbar-color);
+    color:var(--navbar-color-text);
     flex-direction: row;
     width:100%;
     justify-content: space-between;
     align-items: center;
     .left-part {
         width:300px;
-        .workspace-name {
-            margin-left:16px;
-            color: var(--text-color-secondary);
-        }
         img {
             height:60px;
         }

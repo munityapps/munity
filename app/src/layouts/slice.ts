@@ -1,12 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 export interface LayoutState {
+    navbarColor?: string,
+    navbarColorText?: string,
     primaryColor?: string,
     primaryColorText?: string,
     secondaryColor?: string,
     boxShadow?: string,
     textColor?: string,
-    textColorSecondary?: string,
+    secondaryColorText?: string,
     contentPadding?: string,
     inlineSpacing?: string,
     surfaceA?: string,
@@ -18,24 +20,16 @@ export interface LayoutState {
 }
 
 const initialState: LayoutState = {
-//     primaryColor: '#999999',
-//     primaryColorText: '#121212',
-//     secondaryColor: '#555',
-//     textColor: 'rgba(255, 255, 255, 0.87)',
-//     textColorSecondary: 'rgba(255, 255, 255, 0.9)',
-//     contentPadding: '1rem',
-//     inlineSpacing: '0.5rem',
-//     surfaceA: '#1e1e1e',
-//     surfaceB: '#121212',
-//     surfaceC: 'hsla(0, 0%, 100%, .04)',
-//     surfaceD: 'hsla(0,0%,100%,.12)',
-//     errorColor: '#ef9a9a',
-//     validColor: '#333',
-    primaryColor: 'rgb(250, 170, 65)',
-    primaryColorText: '#333',
-    secondaryColor: 'rgb(197, 122, 23)',
-    textColor: '#323130',
-    textColorSecondary: '$605e5c',
+    // Button, Input border
+    navbarColor: '#661A94',
+    navbarColorText: 'white',
+    primaryColor: '#FCC535',
+    primaryColorText: '#222',
+    // Button over
+    secondaryColor: '#FCC535',
+    secondaryColorText: '#333',
+    // Input text
+    textColor: 'black',
     contentPadding: '1rem',
     inlineSpacing: '0.5rem',
     surfaceA: '#ffffff',

@@ -4,10 +4,10 @@ import {  useAppSelector } from '../hooks';
 
 const ThemeManager = (props: { children: object }) => {
     const { primaryColor, primaryColorText, secondaryColor,
-        textColor, textColorSecondary,
+        textColor, secondaryColorText,
         contentPadding, inlineSpacing,
         surfaceA, surfaceB, surfaceC, surfaceD,
-        errorColor, validColor,
+        errorColor, validColor, navbarColor, navbarColorText
     } = useAppSelector(state => state.layout);
 
     useEffect(() => {
@@ -15,7 +15,7 @@ const ThemeManager = (props: { children: object }) => {
         if (primaryColorText) document.documentElement.style.setProperty("--primary-color-text", primaryColorText);
         if (secondaryColor) document.documentElement.style.setProperty("--secondary-color", secondaryColor);
         if (textColor) document.documentElement.style.setProperty("--text-color", textColor);
-        if (textColorSecondary) document.documentElement.style.setProperty("--text-color-secondary", textColorSecondary);
+        if (secondaryColorText) document.documentElement.style.setProperty("--secondary-color-text", secondaryColorText);
         if (contentPadding) document.documentElement.style.setProperty("--content-padding", contentPadding);
         if (inlineSpacing) document.documentElement.style.setProperty("--inline-spacing", inlineSpacing);
         if (surfaceA) document.documentElement.style.setProperty("--surface-a", surfaceA);
@@ -24,12 +24,14 @@ const ThemeManager = (props: { children: object }) => {
         if (surfaceD) document.documentElement.style.setProperty("--surface-d", surfaceD);
         if (errorColor) document.documentElement.style.setProperty("--error-color", errorColor);
         if (validColor) document.documentElement.style.setProperty("--valid-color", validColor);
+        if (navbarColor) document.documentElement.style.setProperty("--navbar-color", navbarColor);
+        if (navbarColorText) document.documentElement.style.setProperty("--navbar-color-text", navbarColorText);
     }, [
         primaryColor, primaryColorText, secondaryColor,
-        textColor, textColorSecondary,
+        textColor, secondaryColorText,
         contentPadding, inlineSpacing,
         surfaceA, surfaceB, surfaceC, surfaceD,
-        errorColor, validColor,
+        errorColor, validColor, navbarColor, navbarColorText
     ]);
     return <>{props.children}</>;
 }

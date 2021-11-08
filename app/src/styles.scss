@@ -1,7 +1,5 @@
 :root {
     height: 100%;
-    --primary-color: #160144;
-    --secondary-color: #fbc534;
 }
 
 html {
@@ -11,6 +9,7 @@ html {
 body {
     height:100%;
     margin: 0;
+    color:var(--text-color);
 }
 
 #root {
