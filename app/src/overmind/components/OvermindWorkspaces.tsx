@@ -6,8 +6,8 @@ import WorkspaceList from '../../workspaces/list';
 const OvermindWorkspaces = ()  => {
     const [editWorkspace, setEditWorkspace] = useState<Workspace | null>(null);
 
-    return <div className="layout-two-columns">
-        <WorkspaceForm workspace={editWorkspace} />
+    return <div className="layout-basic">
+        {/* <WorkspaceForm workspace={editWorkspace} /> */}
         <WorkspaceList setEditWorkspace={setEditWorkspace}/>
     </div>
 }

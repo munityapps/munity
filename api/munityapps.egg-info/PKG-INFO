@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: munityapps
-Version: 0.1.26
+Version: 0.1.27
 Summary: API for munity project
 Home-page: https://munityapps.com
 Author: Cyril ALFARO
@@ -19,7 +19,7 @@ License-File: LICENSE
 
 Set of application used by *Django Rest Framework* to bootstrap brand new SaaS in an **awesome** way!
 
-**Munity** limit ***technical depth***, so you can focus on your buisness.
+**Munity** limit ***technical debt***, so you can focus on your buisness.
 
 [Munity github project](https://github.com/munityapps/munity)
 

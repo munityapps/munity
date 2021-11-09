@@ -12,7 +12,7 @@ const WorkspaceList = (props:{setEditWorkspace:Function})  => {
     const [deleteWorkspace, { isLoading: isDeleting, isError: deleteError, isSuccess: deleteSuccess }] = useDeleteWorkspaceMutation();
     const router = useHistory();
 
-    const actions = (w: Workspace) =><>
+    const actions = (w: Workspace) =><div className="">
         <Button onClick={() => router.push(`/workspace/${w.slug}`)}>
             <FontAwesomeIcon icon={faDoorOpen}/>
         </Button>
@@ -22,17 +22,13 @@ const WorkspaceList = (props:{setEditWorkspace:Function})  => {
         <Button onClick={() => deleteWorkspace(w.slug)}>
             <FontAwesomeIcon icon={faTrash}/>
         </Button>
-        </>;
+        </div>;
 
-    return <div className="p-m-4">
-        {
-            <DataTable value={workspaces?.results}>
-                <Column field="slug" header="Slug"></Column>
-                <Column field="db_connection" header="DBConnection"></Column>
-                <Column body={actions} headerStyle={{ width: '8em', textAlign: 'center' }} bodyStyle={{ textAlign: 'center', overflow: 'visible' }} />
-            </DataTable>
-        }
-    </div>;
+    return <DataTable value={workspaces?.results}>
+        <Column field="slug" header="Slug"></Column>
+        <Column field="db_connection" header="DBConnection"></Column>
+        <Column field="actions" body={actions} headerStyle={{ width: '8em', textAlign: 'center' }} bodyStyle={{ textAlign: 'center', overflow: 'visible' }} />
+    </DataTable>;
 }
 
 export default WorkspaceList;
