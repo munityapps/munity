@@ -53,6 +53,15 @@ const WorkspaceList: FunctionComponent<{}> = () => {
         }
     }, [createError, dispatch]);
 
+    useEffect(() => {
+        if (workspaceInEdition) {
+            setSlug(workspaceInEdition.slug);
+            setDbConnection(workspaceInEdition.db_connection);
+        } else {
+            setSlug('');
+            setDbConnection('');
+        }
+    }, [workspaceInEdition, showForm]);
 
     const saveWorkspace = () => {
         if (!workspaceInEdition) {
@@ -68,16 +77,6 @@ const WorkspaceList: FunctionComponent<{}> = () => {
             updateWorkspace(ws);
         }
     };
-
-    useEffect(() => {
-        if (workspaceInEdition) {
-            setSlug(workspaceInEdition.slug);
-            setDbConnection(workspaceInEdition.db_connection);
-        } else {
-            setSlug('');
-            setDbConnection('');
-        }
-    }, [workspaceInEdition, showForm]);
 
     return <>
         <MunityDialog visible={showForm} onSave={saveWorkspace} onHide={() => setShowForm(false)}>
