@@ -8,6 +8,7 @@ class WorkspaceSerializer(serializers.ModelSerializer):
     class Meta:
         fields = [
             "slug",
+            "db_connection",
             "created",
             "modified",
         ]
@@ -25,7 +26,7 @@ class WorkspacesFilter(filters.FilterSet):
 
 
 class WorkspacesViewSet(viewsets.ModelViewSet):
-    queryset = Workspace.objects.all()
+    queryset = Workspace.objects.all().order_by('slug')
     serializer_class = WorkspaceSerializer
     filterset_class = WorkspacesFilter
 

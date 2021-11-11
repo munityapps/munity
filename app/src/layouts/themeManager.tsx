@@ -1,8 +1,8 @@
-import { useEffect } from 'react';
+import { PropsWithChildren, useEffect } from 'react';
 
 import {  useAppSelector } from '../hooks';
 
-const ThemeManager = (props: { children: object }) => {
+const ThemeManager:React.FunctionComponent<PropsWithChildren<{}>>  = props => {
     const { primaryColor, primaryColorText, secondaryColor,
         textColor, secondaryColorText,
         contentPadding, inlineSpacing,

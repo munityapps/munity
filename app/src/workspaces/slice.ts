@@ -1,14 +1,33 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { RootState } from '../store'
 import { getDefaultAPIUrl } from '../helper';
+import { createSlice } from '@reduxjs/toolkit';
 
 export interface Workspace {
     slug: string,
     db_connection: string
 }
 
-export const workspaceSlice = createApi({
-    reducerPath: 'workspace',
+export interface WorkspaceState {
+    workspaceInEdition: Workspace | null
+}
+
+export const initialState: WorkspaceState = {
+    workspaceInEdition: null
+}
+
+export const workspaceSlice = createSlice({
+    name: 'workspace',
+    initialState,
+    reducers: {
+        setWorkspaceInEdition: (state, payload:{payload:Workspace|null}) => {
+            state.workspaceInEdition= payload.payload;
+        }
+    }
+});
+
+export const workspaceAPISlice = createApi({
+    reducerPath: 'workspaceAPI',
     baseQuery: fetchBaseQuery({
         baseUrl: getDefaultAPIUrl(),
         prepareHeaders: (headers:Headers, { getState }) => {
@@ -66,17 +85,19 @@ export const workspaceSlice = createApi({
                     url: `/workspaces/${slug}/`,
                     method: 'DELETE'
                 }
-            }
+            },
+            invalidatesTags: () => [{ type: 'Workspace' }],
         }),
     })
 })
+export default workspaceSlice.reducer;
+export const { setWorkspaceInEdition } = workspaceSlice.actions
 
-// Export the auto-generated hook for the `getPost` query endpoint
+// Export the auto-generated hooks
 export const {
     useGetWorkspacesQuery,
     useGetWorkspaceQuery,
     useDeleteWorkspaceMutation,
     useUpdateWorkspaceMutation,
     useCreateWorkspaceMutation,
-} = workspaceSlice
-
+} = workspaceAPISlice;

@@ -1,4 +1,3 @@
-import { STATEMENT_OR_BLOCK_KEYS } from '@babel/types';
 import { createSlice } from '@reduxjs/toolkit'
 
 export interface AppState {
@@ -28,7 +27,7 @@ export const appSlice = createSlice({
         setWorkspace: (state, ws_slug) => {
             state.workspace_slug = ws_slug.payload;
         }
-    },
+    }
 })
 
 export const { ready, resourceLoaded, setWorkspace } = appSlice.actions

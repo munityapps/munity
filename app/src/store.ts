@@ -3,27 +3,28 @@ import { configureStore } from '@reduxjs/toolkit'
 import appReducer from './app/slice';
 import layoutReducer from './layouts/slice';
 import { userSlice } from './user/slice';
-import permissionSlice from './permissions/slice';
-import { workspaceSlice } from './workspaces/slice';
-import authenticationSlice from './authentication/slice';
-import notificationSlice from './notifications/slice';
+import permissionReducer from './permissions/slice';
+import workspaceReducer , { workspaceAPISlice } from './workspaces/slice';
+import authenticationReducer from './authentication/slice';
+import notificationReducer from './notifications/slice';
 import { settingSlice } from './settings/slice';
 import { Reducer, AnyAction, Middleware, Dispatch } from 'redux';
 
 export const munityReducer: {[key: string]:Reducer<any, AnyAction>} = {
     app: appReducer,
     layout: layoutReducer,
-    permission: permissionSlice,
-    auhentication: authenticationSlice,
-    notification: notificationSlice,
+    permission: permissionReducer,
+    auhentication: authenticationReducer,
+    notification: notificationReducer,
+    workspace: workspaceReducer,
     [userSlice.reducerPath] : userSlice.reducer,
-    [workspaceSlice.reducerPath] : workspaceSlice.reducer,
+    [workspaceAPISlice.reducerPath] : workspaceAPISlice.reducer,
     [settingSlice.reducerPath] : settingSlice.reducer
 }
 
 export const munityMiddleware: Middleware<any, any, Dispatch<AnyAction>>[] = [
     userSlice.middleware,
-    workspaceSlice.middleware
+    workspaceAPISlice.middleware
 ]
 
 const store = configureStore({

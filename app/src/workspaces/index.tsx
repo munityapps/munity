@@ -4,6 +4,8 @@ import { setWorkspace } from '../app/slice';
 import { useEffect } from "react";
 import { useAppDispatch } from "../hooks";
 
+import './styles.scss';
+
 const Workspace = (props: { newRoutes: Partial<Route>[] }) => {
     let { workspace_slug } = useParams<{ workspace_slug: string }>();
     const dispatch = useAppDispatch();

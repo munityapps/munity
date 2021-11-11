@@ -12,12 +12,12 @@ const NavbarRight = () => {
     const dispatch = useAppDispatch();
 
     return <div className="right-part">
-        <Button className="p-button-link">
+        {/* <Button className="p-button-link">
             <FontAwesomeIcon icon={faQuestionCircle} />
         </Button>
         <Button className="p-button-link">
             <FontAwesomeIcon icon={faBell} />
-        </Button>
+        </Button> */}
         <div className="hi-message">
             Salut,&nbsp;<strong>Patrick</strong>
         </div>

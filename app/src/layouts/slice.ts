@@ -21,7 +21,7 @@ export interface LayoutState {
 
 const initialState: LayoutState = {
     // Button, Input border
-    navbarColor: '#661A94',
+    navbarColor: '#3C4160',
     navbarColorText: 'white',
     primaryColor: '#FCC535',
     primaryColorText: '#222',

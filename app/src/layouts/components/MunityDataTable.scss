@@ -1,0 +1,15 @@
+.p-column-filter-overlay {
+    padding: 10px;
+    background-color: var(--navbar-color);
+    border-radius: 12px;
+    transform: translateY(10px) !important;
+}
+
+.p-column-filter-operator,
+.p-column-filter-constraints {
+    margin-bottom:8px;
+}
+
+.p-column-filter-add-rule {
+    margin-bottom:2px;
+}
