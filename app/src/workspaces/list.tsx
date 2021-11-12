@@ -87,7 +87,7 @@ const WorkspaceList: FunctionComponent<{}> = () => {
     const WorkspaceCard: React.FC<{ workspace: Workspace }> = props => {
         return <div className="workspace-card p-shadow-4">
             <div className="illustration">
-                <img src={monsterImg} alt="monster"/>
+                <img src={monsterImg} alt="monster" />
                 {actions(props.workspace)}
             </div>
             <div className="text">
@@ -111,12 +111,15 @@ const WorkspaceList: FunctionComponent<{}> = () => {
         </div>;
     };
 
-    return <div className="workspace-cards">
-        <WorkspaceForm show={showForm} onClose={() => setShowForm(false)} />
-        {workspaces?.results.map(w => {
-            return <WorkspaceCard workspace={w} />
-        })}
-        <Button className="createNew p-button-rounded p-button-lg" icon="pi pi-plus" onClick={createNew}/>
+    return <div className="workspace-wrapper">
+        <div className="workspace-cards">
+            <div className="workspace-title">Customer list</div>
+            <WorkspaceForm show={showForm} onClose={() => setShowForm(false)} />
+            {workspaces?.results.map(w => {
+                return <WorkspaceCard key={w.slug} workspace={w} />
+            })}
+            <Button className="createNew p-button-rounded p-button-lg" icon="pi pi-plus" onClick={createNew} />
+        </div>
     </div>;
 }
 

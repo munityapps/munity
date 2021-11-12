@@ -35,7 +35,7 @@ const MunityApp = (props: {
     useEffect(() => {
         setTimeout(() => {
             dispatch(ready());
-        }, 1000);
+        }, 2000);
     }, [dispatch]);
 
     const AppRouter: React.FC = () => {
@@ -59,8 +59,8 @@ const MunityApp = (props: {
 
     const LoadingApp = () => {
         return <Switch>
-            <Route path="/workspace/:workspace_slug" component={LoadingMunity} />
-            <Route path="/" component={props.loadingWorkspace} />
+            <Route path="/workspace/:workspace_slug" component={props.loadingWorkspace} />
+            <Route path="/" component={LoadingMunity} />
         </Switch>;
     }
 

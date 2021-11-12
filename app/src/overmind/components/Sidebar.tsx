@@ -2,6 +2,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { FunctionComponent } from 'react';
 
 import munityLogo from '../../assets/logoIcon.png';
+import keyosLogo from '../../assets/keyos.png';
 import iconOvmGraph from '../../assets/icon_ovm_graph.svg';
 import iconOvmAdmin from '../../assets/icon_ovm_admin.svg';
 import iconOvmInt from '../../assets/icon_ovm_int.svg';
@@ -30,10 +31,10 @@ const OvermindSidebar: FunctionComponent<{}> = () => {
     };
     return <div className="sidebar">
         <div className="project">
-            <img src={munityLogo} alt="logo" />
+            <img src={keyosLogo} alt="logo" />
             <div>
                 <div className="legend">Your project name</div>
-                <div className="project-name">Demo</div>
+                <div className="project-name">Keyos</div>
             </div>
         </div>
         <div className="menu">

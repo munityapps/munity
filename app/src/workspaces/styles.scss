@@ -1,64 +1,72 @@
-.workspace-cards {
-    margin:1%;
-    .workspace-card {
-        background-color: #2C3256;
-        width:24%;
-        border-radius: 24px;
-        display: inline-flex;
-        flex-direction: column;
-        overflow: hidden;
-        &:not(:last-child) {
-            margin-right: 1%;
-        }
-        .illustration {
-            flex:3;
-            background-color:white;
-            position:relative;
-            .action-list {
-                position: absolute;
-                top:8px;
-                right:8px;
-                display: flex;
-                flex-direction: row;
-                > div:not(:last-child) {
-                    margin-right:4px;
-                }
-                .p-button {
-                    color:white ;
-                    border-width: 0;
-                    background-color: #252a48 !important;
+.workspace-wrapper{
+    .workspace-title {
+        color:white;
+        font-weight: bold;
+        font-size:24px;
+        margin: 10px 0px 20px 0px;
+    }
+    .workspace-cards {
+        margin:1%;
+        .workspace-card {
+            background-color: #2C3256;
+            width:24%;
+            border-radius: 24px;
+            display: inline-flex;
+            flex-direction: column;
+            overflow: hidden;
+            &:not(:last-child) {
+                margin-right: 1%;
+            }
+            .illustration {
+                flex:3;
+                background-color:white;
+                position:relative;
+                .action-list {
+                    position: absolute;
+                    top:8px;
+                    right:8px;
+                    display: flex;
+                    flex-direction: row;
+                    > div:not(:last-child) {
+                        margin-right:4px;
+                    }
+                    .p-button {
+                        color:white ;
+                        border-width: 0;
+                        background-color: #252a48 !important;
+                    }
                 }
             }
-        }
-        .text {
-            flex:2;
-            padding:12px;
-            color:white;
-            position:relative;
-            .title {
-                font-size:20px;
-                font-weight: bold;
-            }
-            .usedBy {
-                position:absolute;
-                bottom:0px;
-                right:8px;
-                .p-avatar {
-                    background-color: #252a48;
-                    border-radius: 32px;
-                    width:2.2rem;
-                    height:2.2rem;
-                    .p-avatar-text {
-                        font-size: 1.2rem !important;
+            .text {
+                flex:2;
+                padding:12px;
+                color:white;
+                position:relative;
+                .title {
+                    font-size:20px;
+                    font-weight: bold;
+                }
+                .usedBy {
+                    position:absolute;
+                    bottom:0px;
+                    right:8px;
+                    .p-avatar {
+                        background-color: #252a48;
+                        border-radius: 32px;
+                        width:2.2rem;
+                        height:2.2rem;
+                        .p-avatar-text {
+                            font-size: 1.2rem !important;
+                        }
                     }
                 }
             }
         }
-    }
-    .createNew {
-        position:absolute;
-        bottom:32px;
-        right:32px;
-        color: #252A46;
+        .createNew {
+            position:absolute;
+            bottom:32px;
+            right:32px;
+            color: #252A46;
+        }
     }
 }

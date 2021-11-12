@@ -77,10 +77,6 @@ const UserList: FunctionComponent<{}> = () => {
         setShowForm(true);
     }
 
-    if (isLoading || isFetching) {
-        return <ProgressSpinner />;
-    }
-
     return <>
         <UserForm show={showForm} onClose={() => setShowForm(false)}/>
         <MunityDataTable
