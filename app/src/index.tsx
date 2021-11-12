@@ -6,6 +6,7 @@ import { Provider as ReduxProvider } from 'react-redux'
 // Component
 import Providers from './providers';
 import MunityApp from './app';
+import Navbar from './workspaces/components/Navbar';
 
 // Configuration
 import reportWebVitals from './reportWebVitals';
@@ -14,6 +15,9 @@ import reportWebVitals from './reportWebVitals';
 import './styles.scss';
 import store from './store';
 import { Route } from 'react-router';
+import NavbarLeft from './workspaces/components/NavbarComponents/NavbarLeft';
+import NavbarCenter from './workspaces/components/NavbarComponents/NavbarCenter';
+import NavbarRight from './workspaces/components/NavbarComponents/NavbarRight';
 
 
 ReactDOM.render(
@@ -21,6 +25,11 @@ ReactDOM.render(
         <Providers>
             <React.StrictMode>
                 <MunityApp
+                    workspaceNavbar={<Navbar
+                        leftPart={NavbarLeft}
+                        centerPart={NavbarCenter}
+                        rightPart={NavbarRight}
+                    />}
                     newOvermindRoutes={[
                         <Route key={'foobar'} path="/foobar" component={() => <>OVERMIND FOOBAR</>} />
                     ]}

@@ -1,15 +1,18 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios';
 import { addNotification } from '../notifications/slice';
+import { User } from '../user/slice';
 
 export interface AuthenticateState {
     pending: boolean,
     access: string | null,
     refresh: string | null,
+    currentUser: User | null
 }
 
 const initialState: AuthenticateState = {
     pending: false,
+    currentUser: null,
     access: localStorage.getItem('access_token') || '',
     refresh: localStorage.getItem('refresh_token') || ''
 }
@@ -60,6 +63,9 @@ export const permissionSlice = createSlice({
             localStorage.removeItem('access_token');
             localStorage.removeItem('refresh_token');
         },
+        setCurrentUser: (state, payload:{payload:User|null}) => {
+            state.currentUser = payload.payload;
+        },
     },
     extraReducers: builder => {
         builder.addCase(authenticate.pending, (state, action) => {
@@ -78,6 +84,6 @@ export const permissionSlice = createSlice({
     }
 });
 
-export const { logout } = permissionSlice.actions
+export const { logout, setCurrentUser } = permissionSlice.actions
 
 export default permissionSlice.reducer

@@ -8,7 +8,7 @@ import WorkspaceForm from './form';
 import { FunctionComponent, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setWorkspaceInEdition } from "./slice";
-import { confirmDialog } from 'primereact/confirmdialog';
+import { confirmPopup } from 'primereact/confirmpopup';
 import { addNotification } from "../notifications/slice";
 import { Avatar } from "primereact/avatar";
 import { AvatarGroup } from "primereact/avatargroup";
@@ -68,9 +68,8 @@ const WorkspaceList: FunctionComponent<{}> = () => {
         </div>
         <div>
             <Button onClick={() =>
-                confirmDialog({
+                confirmPopup({
                     message: 'Are you sure you want to proceed?',
-                    header: 'Confirmation',
                     icon: 'pi pi-exclamation-triangle',
                     accept: () => deleteWorkspace(w.slug),
                     reject: () => { }

@@ -41,7 +41,7 @@ export const userAPISlice = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: localStorage.getItem('munity_api_url') || getDefaultAPIUrl(),
         prepareHeaders: (headers:Headers, { getState }) => {
-            const token = (getState() as RootState).auhentication.access;
+            const token = (getState() as RootState).authentication.access;
             if (token) {
                 headers.set('authorization', `Bearer ${token}`)
             }

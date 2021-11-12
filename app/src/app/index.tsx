@@ -6,6 +6,7 @@ import NotificationManager from '../notifications';
 
 import { useAppDispatch, useAppSelector } from '../hooks';
 
+import jwtDecode from 'jwt-decode';
 import { ready } from './slice';
 
 import { Route, Switch } from 'react-router';
@@ -13,15 +14,18 @@ import Workspace from '../workspaces';
 import Overmind from '../overmind';
 import axios from 'axios';
 import { getDefaultAPIUrl } from '../helper';
+import { useGetUsersQuery, User } from '../user/slice';
+import { setCurrentUser } from '../authentication/slice';
 
 const MunityApp = (props: {
     children: object,
+    workspaceNavbar: Partial<React.Component>,
     newOvermindRoutes: Partial<Route>[],
     newWorkspaceRoutes: Partial<Route>[]
 }) => {
     const dispatch = useAppDispatch();
     const isReady = useAppSelector((state) => state.app.isReady);
-    const access = useAppSelector((state) => state.auhentication.access);
+    const access = useAppSelector((state) => state.authentication.access);
 
     useEffect(() => {
         axios.defaults.baseURL = getDefaultAPIUrl();
@@ -33,17 +37,28 @@ const MunityApp = (props: {
         }, 1000);
     }, [dispatch]);
 
-    const AppRouter = <>
-        <Switch>
-            {props.children}
-            <Route path="/workspace/:workspace_slug" children={<Workspace newRoutes={props.newWorkspaceRoutes}/>} />
-            <Route path="/" children={<Overmind newRoutes={props.newOvermindRoutes}/>}/>
-        </Switch>
-    </>;
+    const AppRouter:React.FC = () => {
+        // get user when app ready
+        const { data: users } = useGetUsersQuery();
+        useEffect(() => {
+            const jwtData:{exp:string,jti:string,token_type:string,user_id:string} = jwtDecode(access);
+            const user:User|null = users?.results.find(u => {
+                return u.id === jwtData.user_id
+            }) || null;
+            dispatch(setCurrentUser(user));
+        }, [users]);
+        return <>
+            <Switch>
+                {props.children}
+                <Route path="/workspace/:workspace_slug" children={<Workspace navbar={props.workspaceNavbar} newRoutes={props.newWorkspaceRoutes} />} />
+                <Route path="/" children={<Overmind newRoutes={props.newOvermindRoutes} />} />
+            </Switch>
+        </>;
+    }
 
     return <>
         <NotificationManager key="notification-manager" />
-        {!isReady ? <LoadingApp /> : (access ? AppRouter : <LoginForm />)}
+        {!isReady ? <LoadingApp /> : (access ? <AppRouter/> : <LoginForm />)}
     </>
 }
 

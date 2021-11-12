@@ -14,7 +14,7 @@ export const munityReducer: {[key: string]:Reducer<any, AnyAction>} = {
     app: appReducer,
     layout: layoutReducer,
     permission: permissionReducer,
-    auhentication: authenticationReducer,
+    authentication: authenticationReducer,
     notification: notificationReducer,
     workspace: workspaceReducer,
     user: userReducer,

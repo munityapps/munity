@@ -4,12 +4,13 @@ import { faQuestionCircle, faBell } from '@fortawesome/free-regular-svg-icons'
 import { Avatar } from 'primereact/avatar';
 import { Menu } from 'primereact/menu';
 import { useRef } from 'react';
-import { useAppDispatch } from '../../../hooks';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { logout } from '../../../authentication/slice';
 
 const NavbarRight = () => {
     let menu = useRef<Menu>(null);
     const dispatch = useAppDispatch();
+    const currentUser = useAppSelector(state => state.authentication.currentUser)
 
     return <div className="right-part">
         {/* <Button className="p-button-link">
@@ -19,7 +20,7 @@ const NavbarRight = () => {
             <FontAwesomeIcon icon={faBell} />
         </Button> */}
         <div className="hi-message">
-            Salut,&nbsp;<strong>Patrick</strong>
+            Hi,&nbsp;<strong>{currentUser?.username}</strong>
         </div>
         <Avatar shape="circle" icon="pi pi-user" />
         <Menu

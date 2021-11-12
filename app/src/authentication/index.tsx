@@ -14,7 +14,7 @@ const LoginForm = () => {
     const [password, setPassword] = useState('');
     const { t } = useTranslation();
     const dispatch = useAppDispatch();
-    const loginInProgress = useAppSelector(state => state.auhentication.pending);
+    const loginInProgress = useAppSelector(state => state.authentication.pending);
 
     const sendAuthentication = async () => {
         dispatch(authenticate({

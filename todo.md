@@ -28,8 +28,9 @@
 
 
 ## Add celery system
-[ ] Deplacer le menu a overmind gauche
-[ ] Le root de overmind est le template atlantis
-[ ] Ouvrir l'app dans un nouvel onglet
+[x] Deplacer le menu a overmind gauche
+[x] Le root de overmind est le template atlantis
+[x] Ouvrir l'app dans un nouvel onglet
 [ ] Arriver sur la page de map de keyoss sur le preview de "DEMO"
-[ ] Mettre en grisé Admin / Deployment et me nu en haut
+[x] Mettre en grisé Admin / Deployment et me nu en haut
+[ ] Changer l nom du user...

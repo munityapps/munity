@@ -10,7 +10,7 @@ import UserForm from './form';
 import { FunctionComponent, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setUserInEdition } from "./slice";
-import { confirmDialog } from 'primereact/confirmdialog';
+import { confirmPopup } from 'primereact/confirmpopup';
 import { addNotification } from "../notifications/slice";
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { Avatar } from "primereact/avatar";
@@ -61,9 +61,8 @@ const UserList: FunctionComponent<{}> = () => {
         </div>
         <div>
             <Button onClick={() =>
-                confirmDialog({
+                confirmPopup({
                     message: 'Are you sure you want to proceed?',
-                    header: 'Confirmation',
                     icon: 'pi pi-exclamation-triangle',
                     accept: () => deleteUser(u.id),
                     reject: () => { }

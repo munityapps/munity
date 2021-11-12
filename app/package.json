@@ -1,6 +1,6 @@
 {
     "name": "munityapps",
-    "version": "0.1.39",
+    "version": "0.1.41",
     "description": "Frontend part of Munity - reduce technical debt and create your saas faster!",
     "author": "cyril@dbyzero.com",
     "private": false,
@@ -40,6 +40,7 @@
         "i18next": "^20.2.1",
         "i18next-browser-languagedetector": "^6.1.0",
         "i18next-xhr-backend": "^3.2.2",
+        "jwt-decode": "^3.1.2",
         "moment": "^2.29.1",
         "primeflex": "2.0.0",
         "primeicons": "4.1.0",

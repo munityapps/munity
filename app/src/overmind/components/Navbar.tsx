@@ -6,7 +6,7 @@ const Navbar = (props:{
     centerPart:FunctionComponent,
     rightPart:FunctionComponent
 }) => {
-    return <div className="navbar">
+    return <div className="navbar-overmind">
         <props.leftPart/>
         <props.centerPart/>
         <props.rightPart/>
