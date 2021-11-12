@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 
-import LoadingApp from '../layouts/components/LoadingApp';
+import LoadingMunity from '../layouts/components/LoadingMunity';
 import LoginForm from '../authentication';
 import NotificationManager from '../notifications';
 
@@ -19,6 +19,7 @@ import { setCurrentUser } from '../authentication/slice';
 
 const MunityApp = (props: {
     children: object,
+    loadingWorkspace: React.FC,
     workspaceNavbar: Partial<React.Component>,
     newOvermindRoutes: Partial<Route>[],
     newWorkspaceRoutes: Partial<Route>[]
@@ -37,12 +38,12 @@ const MunityApp = (props: {
         }, 1000);
     }, [dispatch]);
 
-    const AppRouter:React.FC = () => {
+    const AppRouter: React.FC = () => {
         // get user when app ready
         const { data: users } = useGetUsersQuery();
         useEffect(() => {
-            const jwtData:{exp:string,jti:string,token_type:string,user_id:string} = jwtDecode(access);
-            const user:User|null = users?.results.find(u => {
+            const jwtData: { exp: string, jti: string, token_type: string, user_id: string } = jwtDecode(access);
+            const user: User | null = users?.results.find(u => {
                 return u.id === jwtData.user_id
             }) || null;
             dispatch(setCurrentUser(user));
@@ -56,9 +57,16 @@ const MunityApp = (props: {
         </>;
     }
 
+    const LoadingApp = () => {
+        return <Switch>
+            <Route path="/workspace/:workspace_slug" component={LoadingMunity} />
+            <Route path="/" component={props.loadingWorkspace} />
+        </Switch>;
+    }
+
     return <>
         <NotificationManager key="notification-manager" />
-        {!isReady ? <LoadingApp /> : (access ? <AppRouter/> : <LoginForm />)}
+        {!isReady ? <LoadingApp /> : (access ? <AppRouter /> : <LoginForm />)}
     </>
 }
 

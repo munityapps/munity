@@ -7,6 +7,7 @@ import { Provider as ReduxProvider } from 'react-redux'
 import Providers from './providers';
 import MunityApp from './app';
 import Navbar from './workspaces/components/Navbar';
+import LoadingMunity from './layouts/components/LoadingMunity';
 
 // Configuration
 import reportWebVitals from './reportWebVitals';
@@ -36,6 +37,7 @@ ReactDOM.render(
                     newWorkspaceRoutes={[
                         <Route key={'foobar'} path="/workspace/:workspace_slug/foobar" component={() => <>WORKSPACE FOOBAR</>} />
                     ]}
+                    loadingWorkspace={LoadingMunity}
                 >
                     {/* Custom routes */}
                 </MunityApp>
