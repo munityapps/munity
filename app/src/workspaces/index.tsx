@@ -3,6 +3,7 @@ import Users from "../user";
 import { setWorkspace } from '../app/slice';
 import { useEffect } from "react";
 import { useAppDispatch } from "../hooks";
+import { Card } from 'primereact/card';
 
 import './styles.scss';
 
@@ -19,7 +20,11 @@ const Workspace = (props: { newRoutes: Partial<Route>[] }) => {
             {props.newRoutes}
             <Route path="/workspace/:workspace_slug/groups" component={() => <div>Groups</div>} />
             <Route path="/workspace/:workspace_slug/users" component={Users} />
-            <Route path="/" component={() => <div className="mainpage-root">{`Welcome to worksapce ${workspace_slug}`}</div>} />
+            <Route path="/workspace/" component={() => <div className="mainpage-root">
+                <Card className="p-shadow-2">
+                    {`Welcome to workspace ${workspace_slug}`}
+                </Card>
+            </div>} />
         </Switch>
     </div>
 }

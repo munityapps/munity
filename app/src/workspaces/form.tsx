@@ -6,9 +6,8 @@ import { useDispatch } from "react-redux";
 import { useAppSelector } from "../hooks";
 import { addNotification } from "../notifications/slice";
 
-const WorkspaceList: FunctionComponent<{}> = () => {
+const WorkspaceForm: FunctionComponent<{show:boolean, onClose:Function}> = props => {
     const dispatch = useDispatch();
-    const [showForm, setShowForm] = useState<boolean>(false);
     const [slug, setSlug] = useState<string>("");
     const [dbConnection, setDbConnection] = useState<string>("");
     const { workspaceInEdition } = useAppSelector(state => state.workspace)
@@ -61,7 +60,7 @@ const WorkspaceList: FunctionComponent<{}> = () => {
             setSlug('');
             setDbConnection('');
         }
-    }, [workspaceInEdition, showForm]);
+    }, [workspaceInEdition]);
 
     const saveWorkspace = () => {
         if (!workspaceInEdition) {
@@ -79,12 +78,12 @@ const WorkspaceList: FunctionComponent<{}> = () => {
     };
 
     return <>
-        <MunityDialog visible={showForm} onSave={saveWorkspace} onHide={() => setShowForm(false)}>
+        <MunityDialog title="Workspace form" visible={props.show} onSave={saveWorkspace} onHide={props.onClose}>
             <div className="p-fluid">
                 <div className="p-field p-grid">
                     <label htmlFor="firstname4" className="p-col-12 p-md-2">Slug</label>
                     <div className="p-col-12 p-md-10">
-                        <InputText id="slug" type="text" value={slug} onChange={(e) => setSlug(e.target.value)} />
+                        <InputText readOnly={workspaceInEdition} id="slug" type="text" value={slug} onChange={(e) => setSlug(e.target.value)} />
                     </div>
                 </div>
                 <div className="p-field p-grid">
@@ -98,4 +97,4 @@ const WorkspaceList: FunctionComponent<{}> = () => {
     </>;
 }
 
-export default WorkspaceList;
+export default WorkspaceForm ;

@@ -24,5 +24,12 @@
 [ ] Creation invitation system
 
 ## Add mail system
+[ ] Tout Munity ont un workspace DEMO avec des seeds
+
 
 ## Add celery system
+[ ] Deplacer le menu a overmind gauche
+[ ] Le root de overmind est le template atlantis
+[ ] Ouvrir l'app dans un nouvel onglet
+[ ] Arriver sur la page de map de keyoss sur le preview de "DEMO"
+[ ] Mettre en grisé Admin / Deployment et me nu en haut

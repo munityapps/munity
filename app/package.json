@@ -1,81 +1,86 @@
 {
-  "name": "munityapps",
-  "version": "0.1.39",
-  "description": "Frontend part of Munity - reduce technical debt and create your saas faster!",
-  "author": "cyril@dbyzero.com",
-  "private": false,
-  "license": "LGPL-3.0-only",
-  "keywords": [
-    "munity",
-    "saas",
-    "boilerplate",
-    "framework"
-  ],
-  "homepage": "https://munityapps.com",
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "npx tsc",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "deploy": "./scripts/deploy.sh"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^1.2.36",
-    "@fortawesome/free-brands-svg-icons": "^5.15.4",
-    "@fortawesome/free-regular-svg-icons": "^5.15.4",
-    "@fortawesome/free-solid-svg-icons": "^5.15.4",
-    "@fortawesome/react-fontawesome": "^0.1.15",
-    "@reduxjs/toolkit": "^1.6.1",
-    "axios": "^0.21.4",
-    "i18next": "^20.2.1",
-    "i18next-browser-languagedetector": "^6.1.0",
-    "i18next-xhr-backend": "^3.2.2",
-    "primeflex": "^2.0.0",
-    "primeicons": "^4.1.0",
-    "primereact": "^7.0.0",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-i18next": "^11.8.13",
-    "react-redux": "^7.2.4",
-    "react-router": "^5.2.1",
-    "react-router-dom": "^5.3.0",
-    "react-router-global-history": "^1.1.0",
-    "react-scripts": "4.0.3",
-    "react-thunk": "^1.0.0",
-    "react-toastify": "^8.0.2",
-    "react-transition-group": "^4.4.2",
-    "socket.io-client": "^4.0.1"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.15.8",
-    "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^11.1.0",
-    "@testing-library/user-event": "^12.1.10",
-    "@types/jest": "^26.0.15",
-    "@types/node": "^12.0.0",
-    "@types/react": "^17.0.21",
-    "@types/react-dom": "^17.0.0",
-    "@types/react-router-dom": "^5.1.9",
-    "sass": "^1.32.11",
-    "typescript": "^4.1.2",
-    "web-vitals": "^1.0.1"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
+    "name": "munityapps",
+    "version": "0.1.39",
+    "description": "Frontend part of Munity - reduce technical debt and create your saas faster!",
+    "author": "cyril@dbyzero.com",
+    "private": false,
+    "license": "LGPL-3.0-only",
+    "keywords": [
+        "munity",
+        "saas",
+        "boilerplate",
+        "framework"
     ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+    "homepage": "https://munityapps.com",
+    "scripts": {
+        "start": "react-scripts start",
+        "build": "npx tsc",
+        "test": "react-scripts test",
+        "eject": "react-scripts eject",
+        "deploy": "./scripts/deploy.sh"
+    },
+    "eslintConfig": {
+        "extends": [
+            "react-app",
+            "react-app/jest"
+        ]
+    },
+    "dependencies": {
+        "@fortawesome/fontawesome-svg-core": "^1.2.36",
+        "@fortawesome/free-brands-svg-icons": "^5.15.4",
+        "@fortawesome/free-regular-svg-icons": "^5.15.4",
+        "@fortawesome/free-solid-svg-icons": "^5.15.4",
+        "@fortawesome/react-fontawesome": "^0.1.15",
+        "@reduxjs/toolkit": "^1.6.1",
+        "axios": "^0.19.0",
+        "chart.js": "3.3.2",
+        "classnames": "^2.2.6",
+        "echarts": "^5.2.2",
+        "echarts-for-react": "^3.0.2",
+        "i18next": "^20.2.1",
+        "i18next-browser-languagedetector": "^6.1.0",
+        "i18next-xhr-backend": "^3.2.2",
+        "moment": "^2.29.1",
+        "primeflex": "2.0.0",
+        "primeicons": "4.1.0",
+        "primereact": "^7.0.0",
+        "react": "^17.0.2",
+        "react-dom": "^17.0.2",
+        "react-i18next": "^11.8.13",
+        "react-redux": "^7.2.4",
+        "react-router": "^5.2.1",
+        "react-router-dom": "^5.3.0",
+        "react-router-global-history": "^1.1.0",
+        "react-scripts": "4.0.3",
+        "react-thunk": "^1.0.0",
+        "react-toastify": "^8.0.2",
+        "react-transition-group": "^4.4.2",
+        "socket.io-client": "^4.0.1"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.15.8",
+        "@testing-library/jest-dom": "^5.11.4",
+        "@testing-library/react": "^11.1.0",
+        "@testing-library/user-event": "^12.1.10",
+        "@types/jest": "^26.0.15",
+        "@types/node": "^12.0.0",
+        "@types/react": "^17.0.21",
+        "@types/react-dom": "^17.0.0",
+        "@types/react-router-dom": "^5.1.9",
+        "sass": "^1.32.11",
+        "typescript": "^4.1.2",
+        "web-vitals": "^1.0.1"
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    }
 }

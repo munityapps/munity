@@ -2,7 +2,7 @@ import { configureStore } from '@reduxjs/toolkit'
 
 import appReducer from './app/slice';
 import layoutReducer from './layouts/slice';
-import { userSlice } from './user/slice';
+import userReducer, { userAPISlice } from './user/slice';
 import permissionReducer from './permissions/slice';
 import workspaceReducer , { workspaceAPISlice } from './workspaces/slice';
 import authenticationReducer from './authentication/slice';
@@ -17,13 +17,14 @@ export const munityReducer: {[key: string]:Reducer<any, AnyAction>} = {
     auhentication: authenticationReducer,
     notification: notificationReducer,
     workspace: workspaceReducer,
-    [userSlice.reducerPath] : userSlice.reducer,
+    user: userReducer,
+    [userAPISlice.reducerPath] : userAPISlice.reducer,
     [workspaceAPISlice.reducerPath] : workspaceAPISlice.reducer,
     [settingSlice.reducerPath] : settingSlice.reducer
 }
 
 export const munityMiddleware: Middleware<any, any, Dispatch<AnyAction>>[] = [
-    userSlice.middleware,
+    userAPISlice.middleware,
     workspaceAPISlice.middleware
 ]
 

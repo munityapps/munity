@@ -1,59 +1,24 @@
-import { useState, useEffect } from "react";
+import { useUpdateUserMutation, useCreateUserMutation, User, UserState} from "./slice";
+import MunityDialog from '../layouts/components/MunityDialog';
+import { FunctionComponent, useEffect, useState } from "react";
 import { InputText } from "primereact/inputtext";
-import { Fieldset } from "primereact/fieldset";
-import { useCreateUserMutation, useGetUsersQuery, useDeleteUserMutation, User, useUpdateUserMutation } from "./slice";
+import { useDispatch } from "react-redux";
+import { useAppSelector } from "../hooks";
 import { addNotification } from "../notifications/slice";
-import { useAppDispatch } from "../hooks";
-import { Button } from "primereact/button";
+import { Workspace } from "../workspaces/slice";
 
-const initialUserState = {
-    id: "",
-    username: "",
-    first_name: "",
-    last_name: "",
-    email: "",
-    generic_groups: [],
-    roles: []
-};
+const UserForm: FunctionComponent<{show:boolean, onClose:Function}> = props => {
+    const dispatch = useDispatch();
+    const [firstname, setFirstname] = useState<string>("");
+    const [lastname, setLastname] = useState<string>("");
+    const [email, setEmail] = useState<string>("");
+    const [username, setUsername] = useState<string>("");
+    const [workspace, setWorkspace] = useState<Workspace|null>(null);
+    const { userInEdition } = useAppSelector<UserState>(state => state.user)
 
-export const UserForm = (props: { user: User | null }) => {
-    const dispatch = useAppDispatch();
-
-    const [user, setUser] = useState<Pick<User, 'id' | 'username' | 'first_name' | 'last_name' | 'email' | 'roles' | 'generic_groups'>>(initialUserState);
-    const { isFetching: loadingUser } = useGetUsersQuery();
     const [createUser, { isLoading: isCreating, isError: createError, isSuccess: createSuccess }] = useCreateUserMutation();
     const [updateUser, { isLoading: isUpdating, isError: updateError, isSuccess: updateSuccess }] = useUpdateUserMutation();
-    const [deleteUser, { isLoading: isDeleting, isError: deleteError, isSuccess: deleteSuccess }] = useDeleteUserMutation();
 
-    const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
-        setUser((prev) => ({
-            ...prev,
-            [target.id]: target.value,
-        }));
-    }
-
-    let action = "";
-    if (loadingUser) {
-        action = "Loading users";
-    }
-
-    if (isCreating) {
-        action = "Creating users";
-    }
-
-    if (isUpdating) {
-        action = "Updating users";
-    }
-
-    if (isDeleting) {
-        action = "Deleting users";
-    }
-
-    useEffect(() => {
-        setUser(props.user || initialUserState);
-    }, [props.user])
-
-    // Update alert
     useEffect(() => {
         if (updateError) {
             dispatch(addNotification({
@@ -71,26 +36,6 @@ export const UserForm = (props: { user: User | null }) => {
             }));
         }
     }, [updateSuccess, dispatch]);
-
-    // Delete alert
-    useEffect(() => {
-        if (deleteError) {
-            dispatch(addNotification({
-                type: 'error',
-                message: 'Cannot delete user'
-            }));
-        }
-    }, [deleteError, dispatch]);
-
-    useEffect(() => {
-        if (deleteSuccess) {
-            dispatch(addNotification({
-                type: 'success',
-                message: 'User deleted'
-            }));
-            setUser(initialUserState);
-        }
-    }, [deleteSuccess, dispatch]);
 
     // Create alert
     useEffect(() => {
@@ -111,38 +56,80 @@ export const UserForm = (props: { user: User | null }) => {
         }
     }, [createError, dispatch]);
 
+    useEffect(() => {
+        if (userInEdition) {
+            setFirstname(userInEdition.first_name);
+            setLastname(userInEdition.last_name);
+            setUsername(userInEdition.username);
+            setEmail(userInEdition.email);
+            setWorkspace(userInEdition.workspace);
+        } else {
+            setFirstname('');
+            setLastname('');
+            setUsername('');
+            setEmail('');
+            setWorkspace(null);
+        }
+    }, [userInEdition]);
 
-    return <div className="p-grid p-m-4 p-jc-between p-flex-row">
-        <Fieldset legend={props.user ? `Editing user ${props.user.username}` : 'Creating user'}>
-            <div className="p-shadow-4 p-p-4 p-mb-4">Debug action: {action}</div>
-            <div className="p-formgrid p-grid">
-                <div className="p-field p-col-12 p-md-6">
-                    <label htmlFor="username">Username</label>
-                    <InputText id="username" onChange={handleChange} value={user.username} /><br />
+    const saveWorkspace = () => {
+        if (!userInEdition) {
+            const user: Partial<User> = {
+                first_name:firstname,
+                last_name:lastname,
+                username,
+                workspace,
+                email
+            }
+            createUser(user);
+        } else {
+            const user: Partial<User> & Pick<User, "id"> = Object.assign({}, userInEdition);
+            user.first_name = firstname;
+            user.last_name = lastname;
+            user.username = username;
+            user.workspace = workspace;
+            user.email = email;
+            updateUser(user);
+        }
+    };
+
+    return <>
+        <MunityDialog title="User form" visible={props.show} onSave={saveWorkspace} onHide={props.onClose}>
+            <div className="p-fluid">
+                <div className="p-field p-grid">
+                    <label htmlFor="firstname4" className="p-col-12 p-md-2">Username</label>
+                    <div className="p-col-12 p-md-10">
+                        <InputText id="username" type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+                    </div>
                 </div>
-                <div className="p-field p-col-12 p-md-6">
-                    <label htmlFor="first_name">Firstname</label>
-                    <InputText id="first_name" onChange={handleChange} value={user.first_name} /><br />
+                <div className="p-field p-grid">
+                    <label htmlFor="firstname4" className="p-col-12 p-md-2">Firstname</label>
+                    <div className="p-col-12 p-md-10">
+                        <InputText id="firstname" type="text" value={firstname} onChange={(e) => setFirstname(e.target.value)} />
+                    </div>
                 </div>
-                <div className="p-field p-col-12 p-md-6">
-                    <label htmlFor="first_name">Lastname</label>
-                    <InputText id="last_name" onChange={handleChange} value={user.last_name} /><br />
+                <div className="p-field p-grid">
+                    <label htmlFor="firstname4" className="p-col-12 p-md-2">Lastname</label>
+                    <div className="p-col-12 p-md-10">
+                        <InputText id="lastname" type="text" value={lastname} onChange={(e) => setLastname(e.target.value)} />
+                    </div>
                 </div>
-                <div className="p-field p-col-12 p-md-6">
-                    <label htmlFor="email">Email</label>
-                    <InputText id="email" onChange={handleChange} value={user.email} /><br />
+                <div className="p-field p-grid">
+                    <label htmlFor="firstname4" className="p-col-12 p-md-2">Email</label>
+                    <div className="p-col-12 p-md-10">
+                        <InputText id="email" type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
+                    </div>
                 </div>
-                <div className="p-field p-col-12 p-md-6">
-                    <label htmlFor="email">Groups</label>
-                    <InputText id="generic_groups" onChange={handleChange} value={user.generic_groups} /><br />
-                </div>
-                <div className="p-field p-col-12 p-md-6">
-                    <label htmlFor="email">Roles</label>
-                    <InputText id="roles" value={user.roles} /><br />
-                </div>
+                {/* <div className="p-field p-grid">
+                    <label htmlFor="firstname4" className="p-col-12 p-md-2">Workspace</label>
+                    <div className="p-col-12 p-md-10">
+                        <InputText id="username" type="text" value={username} onChange={(e) => setWorkspace(e.target.value)} />
+                    </div>
+                </div> */}
             </div>
-            <Button onClick={() => props.user ? updateUser(user) : createUser(user)} >{props.user ? `Edit ${props.user.username}` : 'Create user'} </Button>
-            {props.user && <Button onClick={() => deleteUser(user.id)} >Delete user </Button>}
-        </Fieldset>
-    </div>;
+        </MunityDialog>
+    </>;
 }
+
+export default UserForm ;
+

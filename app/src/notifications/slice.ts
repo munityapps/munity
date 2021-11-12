@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 interface NotificationPayload {
     type: 'warning' | 'error' | 'info' | 'success',
-	message: string ,
+	message: string | JSX.Element ,
 	options?: object
 }
 

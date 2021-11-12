@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 export interface AppState {
+    isPortal: boolean,
     isReady: boolean,
     loading: boolean,
     resourceLoaded: boolean,
@@ -8,6 +9,7 @@ export interface AppState {
 }
 
 const initialState: AppState = {
+    isPortal: false,
     isReady: false,
     loading: false,
     resourceLoaded: false,

@@ -1,31 +1,24 @@
-import { useCreateWorkspaceMutation, useDeleteWorkspaceMutation, useGetWorkspacesQuery, useUpdateWorkspaceMutation, Workspace } from "./slice";
-import { Column } from 'primereact/column';
+import { useDeleteWorkspaceMutation, useGetWorkspacesQuery, Workspace } from "./slice";
 import { Button } from "primereact/button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDoorOpen, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useHistory } from 'react-router';
 import { faEdit } from '@fortawesome/free-regular-svg-icons';
-import MunityDataTable from '../layouts/components/MunityDataTable';
-import MunityDialog from '../layouts/components/MunityDialog';
+import WorkspaceForm from './form';
 import { FunctionComponent, useEffect, useState } from "react";
-import { InputText } from "primereact/inputtext";
 import { useDispatch } from "react-redux";
 import { setWorkspaceInEdition } from "./slice";
-import { useAppSelector } from "../hooks";
 import { confirmDialog } from 'primereact/confirmdialog';
 import { addNotification } from "../notifications/slice";
-import { ProgressSpinner } from 'primereact/progressspinner';
+import { Avatar } from "primereact/avatar";
+import { AvatarGroup } from "primereact/avatargroup";
+import monsterImg from '../assets/monster.svg';
 
 const WorkspaceList: FunctionComponent<{}> = () => {
     const dispatch = useDispatch();
     const [showForm, setShowForm] = useState<boolean>(false);
-    const [slug, setSlug] = useState<string>("");
-    const [dbConnection, setDbConnection] = useState<string>("");
-    const { workspaceInEdition } = useAppSelector(state => state.workspace)
-    const { data: workspaces, error:errorGetWorkspace, isFetching, isLoading } = useGetWorkspacesQuery();
+    const { data: workspaces, error: errorGetWorkspace, isFetching, isLoading } = useGetWorkspacesQuery();
 
-    const [createWorkspace, { isLoading: isCreating, isError: createError, isSuccess: createSuccess }] = useCreateWorkspaceMutation();
-    const [updateWorkspace, { isLoading: isUpdating, isError: updateError, isSuccess: updateSuccess }] = useUpdateWorkspaceMutation();
     const [deleteWorkspace, { isLoading: isDeleting, isError: deleteError, isSuccess: deleteSuccess }] = useDeleteWorkspaceMutation();
 
     const router = useHistory();
@@ -35,35 +28,17 @@ const WorkspaceList: FunctionComponent<{}> = () => {
         if (errorGetWorkspace) {
             dispatch(addNotification({
                 type: 'error',
-                message: 'Cannot get workspaces'
+                message: 'Cannot get customers'
             }));
         }
     }, [errorGetWorkspace, dispatch]);
-
-    useEffect(() => {
-        if (updateError) {
-            dispatch(addNotification({
-                type: 'error',
-                message: 'Cannot update workspace'
-            }));
-        }
-    }, [updateError, dispatch]);
-
-    useEffect(() => {
-        if (updateSuccess) {
-            dispatch(addNotification({
-                type: 'success',
-                message: 'Workspace updated'
-            }));
-        }
-    }, [updateSuccess, dispatch]);
-
     // Delete alert
+
     useEffect(() => {
         if (deleteError) {
             dispatch(addNotification({
                 type: 'error',
-                message: 'Cannot delete workspace'
+                message: 'Cannot delete customer'
             }));
         }
     }, [deleteError, dispatch]);
@@ -72,60 +47,15 @@ const WorkspaceList: FunctionComponent<{}> = () => {
         if (deleteSuccess) {
             dispatch(addNotification({
                 type: 'success',
-                message: 'Workspace deleted'
+                message: 'Customer deleted'
             }));
         }
     }, [deleteSuccess, dispatch]);
 
-    // Create alert
-    useEffect(() => {
-        if (createSuccess) {
-            dispatch(addNotification({
-                type: 'success',
-                message: 'Workspace created'
-            }));
-        }
-    }, [createSuccess, dispatch]);
-
-    useEffect(() => {
-        if (createError) {
-            dispatch(addNotification({
-                type: 'error',
-                message: 'Cannot create workspace'
-            }));
-        }
-    }, [createError, dispatch]);
-
-
-    const saveWorkspace = () => {
-        if (!workspaceInEdition) {
-            const ws: Workspace = {
-                slug,
-                db_connection: dbConnection
-            }
-            createWorkspace(ws);
-        } else {
-            const ws: Workspace = Object.assign({}, workspaceInEdition);
-            ws.slug = slug;
-            ws.db_connection = dbConnection;
-            updateWorkspace(ws);
-        }
-    };
-
-    useEffect(() => {
-        if (workspaceInEdition) {
-            setSlug(workspaceInEdition.slug);
-            setDbConnection(workspaceInEdition.db_connection);
-        } else {
-            setSlug('');
-            setDbConnection('');
-        }
-    }, [workspaceInEdition, showForm]);
-
     const actions = (w: Workspace) => <div className="action-list">
         <div>
-            <Button onClick={() => router.push(`/workspace/${w.slug}`)}>
-                <FontAwesomeIcon icon={faDoorOpen} />&nbsp;{`Go to ${w.slug}`}
+            <Button onClick={() => window.location.href = (`${window.location.protocol}//${window.location.host}/workspace/${w.slug}`)}>
+                <FontAwesomeIcon icon={faDoorOpen} />
             </Button>
         </div>
         <div>
@@ -133,7 +63,7 @@ const WorkspaceList: FunctionComponent<{}> = () => {
                 dispatch(setWorkspaceInEdition(w));
                 setShowForm(true);
             }}>
-                <FontAwesomeIcon icon={faEdit} />&nbsp; {` Edit`}
+                <FontAwesomeIcon icon={faEdit} />
             </Button>
         </div>
         <div>
@@ -145,7 +75,7 @@ const WorkspaceList: FunctionComponent<{}> = () => {
                     accept: () => deleteWorkspace(w.slug),
                     reject: () => { }
                 })}>
-                <FontAwesomeIcon icon={faTrash} />&nbsp; {` Delete `}
+                <FontAwesomeIcon icon={faTrash} />
             </Button>
         </div>
     </div >;
@@ -155,45 +85,40 @@ const WorkspaceList: FunctionComponent<{}> = () => {
         setShowForm(true);
     }
 
-    if (isLoading || isFetching) {
-        return <ProgressSpinner />;
-    }
-
-    return <>
-        <MunityDialog visible={showForm} onSave={saveWorkspace} onHide={() => setShowForm(false)}>
-            <div className="p-fluid">
-                <div className="p-field p-grid">
-                    <label htmlFor="firstname4" className="p-col-12 p-md-2">Slug</label>
-                    <div className="p-col-12 p-md-10">
-                        <InputText id="slug" type="text" value={slug} onChange={(e) => setSlug(e.target.value)} />
-                    </div>
+    const WorkspaceCard: React.FC<{ workspace: Workspace }> = props => {
+        return <div className="workspace-card p-shadow-4">
+            <div className="illustration">
+                <img src={monsterImg} alt="monster"/>
+                {actions(props.workspace)}
+            </div>
+            <div className="text">
+                <div className="title">
+                    {props.workspace.slug}
                 </div>
-                <div className="p-field p-grid">
-                    <label htmlFor="lastname4" className="p-col-12 p-md-2">DB Connection</label>
-                    <div className="p-col-12 p-md-10">
-                        <InputText id="db_connection" type="text" value={dbConnection} onChange={(e) => setDbConnection(e.target.value)} />
-                    </div>
+                <div className="metric">
+                    DB Connection: {props.workspace.db_connection}
+                </div>
+                <div className="usedBy">
+                    <AvatarGroup className="p-mb-3">
+                        <Avatar icon="pi pi-user" size="large" shape="circle" />
+                        <Avatar icon="pi pi-user" size="large" shape="circle" />
+                        <Avatar icon="pi pi-user" size="large" shape="circle" />
+                        <Avatar icon="pi pi-user" size="large" shape="circle" />
+                        <Avatar icon="pi pi-user" size="large" shape="circle" />
+                        <Avatar label="+9" shape="circle" size="large" style={{ backgroundColor: '#9c27b0', color: '#ffffff' }} />
+                    </AvatarGroup>
                 </div>
             </div>
-        </MunityDialog>
-        <MunityDataTable
-            createNew={createNew}
-            value={workspaces?.results}
-            className="workspace-list"
-            dataKey="slug"
-            filters={{
-                'slug': { operator: "and", constraints: [{ value: null, matchMode: "contains" }] },
-                'db_connection': { operator: "and", constraints: [{ value: null, matchMode: "contains" }] }
-            }}
-            filterDisplay="menu"
-            globalFilterFields={['slug', 'db_connection']}
-            emptyMessage="No workspces found."
-        >
-            <Column field="slug" header="Slug" filter filterPlaceholder="Search by slug" />
-            <Column field="db_connection" header="DBConnection" filter filterPlaceholder="Search by db connection" />
-            <Column field="actions" body={actions} bodyStyle={{ display: 'flex', justifyContent: 'flex-end' }} />
-        </MunityDataTable>
-    </>;
+        </div>;
+    };
+
+    return <div className="workspace-cards">
+        <WorkspaceForm show={showForm} onClose={() => setShowForm(false)} />
+        {workspaces?.results.map(w => {
+            return <WorkspaceCard workspace={w} />
+        })}
+        <Button className="createNew p-button-rounded p-button-lg" icon="pi pi-plus" onClick={createNew}/>
+    </div>;
 }
 
 export default WorkspaceList;

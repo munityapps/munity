@@ -1,0 +1,38 @@
+.dashboard {
+    padding:32px 16px;
+    .metrics {
+        display:flex;
+        justify-content:space-around;
+        .metric {
+            background-color:#2C3256;
+            padding:16px;
+            flex:1;
+            margin:4px;
+            border-radius:12px;
+            color:white;
+            display:flex;
+            align-items: center;
+            .count {
+                font-size: 66px;
+                font-weight: bold;
+            }
+        }
+    }
+    .income-graph {
+        background-color:#2C3256;
+        border-radius: 12px;
+        margin-top:32px;
+        .title {
+            color:#747BAA;
+            padding: 16px;
+            font-size:24px;
+            font-weight: bold;
+        }
+        .graph1 {
+            margin-bottom:16px;
+            canvas {
+                border-radius:0px 0px 12px 12px;
+            }
+        }
+    }
+}

@@ -16,7 +16,6 @@ import { getDefaultAPIUrl } from '../helper';
 
 const MunityApp = (props: {
     children: object,
-    navbar: Partial<React.Component>,
     newOvermindRoutes: Partial<Route>[],
     newWorkspaceRoutes: Partial<Route>[]
 }) => {
@@ -35,7 +34,6 @@ const MunityApp = (props: {
     }, [dispatch]);
 
     const AppRouter = <>
-        {props.navbar}
         <Switch>
             {props.children}
             <Route path="/workspace/:workspace_slug" children={<Workspace newRoutes={props.newWorkspaceRoutes}/>} />

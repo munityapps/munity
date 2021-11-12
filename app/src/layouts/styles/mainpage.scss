@@ -15,6 +15,27 @@
         justify-content: center;
         align-items: center;
     }
+
+    .data-table {
+        margin:29px 25px;
+        background-color: var(--surface-a);
+        tr:last-child {
+            td {
+                border-width: 0 0 0px 0 !important;
+            }
+        }
+        tr:nth-child(even) {
+            background: #fafafa!important;
+        }
+        .action-list {
+            display: flex;
+            flex-direction: row;
+            > div:not(:last-child) {
+                margin-right:16px;
+            }
+        }
+    }
+
     .p-datatable {
         width: 100%;
     }
