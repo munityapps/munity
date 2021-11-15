@@ -19,7 +19,8 @@ import { Route } from 'react-router';
 import NavbarLeft from './workspaces/components/NavbarComponents/NavbarLeft';
 import NavbarCenter from './workspaces/components/NavbarComponents/NavbarCenter';
 import NavbarRight from './workspaces/components/NavbarComponents/NavbarRight';
-
+import OvermindSidebar from './overmind/components/Sidebar';
+import { Button } from 'primereact/button';
 
 ReactDOM.render(
     <ReduxProvider store={store}>
@@ -31,6 +32,13 @@ ReactDOM.render(
                         centerPart={NavbarCenter}
                         rightPart={NavbarRight}
                     />}
+                    overmindSidebar={<OvermindSidebar newMenuButton={[
+                        // <div className="menu">
+                        //     <Button className="p-button-link ">
+                        //         Integration 2
+                        //     </Button>
+                        // </div>
+                    ]}/>}
                     newOvermindRoutes={[
                         <Route key={'foobar'} path="/foobar" component={() => <>OVERMIND FOOBAR</>} />
                     ]}

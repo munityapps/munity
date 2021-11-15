@@ -1,13 +1,12 @@
 import { Route, Switch, useParams } from "react-router";
 import Users from "../user";
 import { setWorkspace } from '../app/slice';
-import React, { ComponentElement, useEffect } from "react";
+import { useEffect } from "react";
 import { useAppDispatch } from "../hooks";
-import { Card } from 'primereact/card';
 
 import './styles.scss';
 
-const Workspace = (props: { navbar:Partial<React.Component>, newRoutes: Partial<Route>[] }) => {
+const Workspace = (props: { navbar:JSX.Element, newRoutes: Partial<Route>[] }) => {
     let { workspace_slug } = useParams<{ workspace_slug: string }>();
     const dispatch = useAppDispatch();
 

@@ -7,13 +7,12 @@ import WorkspaceList from '../workspaces/list';
 import User from '../user';
 import './styles.scss';
 import Navbar from './components/Navbar';
-import OvermindSidebar from './components/Sidebar';
 import NavbarLeft from './components/NavbarComponents/NavbarLeft';
 import NavbarCenter from './components/NavbarComponents/NavbarCenter';
 import NavbarRight from './components/NavbarComponents/NavbarRight';
 import Dashboard from './components/Dashboard';
 
-const Overmind = (props: { newRoutes: Partial<Route>[] }) => {
+const Overmind = (props: { sidebar: JSX.Element, newRoutes: Partial<Route>[] }) => {
     const dispatch = useAppDispatch();
     useEffect(() => {
         dispatch(setWorkspace(null));
@@ -26,7 +25,7 @@ const Overmind = (props: { newRoutes: Partial<Route>[] }) => {
             rightPart={NavbarRight}
         />
         <div className="layout-overmind">
-            <OvermindSidebar />
+            {props.sidebar}
             <div className="main">
                 <Switch>
                     {props.newRoutes}

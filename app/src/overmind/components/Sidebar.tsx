@@ -1,8 +1,6 @@
 import 'react-toastify/dist/ReactToastify.css';
-import { FunctionComponent } from 'react';
 
 import munityLogo from '../../assets/logoIcon.png';
-import keyosLogo from '../../assets/keyos.png';
 import iconOvmGraph from '../../assets/icon_ovm_graph.svg';
 import iconOvmAdmin from '../../assets/icon_ovm_admin.svg';
 import iconOvmInt from '../../assets/icon_ovm_int.svg';
@@ -11,8 +9,9 @@ import { Button } from 'primereact/button';
 import { useAppDispatch } from '../../hooks';
 import { addNotification } from '../../notifications/slice';
 import { useHistory, useLocation } from 'react-router';
+import React from 'react';
 
-const OvermindSidebar: FunctionComponent<{}> = () => {
+const OvermindSidebar: React.FC<{newMenuButton?:Partial<React.Component>[]}> = props => {
 
     const dispatch = useAppDispatch();
     const location = useLocation();
@@ -31,10 +30,10 @@ const OvermindSidebar: FunctionComponent<{}> = () => {
     };
     return <div className="sidebar">
         <div className="project">
-            <img src={keyosLogo} alt="logo" />
+            <img src={munityLogo} alt="logo" />
             <div>
                 <div className="legend">Your project name</div>
-                <div className="project-name">Keyos</div>
+                <div className="project-name">My Munity</div>
             </div>
         </div>
         <div className="menu">
@@ -62,6 +61,7 @@ const OvermindSidebar: FunctionComponent<{}> = () => {
                 <img src={iconOvmGraph} alt="graph" /> Deployment
             </Button>
         </div>
+        {props.newMenuButton}
     </div>
 }
 

@@ -1,6 +1,6 @@
 {
     "name": "munityapps",
-    "version": "0.1.46",
+    "version": "0.2.1",
     "description": "Frontend part of Munity - reduce technical debt and create your saas faster!",
     "author": "cyril@dbyzero.com",
     "private": false,

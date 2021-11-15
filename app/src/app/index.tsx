@@ -17,13 +17,14 @@ import { getDefaultAPIUrl } from '../helper';
 import { useGetUsersQuery, User } from '../user/slice';
 import { setCurrentUser } from '../authentication/slice';
 
-const MunityApp = (props: {
+const MunityApp:React.FC<{
     children: object,
     loadingWorkspace: React.FC,
-    workspaceNavbar: Partial<React.Component>,
+    overmindSidebar: JSX.Element,
+    workspaceNavbar: JSX.Element,
     newOvermindRoutes: Partial<Route>[],
     newWorkspaceRoutes: Partial<Route>[]
-}) => {
+}> = props => {
     const dispatch = useAppDispatch();
     const isReady = useAppSelector((state) => state.app.isReady);
     const access = useAppSelector((state) => state.authentication.access);
@@ -52,7 +53,7 @@ const MunityApp = (props: {
             <Switch>
                 {props.children}
                 <Route path="/workspace/:workspace_slug" children={<Workspace navbar={props.workspaceNavbar} newRoutes={props.newWorkspaceRoutes} />} />
-                <Route path="/" children={<Overmind newRoutes={props.newOvermindRoutes} />} />
+                <Route path="/" children={<Overmind sidebar={props.overmindSidebar} newRoutes={props.newOvermindRoutes} />} />
             </Switch>
         </>;
     }
