@@ -7,7 +7,7 @@ import permissionReducer from './permissions/slice';
 import workspaceReducer , { workspaceAPISlice } from './workspaces/slice';
 import authenticationReducer from './authentication/slice';
 import notificationReducer from './notifications/slice';
-import { settingSlice } from './settings/slice';
+import { settingAPISlice } from './settings/slice';
 import { Reducer, AnyAction, Middleware, Dispatch } from 'redux';
 
 export const munityReducer: {[key: string]:Reducer<any, AnyAction>} = {
@@ -20,7 +20,7 @@ export const munityReducer: {[key: string]:Reducer<any, AnyAction>} = {
     user: userReducer,
     [userAPISlice.reducerPath] : userAPISlice.reducer,
     [workspaceAPISlice.reducerPath] : workspaceAPISlice.reducer,
-    [settingSlice.reducerPath] : settingSlice.reducer
+    [settingAPISlice.reducerPath] : settingAPISlice.reducer
 }
 
 export const munityMiddleware: Middleware<any, any, Dispatch<AnyAction>>[] = [

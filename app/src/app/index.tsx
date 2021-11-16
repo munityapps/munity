@@ -5,6 +5,7 @@ import LoginForm from '../authentication';
 import NotificationManager from '../notifications';
 
 import { useAppDispatch, useAppSelector } from '../hooks';
+import { addNotification } from '../notifications/slice';
 
 import jwtDecode from 'jwt-decode';
 import { ready } from './slice';
@@ -15,7 +16,8 @@ import Overmind from '../overmind';
 import axios from 'axios';
 import { getDefaultAPIUrl } from '../helper';
 import { useGetUsersQuery, User } from '../user/slice';
-import { setCurrentUser } from '../authentication/slice';
+import { logout, setCurrentUser } from '../authentication/slice';
+import moment from 'moment';
 
 const MunityApp:React.FC<{
     children: object,
@@ -31,7 +33,22 @@ const MunityApp:React.FC<{
 
     useEffect(() => {
         axios.defaults.baseURL = getDefaultAPIUrl();
-    }, [])
+        // check if token is not expired
+        if (access) {
+            const jwtData: { exp: string } = jwtDecode(access);
+            const expiredDate = moment(new Date(1000 * parseInt(jwtData.exp, 10)));
+            if (moment(expiredDate).isBefore(moment())) {
+                dispatch(logout());
+                dispatch(addNotification({
+                    type: 'error',
+                    message: 'Session expiré',
+                    options: {
+                        draggable: true
+                    }
+                }))
+            }
+        }
+    }, [access, dispatch]);
 
     useEffect(() => {
         setTimeout(() => {
@@ -44,7 +61,7 @@ const MunityApp:React.FC<{
         const { data: users } = useGetUsersQuery();
         useEffect(() => {
             const jwtData: { exp: string, jti: string, token_type: string, user_id: string } = jwtDecode(access);
-            const user: User | null = users?.results.find(u => {
+            const user: User | null = users?.results.find((u:User) => {
                 return u.id === jwtData.user_id
             }) || null;
             dispatch(setCurrentUser(user));

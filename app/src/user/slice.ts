@@ -1,8 +1,6 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { RootState } from '../store'
-import { getDefaultAPIUrl } from '../helper';
 import { Workspace } from '../workspaces/slice';
 import { createSlice } from '@reduxjs/toolkit';
+import { sliceFactory } from '../factory/slice';
 
 export interface User {
     created: Date,
@@ -36,74 +34,12 @@ export const userSlice = createSlice({
     }
 });
 
-export const userAPISlice = createApi({
-    reducerPath: 'userAPI',
-    baseQuery: fetchBaseQuery({
-        baseUrl: localStorage.getItem('munity_api_url') || getDefaultAPIUrl(),
-        prepareHeaders: (headers:Headers, { getState }) => {
-            const token = (getState() as RootState).authentication.access;
-            if (token) {
-                headers.set('authorization', `Bearer ${token}`)
-            }
-            return headers;
-        }
-    }),
-    tagTypes: ['User'],
-    endpoints: builder => ({
-        getUsers: builder.query<{count: number, results: User[]}, void>({
-            query: () => {
-                return {
-                    url:`/users/`,
-                }
-            },
-            providesTags: (result) =>
-                result && result.count > 0
-                ? [
-                    ...result.results.map(({ id }) => ({ type: 'User' as const, id })),
-                    { type: 'User', id: 'LIST' },
-                    ]
-                : [{ type: 'User', id: 'LIST' }]
-        }),
-        getUser: builder.query<User, number>({
-            query: id => {
-                return {
-                    url:`/users/${id}/`,
-                }
-            },
-            providesTags: (result, error, id) => [{ type: 'User', id }],
+export const userAPISlice = sliceFactory<User>({
+    reducerName: 'userAPI',
+    endpoint: '/users/',
+    name: 'User'
+});
 
-        }),
-        createUser: builder.mutation<User, Partial<User>>({
-            query: body => {
-                return {
-                    url: `/users/`,
-                    method: 'POST',
-                    body
-                }
-            },
-            invalidatesTags: () => [{ type: 'User' }],
-        }),
-        updateUser: builder.mutation<User, Partial<User> & Pick<User, 'id'>>({
-            query: body => {
-                return {
-                    url: `/users/${body.id}/`,
-                    method: 'PATCH',
-                    body
-                }
-            },
-            invalidatesTags: (result, error, arg) => [{ type: 'User', id: arg.id }],
-        }),
-        deleteUser: builder.mutation<void, string>({
-            query: id => {
-                return {
-                    url: `/users/${id}/`,
-                    method: 'DELETE'
-                }
-            },
-            invalidatesTags: () => [{ type: 'User' }],
-        }),
-    })
-})
 
 export default userSlice.reducer;
 export const { setUserInEdition } = userSlice.actions

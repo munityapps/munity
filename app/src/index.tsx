@@ -20,7 +20,7 @@ import NavbarLeft from './workspaces/components/NavbarComponents/NavbarLeft';
 import NavbarCenter from './workspaces/components/NavbarComponents/NavbarCenter';
 import NavbarRight from './workspaces/components/NavbarComponents/NavbarRight';
 import OvermindSidebar from './overmind/components/Sidebar';
-import { Button } from 'primereact/button';
+// import { Button } from 'primereact/button';
 
 ReactDOM.render(
     <ReduxProvider store={store}>
