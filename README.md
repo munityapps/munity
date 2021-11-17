@@ -24,7 +24,7 @@ docker-compose exec api python manage.py migrate
 
 ### Database is now available, restart API
 ```
-dokcer-compose restart api
+docker-compose restart api
 ```
 
 ### Create your first user
