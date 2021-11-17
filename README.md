@@ -1,15 +1,15 @@
-# munity
+# Munity
 ![logo-munity](./docs/logo.png)
 
 Munity is an open source framework/boilerplate, easily and highly customizable.
 
-## Start munity, the easy way
+## Start Munity, the easy way
 ```
 cp ./env.sample ./.env
 ./scripts/start.sh
 ```
 
-## Start munity step by step
+## Start Munity step by step
 
 ### Start Munity services
 ```
