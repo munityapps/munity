@@ -52,7 +52,7 @@ export function sliceFactory<Model extends GenericModel>({ reducerName, endpoint
                     return {
                         url: endpoint,
                         method: 'POST',
-                        args
+                        body: args
                     }
                 },
                 invalidatesTags: () => [{ type: name }],
@@ -62,7 +62,7 @@ export function sliceFactory<Model extends GenericModel>({ reducerName, endpoint
                     return {
                         url: `${endpoint}${args.id}/`,
                         method: 'PATCH',
-                        args
+                        body:args
                     }
                 },
                 invalidatesTags: (result, error, arg) => [{ type: name, uuid: arg.id}],
