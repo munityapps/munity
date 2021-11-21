@@ -12,13 +12,16 @@ import { useDispatch } from "react-redux";
 import { setUserInEdition } from "./slice";
 import { confirmPopup } from 'primereact/confirmpopup';
 import { addNotification } from "../notifications/slice";
-import { ProgressSpinner } from 'primereact/progressspinner';
+import { ProgressBar } from 'primereact/progressbar';
 import { Avatar } from "primereact/avatar";
+import { Role, useGetRolesQuery } from "../permissions/slice";
+import { ProgressSpinner } from "primereact/progressspinner";
 
 const UserList: FunctionComponent<{}> = () => {
     const dispatch = useDispatch();
     const [showForm, setShowForm] = useState<boolean>(false);
-    const { data: users, error:errorGetUsers, isFetching, isLoading } = useGetUsersQuery();
+    const { data: users, error:errorGetUsers, isFetching:isFetchingUser, isLoading:isLoadingUser } = useGetUsersQuery();
+    const { data: roles, error:errorGetRoles, isFetching:isFetchingRole, isLoading:isLoadingRole } = useGetRolesQuery();
 
     const [deleteUser, { isLoading: isDeleting, isError: deleteError, isSuccess: deleteSuccess }] = useDeleteUserMutation();
 
@@ -77,6 +80,10 @@ const UserList: FunctionComponent<{}> = () => {
         setShowForm(true);
     }
 
+    if (isFetchingRole || isFetchingRole) {
+        return <ProgressSpinner className="data-table-spinner" />;
+    }
+
     return <>
         <UserForm show={showForm} onClose={() => setShowForm(false)}/>
         <MunityDataTable
@@ -100,6 +107,9 @@ const UserList: FunctionComponent<{}> = () => {
             <Column field="email" header="Email" filter filterPlaceholder="Search by db email" />
             <Column field="first_name" header="Firstname" filter filterPlaceholder="Search by firstname" />
             <Column field="last_name" header="Lastname" filter filterPlaceholder="Search by lastname" />
+            <Column body={(user:User) => user.is_superuser ? <div style={{fontStyle:'italic'}}>All</div> : user.user_role_workspaces.map(role => {
+                return `${role.workspace} (${roles.results.find((r:Role) => r.id === role.role)?.name})`
+            }).join(", ")} header="Workspaces" filter filterPlaceholder="Search by workspaces" />
             <Column field="created" body={user => <div>{moment(new Date(user.created)).fromNow()}</div>} header="Created at" filter filterPlaceholder="Search by date of creation" />
             <Column body={actions} bodyStyle={{ display: 'flex', justifyContent: 'flex-end' }} />
         </MunityDataTable>

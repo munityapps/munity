@@ -18,6 +18,10 @@ class HasEndpointPermission(permissions.BasePermission):
             ressource__app_label=ressource
         )
 
+        # All user can access roles
+        if action == 'list' and ressource == 'roles':
+            return True
+
         # checking if user as at least one role that fit needed permission on wanted workspace or on all workspace
         has_role_permission = UserRoleWorkspace.objects.filter(
             Q(user=request.user) &

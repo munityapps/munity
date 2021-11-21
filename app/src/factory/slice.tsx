@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { RootState } from '../store'
-import { getDefaultAPIUrl } from '../helper';
+import { getAPIUrl, getWorkspaceEndpoint } from '../helper';
 
 export interface SliceFactory {
     reducerName: string,
@@ -16,9 +16,9 @@ export function sliceFactory<Model extends GenericModel>({ reducerName, endpoint
     return createApi({
         reducerPath: reducerName,
         baseQuery: fetchBaseQuery({
-            baseUrl: getDefaultAPIUrl(),
+            baseUrl: getAPIUrl(),
             prepareHeaders: (headers: Headers, { getState }) => {
-                const token = (getState() as RootState).authentication.access;
+                const token = (getState() as RootState).authentication.JWTaccess;
                 if (token) {
                     headers.set('authorization', `Bearer ${token}`)
                 }
@@ -30,7 +30,7 @@ export function sliceFactory<Model extends GenericModel>({ reducerName, endpoint
             [`get${name}s`]: builder.query<{count: number, results:Model[]}, void>({
                 query: () => {
                     return {
-                        url: endpoint,
+                        url: getWorkspaceEndpoint(endpoint),
                     }
                 },
                 providesTags: (result, error, arg) =>
@@ -41,7 +41,7 @@ export function sliceFactory<Model extends GenericModel>({ reducerName, endpoint
             [`get${name}`]: builder.query<Model, number>({
                 query: id => {
                     return {
-                        url: `${endpoint}${id}/`,
+                        url: getWorkspaceEndpoint(`${endpoint}${id}/`),
                     }
                 },
                 providesTags: (result, error, id) => [{ type: name, id}],
@@ -50,7 +50,7 @@ export function sliceFactory<Model extends GenericModel>({ reducerName, endpoint
             [`create${name}`]: builder.mutation<Model, Partial<Model>>({
                 query: args => {
                     return {
-                        url: endpoint,
+                        url: getWorkspaceEndpoint(endpoint),
                         method: 'POST',
                         body: args
                     }
@@ -60,7 +60,7 @@ export function sliceFactory<Model extends GenericModel>({ reducerName, endpoint
             [`update${name}`]: builder.mutation<Model, Partial<Model>>({
                 query: args => {
                     return {
-                        url: `${endpoint}${args.id}/`,
+                        url: getWorkspaceEndpoint(`${endpoint}${args.id}/`),
                         method: 'PATCH',
                         body:args
                     }
@@ -70,7 +70,7 @@ export function sliceFactory<Model extends GenericModel>({ reducerName, endpoint
             [`delete${name}`]: builder.mutation<void, number>({
                 query: id => {
                     return {
-                        url: `${endpoint}${id}/`,
+                        url: getWorkspaceEndpoint(`${endpoint}${id}/`),
                         method: 'DELETE'
                     }
                 },

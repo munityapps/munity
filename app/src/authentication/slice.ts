@@ -5,16 +5,18 @@ import { User } from '../user/slice';
 
 export interface AuthenticateState {
     pending: boolean,
-    access: string | null,
-    refresh: string | null,
-    currentUser: User | null
+    JWTaccess: string | null,
+    JWTrefresh: string | null,
+    currentUser: User | null,
+    accessGranted: boolean
 }
 
 const initialState: AuthenticateState = {
     pending: false,
     currentUser: null,
-    access: localStorage.getItem('access_token') || '',
-    refresh: localStorage.getItem('refresh_token') || ''
+    accessGranted: false,
+    JWTaccess: localStorage.getItem('access_token') || '',
+    JWTrefresh: localStorage.getItem('refresh_token') || ''
 }
 
 export const authenticate = createAsyncThunk(
@@ -27,8 +29,8 @@ export const authenticate = createAsyncThunk(
             // }
             const response = await axios.post('/auth/jwt/create/', args);
             return {
-                access: response.data.access,
-                refresh: response.data.refresh
+                JWTaccess: response.data.access,
+                JWTrefresh: response.data.refresh
             };
         } catch (err: unknown) {
             if (typeof err === "string") {
@@ -58,10 +60,13 @@ export const permissionSlice = createSlice({
     initialState,
     reducers: {
         logout: (state) => {
-            state.access = null;
-            state.refresh = null;
+            state.JWTaccess = null;
+            state.JWTrefresh = null;
             localStorage.removeItem('access_token');
             localStorage.removeItem('refresh_token');
+        },
+        setAccessGranted: (state, payload:{payload:boolean}) => {
+            state.accessGranted= payload.payload;
         },
         setCurrentUser: (state, payload:{payload:User|null}) => {
             state.currentUser = payload.payload;
@@ -76,14 +81,14 @@ export const permissionSlice = createSlice({
         })
         builder.addCase(authenticate.fulfilled, (state, action) => {
             state.pending = false
-            state.access = action.payload.access
-            state.refresh = action.payload.refresh
-            localStorage.setItem('access_token', action.payload.access);
-            localStorage.setItem('refresh_token', action.payload.refresh);
+            state.JWTaccess = action.payload.JWTaccess
+            state.JWTrefresh = action.payload.JWTrefresh
+            localStorage.setItem('access_token', action.payload.JWTaccess);
+            localStorage.setItem('refresh_token', action.payload.JWTrefresh);
         })
     }
 });
 
-export const { logout, setCurrentUser } = permissionSlice.actions
+export const { logout, setCurrentUser, setAccessGranted } = permissionSlice.actions
 
 export default permissionSlice.reducer

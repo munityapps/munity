@@ -1,30 +1,34 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { sliceFactory } from '../factory/slice';
 
-interface Perm {
-	role: string,
+export interface Ressource {
+    id: number,
+    app_mode: string,
+    label: string,
+}
+
+export interface Permission {
+	id: string,
 	action: string,
-	filter: object
+	ressource: Ressource
 }
 
-const initialState: PermissionState = {
-    perms: []
+export interface Role {
+	id: string,
+	name: string,
+	permissions: Permission[]
 }
 
-export interface PermissionState {
-	perms: Array<Perm>
-}
+export const roleAPISlice = sliceFactory<Role>({
+    reducerName: 'roleAPI',
+    endpoint: '/roles/',
+    name: 'Role'
+});
 
-export const permissionSlice = createSlice({
-    name: 'permission',
-    initialState,
-    reducers: {
-        setPerms: (state, action) => {
-            state.perms = action.payload.perms;
-        }
-    }
-})
 
-export const { setPerms } = permissionSlice.actions
-
-export default permissionSlice.reducer
-
+export const {
+    useGetRolesQuery,
+    useGetRoleQuery,
+    useDeleteRoleMutation,
+    useUpdateRoleMutation,
+    useCreateRoleMutation,
+} = roleAPISlice

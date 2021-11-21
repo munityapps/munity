@@ -1,32 +1,61 @@
 from django_filters import rest_framework as filters
+from rest_framework import serializers, viewsets
+from django.db.models.query_utils import Q
+from .models import User, UserRoleWorkspace
 from ..models import MunityGroupableModel
-from munity.views import MunityWorkspaceViewSet
-from rest_framework import serializers
 
-from .models import User
+
+class UserRoleWorkspaceSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = ('workspace', 'role')
+        model = UserRoleWorkspace
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         fields = [
             "id",
-            "workspace",
             "username",
             "email",
-            "roles",
             "first_name",
             "last_name",
             "created",
             "is_superuser",
             "modified",
             "generic_groups",
+            "user_role_workspaces",
         ]
         model = User
+    user_role_workspaces = UserRoleWorkspaceSerializer(many=True)
+
+    def update(self, instance, validated_data):
+        if 'user_role_workspaces' in validated_data:
+            user_role_workspaces_data = validated_data.pop('user_role_workspaces')
+
+            user_workspaces = []
+            for user_role_workspace_data in user_role_workspaces_data:
+                user_workspaces.append(user_role_workspace_data.get("workspace"))
+                UserRoleWorkspace.objects.update_or_create(
+                    user=instance, **user_role_workspace_data
+                )
+            # remove removed rights
+            UserRoleWorkspace.objects.filter(user=instance).exclude(workspace__in=user_workspaces).delete()
+
+        return super(self.__class__, self).update(instance, validated_data)
+
+    def create(self, validated_data):
+        user_role_workspaces_data = validated_data.pop('user_role_workspaces')
+        user = User.objects.create(**validated_data)
+        for user_role_workspace_data in user_role_workspaces_data:
+            UserRoleWorkspace.objects.create(
+                user=user, **user_role_workspace_data
+            )
+        return user
+
 
 class UsersFilter(filters.FilterSet):
     class Meta:
         fields = {
             "id": ["exact", "in"],
-            "workspace": ["exact", "in"],
             "first_name": ["exact", "in", "contains"],
             "generic_groups": ["in"],
             "last_name": ["exact", "in", "contains"],
@@ -37,8 +66,13 @@ class UsersFilter(filters.FilterSet):
         }
         model = User
 
-
-class UsersViewSet(MunityWorkspaceViewSet, MunityGroupableModel):
+class UsersViewSet(viewsets.ModelViewSet, MunityGroupableModel):
     serializer_class = UserSerializer
     filterset_class = UsersFilter
+    def get_queryset(self):
+        model = self.serializer_class.Meta.model
+        if "workspace_pk" in self.kwargs:
+            return model.objects.filter(Q(id=self.request.user.id) | Q(user_role_workspaces__workspace=self.kwargs["workspace_pk"]))
+        return model.objects.filter(is_superuser=True)
+
 

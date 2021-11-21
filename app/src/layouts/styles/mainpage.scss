@@ -16,6 +16,10 @@
         align-items: center;
     }
 
+    .data-table-spinner {
+        margin-top: 50%;
+        transform: translateY(-50%);
+    }
     .data-table {
         margin:29px 25px;
         background-color: var(--surface-a);

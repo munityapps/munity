@@ -1,5 +1,6 @@
 from django_filters import rest_framework as filters
 from rest_framework import serializers, viewsets
+from django.contrib.contenttypes.models import ContentType
 
 from .models import Permission, Role
 
@@ -7,6 +8,11 @@ from .models import Permission, Role
 # Permission
 #################################################
 
+
+class RessourceSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = "__all__"
+        model = ContentType
 
 class PermissionSerializer(serializers.ModelSerializer):
     class Meta:
@@ -16,7 +22,7 @@ class PermissionSerializer(serializers.ModelSerializer):
             "action",
         ]
         model = Permission
-
+    ressource = RessourceSerializer()
 
 class PermissionsFilter(filters.FilterSet):
     class Meta:
@@ -49,8 +55,9 @@ class PermissionsViewSet(viewsets.ModelViewSet):
 
 class RoleSerializer(serializers.ModelSerializer):
     class Meta:
-        fields = ["name", "permissions"]
+        fields = ["id", "name", "permissions"]
         model = Role
+    permissions = PermissionSerializer(many=True)
 
 
 class RolesFilter(filters.FilterSet):

@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { RootState } from '../store'
-import { getDefaultAPIUrl } from '../helper';
+import { getAPIUrl } from '../helper';
 import { createSlice } from '@reduxjs/toolkit';
 
 export interface Workspace {
@@ -29,9 +29,9 @@ export const workspaceSlice = createSlice({
 export const workspaceAPISlice = createApi({
     reducerPath: 'workspaceAPI',
     baseQuery: fetchBaseQuery({
-        baseUrl: getDefaultAPIUrl(),
+        baseUrl: getAPIUrl(),
         prepareHeaders: (headers:Headers, { getState }) => {
-            const token = (getState() as RootState).authentication.access;
+            const token = (getState() as RootState).authentication.JWTaccess;
             if (token) {
                 headers.set('authorization', `Bearer ${token}`)
             }

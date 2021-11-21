@@ -13,9 +13,9 @@
 [ ] Redirect user depending on login
 
 ## Add workspace right
-[ ] Add workspace_slug in JWT tocken
-[ ] Add workspace right from JWT
-[ ] Add permisions check from role
+[x] Add workspace_slug in JWT tocken
+[x] Add workspace right from JWT
+[x] Add permisions check from role
 
 ## Records
 [ ] Record MunityModel event
@@ -24,7 +24,7 @@
 [ ] Creation invitation system
 
 ## Add mail system
-[ ] Tout Munity ont un workspace DEMO avec des seeds
+[x] Tout Munity ont un workspace DEMO avec des seeds
 
 
 ## Add celery system
@@ -34,3 +34,7 @@
 [ ] Arriver sur la page de map de keyoss sur le preview de "DEMO"
 [x] Mettre en grisé Admin / Deployment et me nu en haut
 [x] Changer l nom du user...
+
+## User management
+[x] Set role workspace role to users
+[ ] Refresh token

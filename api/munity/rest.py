@@ -17,8 +17,8 @@ overmind_router.register(r"settings", SettingsViewSet, basename="permission")
 
 workspace_router = nested_routers.NestedSimpleRouter(overmind_router, r'workspaces', lookup='workspace')
 workspace_router.register(r"users", UsersViewSet, basename="workspace-user")
-workspace_router.register(r"roles", UsersViewSet, basename="workspace-user")
-workspace_router.register(r"generic_groups", UsersViewSet, basename="workspace-user")
-workspace_router.register(r"permissions", UsersViewSet, basename="workspace-user")
+workspace_router.register(r"roles", RolesViewSet, basename="workspace-user")
+workspace_router.register(r"generic_groups", GenericGroupsViewSet, basename="workspace-user")
+workspace_router.register(r"permissions", PermissionsViewSet, basename="workspace-user")
 workspace_router.register(r"settings", SettingsViewSet, basename="permission")
 

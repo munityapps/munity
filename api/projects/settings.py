@@ -148,9 +148,9 @@ REST_FRAMEWORK = {
 
 DJOSER = {
     "USER_ID_FIELD": "id",
-    "HIDE_USERS": True,
+    "HIDE_USERS": False,
     "SERIALIZERS": {
-        # "user": "munity.users.serializers.UserSerializer",
+        "user": "munity.users.views.UserSerializer",
         # "current_user": "bos.views.user.UserWithAclsSerializer",
     },
 }

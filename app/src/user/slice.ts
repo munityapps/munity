@@ -1,6 +1,10 @@
-import { Workspace } from '../workspaces/slice';
 import { createSlice } from '@reduxjs/toolkit';
 import { sliceFactory } from '../factory/slice';
+
+export interface UserRoleWorkspace {
+    role: string,
+    workspace: string,
+}
 
 export interface User {
     created: Date,
@@ -13,7 +17,7 @@ export interface User {
     modified: Date,
     roles: string[],
     username: string,
-    workspace: Workspace | null
+    user_role_workspaces: UserRoleWorkspace[]
 }
 
 export interface UserState {

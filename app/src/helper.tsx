@@ -1,8 +1,15 @@
-export const getDefaultAPIUrl = () => {
-    let apiUrl = localStorage.getItem('munity_api_url');
-    if (!apiUrl) {
-        apiUrl = `${window.location.protocol}//api.${window.location.hostname}/v1/`;
-        localStorage.setItem('munity_api_url', apiUrl);
+export const getAPIUrl = () => {
+    return `${window.location.protocol}//api.${window.location.hostname}/v1/`;
+}
+
+export const getWorkspaceEndpoint = (endpoint:string) => {
+    const pathname = window.location.pathname;
+    const re = new RegExp('/workspace/([^/]+)');
+    const result = pathname.match(re);
+    const workspace = result ? result[1] : null;
+    if (workspace) {
+        return `workspaces/${workspace}${endpoint}`
+    } else {
+        return endpoint;
     }
-    return apiUrl;
 }

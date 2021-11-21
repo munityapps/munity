@@ -1,4 +1,3 @@
-from django.contrib.auth.models import PermissionsMixin
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 
@@ -25,7 +24,7 @@ class Role(MunityModel):
     def __str__(self):
         if self.workspace:
             # workspace from MunityModel
-            return f"self.name[{workspace}]"
+            return f"self.name[{self.workspace}]"
         return self.name
 
 
