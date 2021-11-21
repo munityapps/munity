@@ -5,11 +5,10 @@ import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { authenticate } from './slice';
 
-import logo from '../assets/logo.png';
 
 import './style.scss';
 
-const LoginForm = () => {
+const LoginForm:React.FC<{logo:string}> = props => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const { t } = useTranslation();
@@ -28,7 +27,7 @@ const LoginForm = () => {
         sendAuthentication();
     }}>
         <div className="login-form-wrapper">
-            <img src={logo} alt="Logo" className="logo"/>
+            <img src={props.logo} alt="Logo" className="logo"/>
             <div className="welcome">{t('app:welcome')}</div>
             <div className="welcome-text">{t('app:welcome_text')}</div>
             <div className="p-field">

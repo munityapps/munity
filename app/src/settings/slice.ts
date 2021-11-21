@@ -8,7 +8,7 @@ export interface Setting extends GenericModel {
 export const settingAPISlice = sliceFactory<Setting>({
     reducerName: 'settingsAPI',
     endpoint: '/settings/',
-    name: 'Settings'
+    name: 'Setting'
 });
 
 export const {

@@ -1,5 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios';
+import jwtDecode from 'jwt-decode';
+import moment from 'moment';
 import { addNotification } from '../notifications/slice';
 import { User } from '../user/slice';
 
@@ -15,7 +17,20 @@ const initialState: AuthenticateState = {
     pending: false,
     currentUser: null,
     accessGranted: false,
-    JWTaccess: localStorage.getItem('access_token') || '',
+    JWTaccess: (() => {
+        const token = localStorage.getItem('access_token') || null;
+        if (token) {
+            const jwtData: { exp: string } = jwtDecode(token);
+            const expiredDate = moment(new Date(1000 * parseInt(jwtData.exp, 10)));
+            if (moment(expiredDate).isBefore(moment())) {
+                localStorage.removeItem('access_token');
+                localStorage.removeItem('refresh_token');
+                return ''
+            }
+            return token;
+        }
+        return '';
+    })(),
     JWTrefresh: localStorage.getItem('refresh_token') || ''
 }
 

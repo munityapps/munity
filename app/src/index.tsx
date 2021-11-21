@@ -1,26 +1,31 @@
 // Libs
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Route } from 'react-router';
 import { Provider as ReduxProvider } from 'react-redux'
 
 // Component
-import Providers from './providers';
 import MunityApp from './app';
+import Providers from './providers';
 import Navbar from './workspaces/components/Navbar';
 import LoadingMunity from './layouts/components/LoadingMunity';
+import NavbarLeft from './workspaces/components/NavbarComponents/NavbarLeft';
+import NavbarCenter from './workspaces/components/NavbarComponents/NavbarCenter';
+import NavbarRight from './workspaces/components/NavbarComponents/NavbarRight';
+import OvermindSidebar from './overmind/components/Sidebar';
+import OvermindNavbar from './overmind/components/Navbar';
+import OvermindNavbarLeft from './overmind/components/NavbarComponents/NavbarLeft';
+import OvermindNavbarCenter from './overmind/components/NavbarComponents/NavbarCenter';
+import OvermindNavbarRight from './overmind/components/NavbarComponents/NavbarRight';
 
 // Configuration
 import reportWebVitals from './reportWebVitals';
 
 // Style
 import './styles.scss';
+import logo from './assets/logo.png';
+
 import store from './store';
-import { Route } from 'react-router';
-import NavbarLeft from './workspaces/components/NavbarComponents/NavbarLeft';
-import NavbarCenter from './workspaces/components/NavbarComponents/NavbarCenter';
-import NavbarRight from './workspaces/components/NavbarComponents/NavbarRight';
-import OvermindSidebar from './overmind/components/Sidebar';
-// import { Button } from 'primereact/button';
 
 ReactDOM.render(
     <ReduxProvider store={store}>
@@ -31,6 +36,11 @@ ReactDOM.render(
                         leftPart={NavbarLeft}
                         centerPart={NavbarCenter}
                         rightPart={NavbarRight}
+                    />}
+                    overmindNavbar={<OvermindNavbar
+                        leftPart={OvermindNavbarLeft}
+                        centerPart={OvermindNavbarCenter}
+                        rightPart={OvermindNavbarRight}
                     />}
                     overmindSidebar={<OvermindSidebar newMenuButton={[
                         // <div className="menu">
@@ -46,6 +56,7 @@ ReactDOM.render(
                         <Route key={'foobar'} path="/workspace/:workspace_slug/foobar" component={() => <>WORKSPACE FOOBAR</>} />
                     ]}
                     loadingWorkspace={LoadingMunity}
+                    logoLogin={logo}
                 >
                     {/* Custom routes */}
                 </MunityApp>

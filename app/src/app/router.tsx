@@ -8,15 +8,17 @@ const AppRouter: React.FC<{
     loadingWorkspace: React.FC,
     overmindSidebar: JSX.Element,
     workspaceNavbar: JSX.Element,
+    overmindNavbar: JSX.Element,
     newOvermindRoutes: Partial<Route>[],
     newWorkspaceRoutes: Partial<Route>[]
 }> = props => {
+
     // Main Munity router
     return <>
         <Switch>
             {props.children}
             <Route path="/workspace/:workspace_slug" children={<Workspace navbar={props.workspaceNavbar} newRoutes={props.newWorkspaceRoutes} />} />
-            <Route path="/" children={<Overmind sidebar={props.overmindSidebar} newRoutes={props.newOvermindRoutes} />} />
+            <Route path="/" children={<Overmind navbar={props.overmindNavbar} sidebar={props.overmindSidebar} newRoutes={props.newOvermindRoutes} />} />
         </Switch>
     </>;
 }

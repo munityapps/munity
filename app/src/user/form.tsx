@@ -13,11 +13,9 @@ import { Column } from "primereact/column";
 import { Button } from "primereact/button";
 import { Checkbox } from "primereact/checkbox";
 import { SelectButton } from "primereact/selectbutton";
-import { confirmPopup } from "primereact/confirmpopup";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBan, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faBan } from "@fortawesome/free-solid-svg-icons";
 import { ProgressSpinner } from "primereact/progressspinner";
-import { AppState } from "../app/slice";
 
 const UserForm: FunctionComponent<{ show: boolean, onClose: Function }> = props => {
     const dispatch = useDispatch();
@@ -30,11 +28,11 @@ const UserForm: FunctionComponent<{ show: boolean, onClose: Function }> = props 
     const { userInEdition } = useAppSelector<UserState>(state => state.user)
 
     // get workspaces on overmind
-    const { data: workspaces, error: errorGetWorkspaces, isFetching: isFetchingWorkspaces, isLoading: isLoadingWorkspaces } = useGetWorkspacesQuery();
-    const { data: roles, error: errorGetRoles, isFetching: isFetchingRole, isLoading: isLoadingRole } = useGetRolesQuery();
+    const { data: workspaces, error: errorGetWorkspaces, isFetching: isFetchingWorkspaces } = useGetWorkspacesQuery();
+    const { data: roles, isFetching: isFetchingRole } = useGetRolesQuery();
 
-    const [createUser, { isLoading: isCreating, isError: createError, isSuccess: createSuccess }] = useCreateUserMutation();
-    const [updateUser, { isLoading: isUpdating, isError: updateError, isSuccess: updateSuccess }] = useUpdateUserMutation();
+    const [createUser, { isError: createError, isSuccess: createSuccess }] = useCreateUserMutation();
+    const [updateUser, { isError: updateError, isSuccess: updateSuccess }] = useUpdateUserMutation();
 
     useEffect(() => {
         if (updateError) {
@@ -150,18 +148,18 @@ const UserForm: FunctionComponent<{ show: boolean, onClose: Function }> = props 
                     <label htmlFor="is_superuser" className="p-col-12 p-md-10">Super administrateur</label>
                 </div>
             </div>
-            {(errorGetWorkspaces === false) ?
-                (isFetchingWorkspaces === false && isFetchingRole === false) ?
+            {
+                (workspaces && roles) ?
                     <>
                         <DataTable value={userRoleWorkspaces} responsiveLayout="scroll">
-                            <Column body={(role, {rowIndex}) => {
+                            <Column body={(role, { rowIndex }) => {
                                 return <Dropdown value={role.workspace} options={workspaces?.results.map(w => w.slug)} onChange={e => {
                                     const newUserRoleWorkspace = userRoleWorkspaces.slice(0);
                                     newUserRoleWorkspace[rowIndex].workspace = e.value;
                                     setUserRoleWorkspaces(newUserRoleWorkspace);
                                 }} />
                             }} header="Workspace" />
-                            <Column body={(role, {rowIndex}) => {
+                            <Column body={(role, { rowIndex }) => {
                                 console.log(role);
                                 return <SelectButton value={role.role} options={roles.results.map((r: Role) => {
                                     return {
@@ -178,7 +176,7 @@ const UserForm: FunctionComponent<{ show: boolean, onClose: Function }> = props 
                                 <div>
                                     <Button className="pi" onClick={() => {
                                         const newUserRoleWorkspace = userRoleWorkspaces.slice(0);
-                                        newUserRoleWorkspace.splice(rowIndex,1);
+                                        newUserRoleWorkspace.splice(rowIndex, 1);
                                         setUserRoleWorkspaces(newUserRoleWorkspace);
                                     }}>
                                         <FontAwesomeIcon icon={faBan} />
@@ -195,7 +193,7 @@ const UserForm: FunctionComponent<{ show: boolean, onClose: Function }> = props 
                             setUserRoleWorkspaces(newUserRoleWorkspace);
                         }} />
                     </> : <ProgressSpinner />
-                : null }
+            }
         </MunityDialog>
     </>;
 }

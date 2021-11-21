@@ -1,6 +1,5 @@
 // Libs
 import React, { useEffect } from 'react';
-import moment from 'moment';
 import { useHistory, useLocation } from 'react-router';
 import { } from 'react-router';
 import jwtDecode from 'jwt-decode';
@@ -58,6 +57,7 @@ const PermissionCheck: React.FC<{
                         draggable: true
                     }
                 }));
+                dispatch(logout());
             }
         }
     }, [users, JWTaccess, dispatch]);
@@ -65,19 +65,6 @@ const PermissionCheck: React.FC<{
     // second, permission check
     useEffect(() => {
         if (currentUser) {
-            const jwtData: { exp: string } = jwtDecode(JWTaccess);
-            const expiredDate = moment(new Date(1000 * parseInt(jwtData.exp, 10)));
-            if (moment(expiredDate).isBefore(moment())) {
-                dispatch(logout());
-                dispatch(addNotification({
-                    type: 'error',
-                    message: 'Session expiré',
-                    options: {
-                        draggable: true
-                    }
-                }))
-            }
-
             // check if current user has access
             console.log('Cheking if user has access ', currentUser);
             if (currentUser) {

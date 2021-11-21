@@ -6,24 +6,16 @@ import { useAppDispatch } from '../hooks';
 import WorkspaceList from '../workspaces/list';
 import User from '../user';
 import './styles.scss';
-import Navbar from './components/Navbar';
-import NavbarLeft from './components/NavbarComponents/NavbarLeft';
-import NavbarCenter from './components/NavbarComponents/NavbarCenter';
-import NavbarRight from './components/NavbarComponents/NavbarRight';
 import Dashboard from './components/Dashboard';
 
-const Overmind = (props: { sidebar: JSX.Element, newRoutes: Partial<Route>[] }) => {
+const Overmind = (props: { navbar:JSX.Element, sidebar: JSX.Element, newRoutes: Partial<Route>[] }) => {
     const dispatch = useAppDispatch();
     useEffect(() => {
         dispatch(setWorkspace(null));
     }, [dispatch])
 
     return <>
-        <Navbar
-            leftPart={NavbarLeft}
-            centerPart={NavbarCenter}
-            rightPart={NavbarRight}
-        />
+        {props.navbar}
         <div className="layout-overmind">
             {props.sidebar}
             <div className="main">

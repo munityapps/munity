@@ -18,8 +18,10 @@ import LoginForm from '../authentication';
 
 const MunityApp: React.FC<{
     children: object,
+    logoLogin: string,
     loadingWorkspace: React.FC,
     overmindSidebar: JSX.Element,
+    overmindNavbar: JSX.Element,
     workspaceNavbar: JSX.Element,
     newOvermindRoutes: Partial<Route>[],
     newWorkspaceRoutes: Partial<Route>[]
@@ -27,7 +29,7 @@ const MunityApp: React.FC<{
     const dispatch = useAppDispatch();
     // isReady is redux ready and api url set
     const isReady = useAppSelector((state) => state.app.isReady);
-    const { JWTaccess } = useAppSelector((state) => state.authentication);
+    const { JWTaccess } = useAppSelector(state => state.authentication);
     const location = useLocation();
 
     // first initialisation step : set axios and defined workspace
@@ -47,12 +49,13 @@ const MunityApp: React.FC<{
 
     return <>
         <NotificationManager key="notification-manager" />
-        {!JWTaccess ? <LoginForm/> :
+        {!JWTaccess ? <LoginForm logo={props.logoLogin}/> :
             <PermissionCheck loadingWorkspace={props.loadingWorkspace}>
                 <AppRouter
                     loadingWorkspace={props.loadingWorkspace}
                     overmindSidebar = { props.overmindSidebar }
                     workspaceNavbar = { props.workspaceNavbar }
+                    overmindNavbar = { props.overmindNavbar }
                     newOvermindRoutes = { props.newOvermindRoutes }
                     newWorkspaceRoutes = { props.newWorkspaceRoutes }
                 >
