@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { sliceFactory } from '../factory/slice';
+import { File } from '../files/slice';
 
 export interface UserRoleWorkspace {
     role: string,
@@ -12,6 +13,7 @@ export interface User {
     first_name: string,
     generic_groups: string[],
     id: string,
+    avatar: File | string | undefined,
     is_superuser: boolean,
     last_name: string,
     modified: Date,

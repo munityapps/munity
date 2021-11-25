@@ -31,11 +31,12 @@ const PermissionCheck: React.FC<{
         if (errorGetUsers) {
             dispatch(addNotification({
                 type: 'error',
-                message: 'Cannot get users',
+                message: 'Cannot access',
                 options: {
                     draggable: true
                 }
             }));
+            dispatch(logout());
         }
     }, [errorGetUsers, dispatch]);
 

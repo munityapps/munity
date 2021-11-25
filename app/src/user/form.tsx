@@ -16,6 +16,11 @@ import { SelectButton } from "primereact/selectbutton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBan } from "@fortawesome/free-solid-svg-icons";
 import { ProgressSpinner } from "primereact/progressspinner";
+import { Avatar } from "primereact/avatar";
+import { FileUploadUploadParams } from 'primereact/fileupload';
+import SimpleUploader from '../files/SimpleUploader';
+import { File } from '../files/slice';
+import { getURLForFile, getWorkspaceEndpoint } from "../helper";
 
 const UserForm: FunctionComponent<{ show: boolean, onClose: Function }> = props => {
     const dispatch = useDispatch();
@@ -23,6 +28,7 @@ const UserForm: FunctionComponent<{ show: boolean, onClose: Function }> = props 
     const [lastname, setLastname] = useState<string>("");
     const [email, setEmail] = useState<string>("");
     const [username, setUsername] = useState<string>("");
+    const [uploadedAvatar, setUploadedAvatar] = useState<File | undefined>(undefined);
     const [userRoleWorkspaces, setUserRoleWorkspaces] = useState<UserRoleWorkspace[]>([]);
     const [isSuperuser, setIsSuperuser] = useState<boolean>(false);
     const { userInEdition } = useAppSelector<UserState>(state => state.user)
@@ -87,7 +93,7 @@ const UserForm: FunctionComponent<{ show: boolean, onClose: Function }> = props 
             setIsSuperuser(false);
             setUserRoleWorkspaces([]);
         }
-    }, [userInEdition]);
+    }, [userInEdition, props.show]);
 
     const saveUser = () => {
         if (!userInEdition) {
@@ -96,26 +102,42 @@ const UserForm: FunctionComponent<{ show: boolean, onClose: Function }> = props 
                 last_name: lastname,
                 username,
                 is_superuser: isSuperuser,
-                // clean emplty rows
                 user_role_workspaces: userRoleWorkspaces.filter(ws_role => ws_role.workspace !== '' && ws_role.role !== ''),
                 email
             }
+            // add fresh uploaded avatar or do not send JSON transcryption
             createUser(user);
         } else {
             const user: Partial<User> & Pick<User, "id"> = Object.assign({}, userInEdition);
             user.first_name = firstname;
             user.last_name = lastname;
             user.username = username;
-            // clean emplty rows
             user.user_role_workspaces = userRoleWorkspaces.filter(ws_role => ws_role.workspace !== '' && ws_role.role !== '') || [];
             user.is_superuser = isSuperuser;
+            user.avatar = uploadedAvatar?.id;
             user.email = email;
+            console.log(user)
             updateUser(user);
         }
     };
 
     return <>
         <MunityDialog title="User form" visible={props.show} onSave={saveUser} onHide={props.onClose}>
+            <div className="p-d-flex p-jc-center">
+                {
+                    userInEdition?.avatar && (typeof userInEdition.avatar !== "string") ?
+                        <Avatar className="p-mr-2" size="xlarge" image={getURLForFile(userInEdition.avatar.file)} /> :
+                        uploadedAvatar ?
+                            <Avatar className="p-mr-2" size="xlarge" image={uploadedAvatar.file} /> :
+                            <Avatar icon="pi pi-user" className="p-mr-2" size="xlarge" />
+                }
+            </div>
+            <SimpleUploader
+                auto
+                onUpload={(e: FileUploadUploadParams) => {
+                    setUploadedAvatar(JSON.parse(e.xhr.response));
+                }}
+            />
             <div className="p-fluid">
                 <div className="p-field p-grid">
                     <label htmlFor="firstname4" className="p-col-12 p-md-2">Username</label>
@@ -160,7 +182,6 @@ const UserForm: FunctionComponent<{ show: boolean, onClose: Function }> = props 
                                 }} />
                             }} header="Workspace" />
                             <Column body={(role, { rowIndex }) => {
-                                console.log(role);
                                 return <SelectButton value={role.role} options={roles.results.map((r: Role) => {
                                     return {
                                         name: r.name,

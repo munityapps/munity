@@ -17,6 +17,8 @@ munity/authorization/models.py
 munity/authorization/permissions.py
 munity/authorization/tests.py
 munity/authorization/views.py
+munity/authorization/management/commands/__init__.py
+munity/authorization/management/commands/initiate_default_authorization.py
 munity/authorization/migrations/0001_initial.py
 munity/authorization/migrations/0002_auto_20211017_2017.py
 munity/authorization/migrations/0003_auto_20211017_2031.py

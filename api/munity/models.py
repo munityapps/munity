@@ -21,6 +21,10 @@ class MunityModel(TimeStampedModel):
     class Meta:
         abstract = True
 
+    def __str__(self):
+        return f"{self.id}@{self.workspace or 'overmind'}"
+
+
 class MunityGroupableModel(models.Model):
     """
     Default base class for munity models

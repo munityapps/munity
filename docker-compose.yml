@@ -35,7 +35,6 @@ services:
         restart: always
         depends_on:
             - db
-            - traefik
         labels:
             - "traefik.enable=true"
             - "traefik.http.routers.api.rule=HostRegexp(`api.${APP_URL}`)"

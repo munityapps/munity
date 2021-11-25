@@ -10,6 +10,7 @@ api/dist
 api/node_modules
 api/coverage
 api/.nyc_output
+api/uploads
 
 # Logs
 logs

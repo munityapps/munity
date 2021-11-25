@@ -1,4 +1,5 @@
 from django_filters import rest_framework as filters
+from ..files.views import FileSerializer
 from rest_framework import serializers, viewsets
 from django.db.models.query_utils import Q
 from .models import User, UserRoleWorkspace
@@ -19,13 +20,21 @@ class UserSerializer(serializers.ModelSerializer):
             "first_name",
             "last_name",
             "created",
+            "avatar",
             "is_superuser",
             "modified",
             "generic_groups",
             "user_role_workspaces",
         ]
         model = User
+
     user_role_workspaces = UserRoleWorkspaceSerializer(many=True)
+
+    # We show full avatar in formation on get, on update we only use doc id
+    def to_representation(self, instance):
+        response = super().to_representation(instance)
+        response['avatar'] = FileSerializer(instance.avatar).data if instance.avatar else None
+        return response
 
     def update(self, instance, validated_data):
         if 'user_role_workspaces' in validated_data:

@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     "munity.authorization",
     "munity.records",
     "munity.settings",
+    "munity.files",
     # "munity.authentication",
     # App
 ]
@@ -145,6 +146,11 @@ REST_FRAMEWORK = {
     ),
 }
 
+FILE_UPLOAD_HANDLER = [
+    "django.core.files.uploadhandler.MemoryFileUploadHandler",
+    "django.core.files.uploadhandler.TemporaryFileUploadHandler"
+]
+
 
 DJOSER = {
     "USER_ID_FIELD": "id",
@@ -185,7 +191,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = "/static/"
-# STATIC_ROOT = "./static"
+STATIC_ROOT = "./static"
+MEDIA_URL = "/uploads/"
+MEDIA_ROOT = "./uploads"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

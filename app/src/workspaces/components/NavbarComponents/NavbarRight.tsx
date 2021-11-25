@@ -1,25 +1,22 @@
 import { Button } from 'primereact/button';
 import { Avatar } from 'primereact/avatar';
 import { Menu } from 'primereact/menu';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { logout } from '../../../authentication/slice';
+import UserForm from '../../../user/form';
 
 const NavbarRight = () => {
     let menu = useRef<Menu>(null);
     const dispatch = useAppDispatch();
     const currentUser = useAppSelector(state => state.authentication.currentUser)
+    const [showForm, setShowForm] = useState<boolean>(false);
 
     return <div className="right-part">
-        {/* <Button className="p-button-link">
-            <FontAwesomeIcon icon={faQuestionCircle} />
-        </Button>
-        <Button className="p-button-link">
-            <FontAwesomeIcon icon={faBell} />
-        </Button> */}
         <div className="hi-message">
-            Hi,&nbsp;<strong>{currentUser?.username}</strong>
+            Hi, &nbsp;<strong>{currentUser?.username}</strong>
         </div>
+        <UserForm show={showForm} onClose={() => setShowForm(false)}/>
         <Avatar shape="circle" icon="pi pi-user" />
         <Menu
             model={
@@ -28,7 +25,7 @@ const NavbarRight = () => {
                         label: 'Mon profile',
                         icon: 'pi pi-user-edit',
                         command: () => {
-                            console.log({ severity: 'success', summary: 'Updated', detail: 'Data Updated', life: 3000 });
+                            setShowForm(true)
                         }
                     },
                     {

@@ -24,6 +24,8 @@ export const munityReducer: {[key: string]:Reducer<any, AnyAction>} = {
 }
 
 export const munityMiddleware: Middleware<any, any, Dispatch<AnyAction>>[] = [
+    roleAPISlice.middleware,
+    settingAPISlice.middleware,
     userAPISlice.middleware,
     workspaceAPISlice.middleware
 ]

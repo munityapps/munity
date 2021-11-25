@@ -12,10 +12,10 @@ import { useDispatch } from "react-redux";
 import { setUserInEdition } from "./slice";
 import { confirmPopup } from 'primereact/confirmpopup';
 import { addNotification } from "../notifications/slice";
-import { ProgressBar } from 'primereact/progressbar';
 import { Avatar } from "primereact/avatar";
 import { Role, useGetRolesQuery } from "../permissions/slice";
 import { ProgressSpinner } from "primereact/progressspinner";
+import { getURLForFile } from "../helper";
 
 const UserList: FunctionComponent<{}> = () => {
     const dispatch = useDispatch();
@@ -85,7 +85,10 @@ const UserList: FunctionComponent<{}> = () => {
     }
 
     return <>
-        <UserForm show={showForm} onClose={() => setShowForm(false)}/>
+        <UserForm show={showForm} onClose={() => {
+            setShowForm(false);
+            dispatch(setUserInEdition(null));
+        }}/>
         <MunityDataTable
             createNew={createNew}
             value={users?.results}
@@ -102,7 +105,11 @@ const UserList: FunctionComponent<{}> = () => {
             globalFilterFields={['username', 'firstname', 'lastname', 'email', 'created']}
             emptyMessage="No users found."
         >
-            <Column body={<Avatar icon="pi pi-user" className="p-mr-2" size="large" />} />
+            <Column body={(user:User) =>
+                user?.avatar && (typeof user.avatar !== "string") ?
+                    <Avatar className="p-mr-2" size="xlarge" image={getURLForFile(user.avatar.file)} /> :
+                    <Avatar icon="pi pi-user" className="p-mr-2" size="xlarge" />
+            } />
             <Column field="username" header="Username" filter filterPlaceholder="Search by username" />
             <Column field="email" header="Email" filter filterPlaceholder="Search by db email" />
             <Column field="first_name" header="Firstname" filter filterPlaceholder="Search by firstname" />

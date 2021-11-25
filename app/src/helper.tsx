@@ -2,6 +2,10 @@ export const getAPIUrl = () => {
     return `${window.location.protocol}//api.${window.location.hostname}/v1/`;
 }
 
+export const getURLForFile= (filePath:string) => {
+    return `${window.location.protocol}//api.${window.location.hostname}${filePath}`;
+}
+
 export const getWorkspaceEndpoint = (endpoint:string) => {
     const pathname = window.location.pathname;
     const re = new RegExp('/workspace/([^/]+)');
