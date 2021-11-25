@@ -2,6 +2,8 @@ munity
 munity/authorization/
 munity/authorization/management/commands
 munity/authorization/migrations
+munity/files/
+munity/files/migrations
 munity/generic_groups/
 munity/generic_groups/migrations
 munity/records/

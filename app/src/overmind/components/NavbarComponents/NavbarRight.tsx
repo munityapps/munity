@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { logout } from '../../../authentication/slice';
 import UserForm from '../../../user/form';
 import { getURLForFile } from '../../../helper';
+import { setUserInEdition } from '../../../user/slice';
 
 const NavbarRight = () => {
     let menu = useRef<Menu>(null);
@@ -19,7 +20,7 @@ const NavbarRight = () => {
         <div className="hi-message">
             Hi, &nbsp;<strong>{currentUser?.username}</strong>
         </div>
-        <UserForm show={showForm} onClose={() => setShowForm(false)}/>
+        <UserForm show={showForm} onClose={() => {setShowForm(false);dispatch(setUserInEdition(null))}}/>
         { currentUser.avatar ?
             <Avatar shape="circle" className="p-mr-2" image={getURLForFile(currentUser.avatar.file)} /> :
             <Avatar shape="circle" icon="pi pi-user" className="p-mr-2" />
@@ -31,7 +32,8 @@ const NavbarRight = () => {
                         label: 'Mon profile',
                         icon: 'pi pi-user-edit',
                         command: () => {
-                            setShowForm(true)
+                            setShowForm(true);
+                            setUserInEdition(currentUser);
                         }
                     },
                     {

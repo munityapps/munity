@@ -26,6 +26,12 @@ munity/authorization/migrations/0004_auto_20211017_2104.py
 munity/authorization/migrations/0005_auto_20211017_2105.py
 munity/authorization/migrations/0006_auto_20211019_0904.py
 munity/authorization/migrations/__init__.py
+munity/files/__init__.py
+munity/files/apps.py
+munity/files/models.py
+munity/files/views.py
+munity/files/migrations/0001_initial.py
+munity/files/migrations/__init__.py
 munity/generic_groups/__init__.py
 munity/generic_groups/admin.py
 munity/generic_groups/apps.py
@@ -90,6 +96,8 @@ munity/users/migrations/0013_usersviewset.py
 munity/users/migrations/0014_auto_20211118_2146.py
 munity/users/migrations/0015_auto_20211118_2214.py
 munity/users/migrations/0016_auto_20211121_1907.py
+munity/users/migrations/0017_alter_user_options.py
+munity/users/migrations/0018_user_avatar.py
 munity/users/migrations/__init__.py
 munity/workspaces/__init__.py
 munity/workspaces/admin.py

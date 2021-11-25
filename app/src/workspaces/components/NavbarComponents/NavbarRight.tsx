@@ -5,6 +5,7 @@ import { useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { logout } from '../../../authentication/slice';
 import UserForm from '../../../user/form';
+import { setUserInEdition } from '../../../user/slice';
 
 const NavbarRight = () => {
     let menu = useRef<Menu>(null);
@@ -16,7 +17,7 @@ const NavbarRight = () => {
         <div className="hi-message">
             Hi, &nbsp;<strong>{currentUser?.username}</strong>
         </div>
-        <UserForm show={showForm} onClose={() => setShowForm(false)}/>
+        <UserForm show={showForm} onClose={() => {setShowForm(false);dispatch(setUserInEdition(null))}}/>
         <Avatar shape="circle" icon="pi pi-user" />
         <Menu
             model={
@@ -25,7 +26,8 @@ const NavbarRight = () => {
                         label: 'Mon profile',
                         icon: 'pi pi-user-edit',
                         command: () => {
-                            setShowForm(true)
+                            setShowForm(true);
+                            setUserInEdition(currentUser);
                         }
                     },
                     {
