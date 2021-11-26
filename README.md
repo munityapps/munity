@@ -3,6 +3,11 @@
 
 Munity is an open source framework/boilerplate, easily and highly customizable.
 
+## Documentation (in progress)
+
+![Documentation](https://doc.munityapps.com)
+
+
 ## Start Munity, the easy way
 ```
 cp ./env.sample ./.env
