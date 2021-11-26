@@ -1,6 +1,6 @@
-import { Workspace } from 'munityapps/workspaces/slice';
 import { createSlice } from '@reduxjs/toolkit';
-import { sliceFactory } from 'munityapps/factory/slice';
+import { sliceFactory } from '../factory/slice';
+import { Workspace } from '../workspaces/slice';
 
 export interface GenericGroup {
     created: Date,
