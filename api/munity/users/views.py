@@ -25,8 +25,14 @@ class UserSerializer(serializers.ModelSerializer):
             "modified",
             "generic_groups",
             "user_role_workspaces",
+            "password",
         ]
         model = User
+        extra_kwargs = {
+            'password': {
+                'write_only': True
+            }
+        }
 
     user_role_workspaces = UserRoleWorkspaceSerializer(many=True)
 
@@ -49,7 +55,11 @@ class UserSerializer(serializers.ModelSerializer):
             # remove removed rights
             UserRoleWorkspace.objects.filter(user=instance).exclude(workspace__in=user_workspaces).delete()
 
-        return super(self.__class__, self).update(instance, validated_data)
+        user = super(self.__class__, self).update(instance, validated_data)
+        if 'password' in validated_data:
+            user.set_password(validated_data['password'])
+            user.save()
+        return user
 
     def create(self, validated_data):
         user_role_workspaces_data = validated_data.pop('user_role_workspaces')
@@ -58,6 +68,9 @@ class UserSerializer(serializers.ModelSerializer):
             UserRoleWorkspace.objects.create(
                 user=user, **user_role_workspace_data
             )
+        if 'password' in validated_data:
+            user.set_password(validated_data['password'])
+            user.save()
         return user
 
 

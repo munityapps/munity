@@ -1,6 +1,4 @@
 import { Button } from 'primereact/button';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faQuestionCircle, faBell } from '@fortawesome/free-regular-svg-icons'
 import { Avatar } from 'primereact/avatar';
 import { Menu } from 'primereact/menu';
 import { useRef, useState } from 'react';
@@ -18,7 +16,7 @@ const NavbarRight = () => {
 
     return <div className="right-part">
         <div className="hi-message">
-            Hi, &nbsp;<strong>{currentUser?.username}</strong>
+            Salut, &nbsp;<strong>{currentUser?.username}</strong>
         </div>
         <UserForm show={showForm} onClose={() => {setShowForm(false);dispatch(setUserInEdition(null))}}/>
         { currentUser.avatar ?
@@ -33,7 +31,7 @@ const NavbarRight = () => {
                         icon: 'pi pi-user-edit',
                         command: () => {
                             setShowForm(true);
-                            setUserInEdition(currentUser);
+                            dispatch(setUserInEdition(currentUser));
                         }
                     },
                     {

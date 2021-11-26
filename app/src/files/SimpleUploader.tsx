@@ -15,7 +15,7 @@ const SimpleUploader: React.FC<{
     return <FileUpload
         mode="basic"
         name="file"
-        url={props.url || `${getAPIUrl()}${getWorkspaceEndpoint('files/')}`}
+        url={props.url || `${getAPIUrl()}${getWorkspaceEndpoint('/files/')}`}
         onBeforeSend={(e:FileUploadBeforeSendParams) => {
             e.xhr.setRequestHeader('authorization', `Bearer ${JWTaccess}`);
         }}

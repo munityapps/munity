@@ -19,6 +19,7 @@ export interface User {
     modified: Date,
     roles: string[],
     username: string,
+    password?: string,
     user_role_workspaces: UserRoleWorkspace[]
 }
 

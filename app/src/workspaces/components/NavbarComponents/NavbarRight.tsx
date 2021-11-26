@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { logout } from '../../../authentication/slice';
 import UserForm from '../../../user/form';
 import { setUserInEdition } from '../../../user/slice';
+import { getURLForFile } from '../../../helper';
 
 const NavbarRight = () => {
     let menu = useRef<Menu>(null);
@@ -17,8 +18,14 @@ const NavbarRight = () => {
         <div className="hi-message">
             Hi, &nbsp;<strong>{currentUser?.username}</strong>
         </div>
-        <UserForm show={showForm} onClose={() => {setShowForm(false);dispatch(setUserInEdition(null))}}/>
-        <Avatar shape="circle" icon="pi pi-user" />
+        <UserForm show={showForm} onClose={() => {
+            setShowForm(false);
+            dispatch(setUserInEdition(null));
+        }}/>
+        { currentUser.avatar ?
+            <Avatar shape="circle" className="p-mr-2" image={getURLForFile(currentUser.avatar.file)} /> :
+            <Avatar shape="circle" icon="pi pi-user" className="p-mr-2" />
+        }
         <Menu
             model={
                 [
@@ -27,7 +34,7 @@ const NavbarRight = () => {
                         icon: 'pi pi-user-edit',
                         command: () => {
                             setShowForm(true);
-                            setUserInEdition(currentUser);
+                            dispatch(setUserInEdition(currentUser));
                         }
                     },
                     {

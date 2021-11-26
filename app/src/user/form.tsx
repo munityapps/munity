@@ -20,7 +20,7 @@ import { Avatar } from "primereact/avatar";
 import { FileUploadUploadParams } from 'primereact/fileupload';
 import SimpleUploader from '../files/SimpleUploader';
 import { File } from '../files/slice';
-import { getURLForFile, getWorkspaceEndpoint } from "../helper";
+import { getURLForFile } from "../helper";
 
 const UserForm: FunctionComponent<{ show: boolean, onClose: Function }> = props => {
     const dispatch = useDispatch();
@@ -28,6 +28,8 @@ const UserForm: FunctionComponent<{ show: boolean, onClose: Function }> = props 
     const [lastname, setLastname] = useState<string>("");
     const [email, setEmail] = useState<string>("");
     const [username, setUsername] = useState<string>("");
+    const [newPassword, setNewPassword] = useState<string>("");
+    const [confirmPassword, setConfirmPassword] = useState<string>("");
     const [uploadedAvatar, setUploadedAvatar] = useState<File | undefined>(undefined);
     const [userRoleWorkspaces, setUserRoleWorkspaces] = useState<UserRoleWorkspace[]>([]);
     const [isSuperuser, setIsSuperuser] = useState<boolean>(false);
@@ -103,12 +105,13 @@ const UserForm: FunctionComponent<{ show: boolean, onClose: Function }> = props 
                 username,
                 is_superuser: isSuperuser,
                 user_role_workspaces: userRoleWorkspaces.filter(ws_role => ws_role.workspace !== '' && ws_role.role !== ''),
-                email
+                email,
+                password: newPassword.length > 0 ? newPassword : undefined,
             }
             // add fresh uploaded avatar or do not send JSON transcryption
             createUser(user);
         } else {
-            const user: Partial<User> & Pick<User, "id"> = Object.assign({}, userInEdition);
+            const user: Partial<User> = Object.assign({}, userInEdition);
             user.first_name = firstname;
             user.last_name = lastname;
             user.username = username;
@@ -116,7 +119,7 @@ const UserForm: FunctionComponent<{ show: boolean, onClose: Function }> = props 
             user.is_superuser = isSuperuser;
             user.avatar = uploadedAvatar?.id;
             user.email = email;
-            console.log(user)
+            user.password = newPassword.length > 0 ? newPassword : undefined;
             updateUser(user);
         }
     };
@@ -125,18 +128,18 @@ const UserForm: FunctionComponent<{ show: boolean, onClose: Function }> = props 
         <MunityDialog title="User form" visible={props.show} onSave={saveUser} onHide={props.onClose}>
             <div className="p-d-flex p-jc-center">
                 {
-                    userInEdition?.avatar && (typeof userInEdition.avatar !== "string") ?
-                        <Avatar className="p-mr-2" size="xlarge" image={getURLForFile(userInEdition.avatar.file)} /> :
-                        uploadedAvatar ?
-                            <Avatar className="p-mr-2" size="xlarge" image={uploadedAvatar.file} /> :
+                    uploadedAvatar ?
+                        <Avatar className="p-mr-2" size="xlarge" image={uploadedAvatar.file} /> :
+                        userInEdition?.avatar && (typeof userInEdition.avatar !== "string") ?
+                            <Avatar className="p-mr-2" size="xlarge" image={getURLForFile(userInEdition.avatar.file)} /> :
                             <Avatar icon="pi pi-user" className="p-mr-2" size="xlarge" />
                 }
             </div>
             <SimpleUploader
-                auto
                 onUpload={(e: FileUploadUploadParams) => {
                     setUploadedAvatar(JSON.parse(e.xhr.response));
                 }}
+                auto
             />
             <div className="p-fluid">
                 <div className="p-field p-grid">
@@ -164,6 +167,18 @@ const UserForm: FunctionComponent<{ show: boolean, onClose: Function }> = props 
                     </div>
                 </div>
                 <div className="p-field p-grid">
+                    <label htmlFor="password" className="p-col-12 p-md-2">Password</label>
+                    <div className="p-col-12 p-md-10">
+                        <InputText id="password" type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
+                    </div>
+                </div>
+                <div className="p-field p-grid">
+                    <label htmlFor="confirm_password" className="p-col-12 p-md-2">Confirm password</label>
+                    <div className="p-col-12 p-md-10">
+                        <InputText id="confirm_password" type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+                    </div>
+                </div>
+                <div className="p-field p-grid">
                     <div className="p-col-12 p-md-2">
                         <Checkbox inputId="is_superuser" value={true} onChange={() => setIsSuperuser(!isSuperuser)} checked={isSuperuser} />
                     </div>
@@ -188,7 +203,7 @@ const UserForm: FunctionComponent<{ show: boolean, onClose: Function }> = props 
                                         value: r.id
                                     };
                                 })} itemTemplate={role => <div key={role.id}>{role.name}</div>} onChange={(e) => {
-                                    const newUserRoleWorkspace = userRoleWorkspaces.slice(0);
+                                    let newUserRoleWorkspace = userRoleWorkspaces.slice(0);
                                     newUserRoleWorkspace[rowIndex].role = e.value;
                                     setUserRoleWorkspaces(newUserRoleWorkspace);
                                 }} />
