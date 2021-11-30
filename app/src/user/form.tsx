@@ -36,8 +36,8 @@ const UserForm: FunctionComponent<{ show: boolean, onClose: Function }> = props 
     const { userInEdition } = useAppSelector<UserState>(state => state.user)
 
     // get workspaces on overmind
-    const { data: workspaces, error: errorGetWorkspaces, isFetching: isFetchingWorkspaces } = useGetWorkspacesQuery();
-    const { data: roles, isFetching: isFetchingRole } = useGetRolesQuery();
+    const { data: workspaces } = useGetWorkspacesQuery();
+    const { data: roles } = useGetRolesQuery();
 
     const [createUser, { isError: createError, isSuccess: createSuccess }] = useCreateUserMutation();
     const [updateUser, { isError: updateError, isSuccess: updateSuccess }] = useUpdateUserMutation();

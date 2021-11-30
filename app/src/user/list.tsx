@@ -20,10 +20,10 @@ import { getURLForFile } from "../helper";
 const UserList: FunctionComponent<{}> = () => {
     const dispatch = useDispatch();
     const [showForm, setShowForm] = useState<boolean>(false);
-    const { data: users, error:errorGetUsers, isFetching:isFetchingUser, isLoading:isLoadingUser } = useGetUsersQuery();
-    const { data: roles, error:errorGetRoles, isFetching:isFetchingRole, isLoading:isLoadingRole } = useGetRolesQuery();
+    const { data: users, error:errorGetUsers } = useGetUsersQuery();
+    const { data: roles, isFetching:isFetchingRole } = useGetRolesQuery();
 
-    const [deleteUser, { isLoading: isDeleting, isError: deleteError, isSuccess: deleteSuccess }] = useDeleteUserMutation();
+    const [deleteUser, { isError: deleteError, isSuccess: deleteSuccess }] = useDeleteUserMutation();
 
     useEffect(() => {
         if (errorGetUsers) {
