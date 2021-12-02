@@ -1,6 +1,6 @@
 from django_filters import rest_framework as filters
 from rest_framework import serializers, viewsets
-from views import MunityWorkspaceViewSet
+from views import MunityViewSet
 
 from .models import Record
 
@@ -26,7 +26,7 @@ class RecordsFilter(filters.FilterSet):
         model = Record
 
 
-class RecordsViewSet(MunityWorkspaceViewSet):
+class RecordsViewSet(MunityViewSet):
     serializer_class = RecordSerializer
     filterset_class = RecordsFilter
 

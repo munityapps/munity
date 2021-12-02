@@ -1,18 +1,20 @@
 import uuid
 
-from django.db.models.functions import Lower
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.db.models.deletion import SET_NULL
 from django.db.models import F, Func
 from django_extensions.db.models import TimeStampedModel
+from ..models import MunityModel
 
 
 from ..models import MunityGroupableModel
 
-class User(AbstractUser, TimeStampedModel, MunityGroupableModel):
+class User(AbstractUser, MunityModel, MunityGroupableModel):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     avatar = models.ForeignKey("files.File", related_name="avatars", on_delete=models.CASCADE, blank=True, null=True, default=None)
+    # user are related to workspace by role., dont use munitymodel workspaces
+    workspace = None
 
     class Meta:
         ordering = (Func(F("username"), function='Lower'),)

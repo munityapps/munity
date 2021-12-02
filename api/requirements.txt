@@ -13,6 +13,7 @@ click-repl==0.2.0
 coreapi==2.3.3
 coreschema==0.0.4
 cryptography==3.4.8
+deepdiff==5.6.0
 defusedxml==0.7.1
 Django==3.2.7
 django-allow-cidr==0.3.1
@@ -38,6 +39,7 @@ kombu==5.1.0
 MarkupSafe==2.0.1
 netaddr==0.8.0
 oauthlib==3.1.1
+ordered-set==4.0.2
 packaging==21.0
 prompt-toolkit==3.0.20
 psycopg2==2.9.1

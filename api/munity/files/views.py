@@ -1,5 +1,5 @@
 from django_filters import rest_framework as filters
-from munity.views import MunityWorkspaceViewSet
+from munity.views import MunityViewSet
 from rest_framework import serializers
 from pprint import pprint
 
@@ -44,6 +44,6 @@ class FileFilter(filters.FilterSet):
         model = File
 
 
-class FileViewSet(MunityWorkspaceViewSet):
+class FileViewSet(MunityViewSet):
     serializer_class = FileSerializer
     filterset_class = FileFilter

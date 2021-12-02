@@ -2,7 +2,7 @@ from rest_framework import serializers, viewsets
 from django_filters import rest_framework as filters
 from django.db.models import Q
 
-from ..views import MunityWorkspaceViewSet
+from ..views import MunityViewSet
 
 from .models import Settings
 
@@ -29,6 +29,6 @@ class SettingsFilter(filters.FilterSet):
         model = Settings
 
 
-class SettingsViewSet(MunityWorkspaceViewSet):
+class SettingsViewSet(MunityViewSet):
     serializer_class = SettingsSerializer
     filterset_class = SettingsFilter

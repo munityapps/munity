@@ -21,6 +21,6 @@ class Migration(migrations.Migration):
             options={
                 'abstract': False,
             },
-            bases=(munity.views.MunityWorkspaceViewSet, models.Model),
+            bases=(munity.views.MunityViewSet, models.Model),
         ),
     ]

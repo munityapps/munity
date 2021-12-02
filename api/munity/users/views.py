@@ -1,9 +1,19 @@
+from functools import partial
 from django_filters import rest_framework as filters
 from ..files.views import FileSerializer
 from rest_framework import serializers, viewsets
 from django.db.models.query_utils import Q
 from .models import User, UserRoleWorkspace
 from ..models import MunityGroupableModel
+from ..workspaces.models import Workspace
+from django.contrib.contenttypes.models import ContentType
+
+from ..utils import UUIDEncoder
+from ..records.models import Record
+from deepdiff import DeepDiff
+import json
+
+from ..views import MunityViewSet
 
 
 class UserRoleWorkspaceSerializer(serializers.ModelSerializer):
@@ -34,6 +44,7 @@ class UserSerializer(serializers.ModelSerializer):
             }
         }
 
+    password=serializers.CharField(required=False)
     user_role_workspaces = UserRoleWorkspaceSerializer(many=True)
 
     # We show full avatar in formation on get, on update we only use doc id
@@ -88,13 +99,13 @@ class UsersFilter(filters.FilterSet):
         }
         model = User
 
-class UsersViewSet(viewsets.ModelViewSet, MunityGroupableModel):
+class UsersViewSet(MunityViewSet, MunityGroupableModel):
     serializer_class = UserSerializer
     filterset_class = UsersFilter
+
     def get_queryset(self):
         model = self.serializer_class.Meta.model
         if "workspace_pk" in self.kwargs:
             return model.objects.filter(Q(id=self.request.user.id) | Q(user_role_workspaces__workspace=self.kwargs["workspace_pk"]))
         return model.objects.filter(is_superuser=True)
-
 

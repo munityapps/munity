@@ -4,6 +4,7 @@ import uuid
 
 from django.db import models
 from django_extensions.db.models import TimeStampedModel
+from django.db.models.signals import post_save
 
 
 class MunityModel(TimeStampedModel):
@@ -23,7 +24,6 @@ class MunityModel(TimeStampedModel):
 
     def __str__(self):
         return f"{self.id}@{self.workspace or 'overmind'}"
-
 
 class MunityGroupableModel(models.Model):
     """

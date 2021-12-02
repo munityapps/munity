@@ -1,5 +1,5 @@
 from django_filters import rest_framework as filters
-from munity.views import MunityWorkspaceViewSet
+from munity.views import MunityViewSet
 from rest_framework import serializers
 
 from ..models import MunityGroupableModel
@@ -17,6 +17,13 @@ class GenericGroupSerializer(serializers.ModelSerializer):
         ]
         model = GenericGroup
 
+
+    def create(self, validated_data):
+        pass
+        # request = self.context.get("request")
+        # print(request)
+        # return serializers.ModelSerializer.create(validated_data)
+
 class GenericGroupsFilter(filters.FilterSet):
     class Meta:
         fields = {
@@ -29,6 +36,6 @@ class GenericGroupsFilter(filters.FilterSet):
         model = GenericGroup
 
 
-class GenericGroupsViewSet(MunityWorkspaceViewSet):
+class GenericGroupsViewSet(MunityViewSet):
     serializer_class = GenericGroupSerializer
     filterset_class = GenericGroupsFilter
