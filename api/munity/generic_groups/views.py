@@ -2,7 +2,6 @@ from django_filters import rest_framework as filters
 from munity.views import MunityViewSet
 from rest_framework import serializers
 
-from ..models import MunityGroupableModel
 from .models import GenericGroup
 
 class GenericGroupSerializer(serializers.ModelSerializer):

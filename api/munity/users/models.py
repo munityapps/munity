@@ -8,13 +8,12 @@ from django_extensions.db.models import TimeStampedModel
 from ..models import MunityModel
 
 
-from ..models import MunityGroupableModel
-
-class User(AbstractUser, MunityModel, MunityGroupableModel):
+class User(AbstractUser, MunityModel):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     avatar = models.ForeignKey("files.File", related_name="avatars", on_delete=models.CASCADE, blank=True, null=True, default=None)
     # user are related to workspace by role., dont use munitymodel workspaces
     workspace = None
+    has_overmind_access = models.BooleanField(default=False, blank=True)
 
     class Meta:
         ordering = (Func(F("username"), function='Lower'),)

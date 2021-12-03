@@ -1,5 +1,5 @@
 export const getAPIUrl = () => {
-    return `${window.location.protocol}//api.${window.location.hostname}/v1/`;
+    return `${window.location.protocol}//api.${window.location.hostname}/v1`;
 }
 
 export const getURLForFile= (filePath:string) => {

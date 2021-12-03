@@ -15,6 +15,7 @@ class MunityModel(TimeStampedModel):
     """
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    generic_groups = models.ManyToManyField('generic_groups.GenericGroup', blank=True)
     workspace = models.ForeignKey(
         "workspaces.Workspace", to_field="slug", on_delete=models.CASCADE, null=True, blank=True
     )
@@ -24,16 +25,3 @@ class MunityModel(TimeStampedModel):
 
     def __str__(self):
         return f"{self.id}@{self.workspace or 'overmind'}"
-
-class MunityGroupableModel(models.Model):
-    """
-    Default base class for munity models
-    use uuid for ids
-    add creation and update date
-    add logs
-    add groups
-    """
-    generic_groups = models.ManyToManyField('generic_groups.GenericGroup', blank=True)
-
-    class Meta:
-        abstract = True

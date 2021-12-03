@@ -4,8 +4,9 @@ import { Button } from 'primereact/button';
 
 const MunityDialog:FunctionComponent<PropsWithChildren<{visible:boolean, title:string, onSave:Function, onHide:Function}>> = props => {
     const footerButtons = <Button label="Save" icon="pi pi-check" onClick={() => {
-        props.onSave();
-        props.onHide();
+        if(props.onSave()) {
+            props.onHide();
+        }
     }} />;
 
     return <Dialog

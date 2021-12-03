@@ -86,12 +86,12 @@ const WorkspaceForm: FunctionComponent<{show:boolean, onClose:Function}> = props
                         <InputText readOnly={workspaceInEdition} id="slug" type="text" value={slug} onChange={(e) => setSlug(e.target.value)} />
                     </div>
                 </div>
-                <div className="p-field p-grid">
+                {/* <div className="p-field p-grid">
                     <label htmlFor="lastname4" className="p-col-12 p-md-2">DB Connection</label>
                     <div className="p-col-12 p-md-10">
                         <InputText id="db_connection" type="text" value={dbConnection} onChange={(e) => setDbConnection(e.target.value)} />
                     </div>
-                </div>
+                </div> */}
             </div>
         </MunityDialog>
     </>;

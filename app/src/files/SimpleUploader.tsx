@@ -6,6 +6,7 @@ import { getAPIUrl, getWorkspaceEndpoint } from '../helper';
 const SimpleUploader: React.FC<{
     onUpload?:(e: FileUploadUploadParams) => void,
     onSelect?:(e: FileUploadSelectParams) => void,
+    label?:string,
     url?:string,
     maxFileSize?: number,
     uploadHandler?: Function,
@@ -25,7 +26,7 @@ const SimpleUploader: React.FC<{
         maxFileSize={props.maxFileSize || 8000000}
         onUpload={props.onUpload}
         auto={props.auto}
-        chooseLabel="Envoyer un fichier"
+        chooseLabel={props.label ? props.label : "Envoyer un fichier"}
     />
 }
 

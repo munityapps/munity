@@ -3,6 +3,9 @@ from django.db import models
 
 
 class Workspace(TimeStampedModel):
+    class Meta:
+        ordering = ("slug",)
+
     slug = models.SlugField(primary_key=True, max_length=50, unique=True)
     db_connection = models.CharField(max_length=100, blank=True, null=True)
 

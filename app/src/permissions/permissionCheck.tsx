@@ -69,8 +69,8 @@ const PermissionCheck: React.FC<{
             // check if current user has access
             console.log('Cheking if user has access ', currentUser);
             if (currentUser) {
-                // case 1 : user has access to overmind
-                if (currentUser.is_superuser) {
+                // case 1 : user is a superuser or a staff member
+                if (currentUser.is_superuser || currentUser.has_overmind_access) {
                     // do nothing, he is a great guy!
                     dispatch(setAccessGranted(true));
                     return;
@@ -83,6 +83,7 @@ const PermissionCheck: React.FC<{
                         message: 'Logging out, access to nothing'
                     }))
                     dispatch(logout());
+                    return;
                 }
                 const pathname = location.pathname;
                 const re = new RegExp('/workspace/([^/]+)');

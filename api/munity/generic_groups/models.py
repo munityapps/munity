@@ -1,8 +1,8 @@
 from django.db import models
 
-from ..models import MunityGroupableModel, MunityModel
+from ..models import MunityModel
 
-class GenericGroup(MunityModel, MunityGroupableModel):
+class GenericGroup(MunityModel):
     label = models.CharField(max_length=255)
     class Meta:
         verbose_name="Generic group"

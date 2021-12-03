@@ -1,17 +1,9 @@
-from functools import partial
 from django_filters import rest_framework as filters
 from ..files.views import FileSerializer
-from rest_framework import serializers, viewsets
+from rest_framework import serializers
 from django.db.models.query_utils import Q
 from .models import User, UserRoleWorkspace
-from ..models import MunityGroupableModel
-from ..workspaces.models import Workspace
-from django.contrib.contenttypes.models import ContentType
-
-from ..utils import UUIDEncoder
-from ..records.models import Record
-from deepdiff import DeepDiff
-import json
+from rest_framework.exceptions import PermissionDenied
 
 from ..views import MunityViewSet
 
@@ -32,6 +24,7 @@ class UserSerializer(serializers.ModelSerializer):
             "created",
             "avatar",
             "is_superuser",
+            "has_overmind_access",
             "modified",
             "generic_groups",
             "user_role_workspaces",
@@ -99,13 +92,87 @@ class UsersFilter(filters.FilterSet):
         }
         model = User
 
-class UsersViewSet(MunityViewSet, MunityGroupableModel):
+class UsersViewSet(MunityViewSet):
     serializer_class = UserSerializer
     filterset_class = UsersFilter
 
+    def destroy(self, request, pk=None, workspace_pk=None):
+        # we have to check if an "has_overmind_access" user can update this user
+        if request.user.has_overmind_access and not request.user.is_superuser:
+            accessible_workspaces = UserRoleWorkspace.objects.filter(user=self.request.user)
+            workspace_slugs = []
+            for accessible_workspace in accessible_workspaces:
+                workspace_slugs.append(accessible_workspace.workspace)
+            user_to_delete = self.serializer_class.Meta.model.objects.filter(
+                id=pk,
+                user_role_workspaces__in=UserRoleWorkspace.objects.filter(workspace__in=workspace_slugs)
+            ).first()
+            if not user_to_delete:
+                raise PermissionDenied({"message":"You don't have permission to access"})
+        response = super().destroy(request, pk=pk , workspace_pk=workspace_pk)
+        return response
+
+    def create(self, request, workspace_pk=None):
+        # user with overmind access only can only create user for there workspace
+        if request.user.has_overmind_access and not request.user.is_superuser:
+            if request.data.get('is_superuser'):
+                raise PermissionDenied({"message":"You cannot create superuser"})
+
+            accessible_workspaces = UserRoleWorkspace.objects.filter(user=self.request.user)
+            workspace_slugs = []
+            for accessible_workspace in accessible_workspaces:
+                workspace_slugs.append(accessible_workspace.workspace.slug)
+            user_role_workspaces = request.data.get('user_role_workspaces')
+            if not user_role_workspaces:
+                raise PermissionDenied({"message":"Cannot create user without roles"})
+            for user_role_workspace in user_role_workspaces:
+                if user_role_workspace.get('workspace') not in workspace_slugs:
+                    raise PermissionDenied({"message":"You don't have permission to access"})
+        response = super().create(request, workspace_pk)
+
+        return response
+
+    def update(self, request, workspace_pk=None, pk=None, partial=False):
+        # user with overmind access only can only create user for there workspace
+        if request.user.has_overmind_access and not request.user.is_superuser:
+            if request.data.get('is_superuser'):
+                raise PermissionDenied({"message":"You cannot create superuser"})
+
+            accessible_workspaces = UserRoleWorkspace.objects.filter(user=self.request.user)
+            workspace_slugs = []
+            for accessible_workspace in accessible_workspaces:
+                workspace_slugs.append(accessible_workspace.workspace.slug)
+
+            user_role_workspaces = request.data.get('user_role_workspaces')
+            for user_role_workspace in user_role_workspaces:
+                if user_role_workspace.get('workspace') not in workspace_slugs:
+                    raise PermissionDenied({"message":"You don't have permission to change this access"})
+        response = super().update(request, pk=pk, workspace_pk=workspace_pk, partial=partial)
+
+        return response
+
+    # since user access workspaces by role, we have to adapt access permission through role and not workpace FK
     def get_queryset(self):
         model = self.serializer_class.Meta.model
         if "workspace_pk" in self.kwargs:
             return model.objects.filter(Q(id=self.request.user.id) | Q(user_role_workspaces__workspace=self.kwargs["workspace_pk"]))
-        return model.objects.filter(is_superuser=True)
+        # WE ARE ON OVERMIND!
+        else:
+            # super user see all overmind users
+            if self.request.user.is_superuser:
+                # return model.objects.filter(Q(is_superuser=True) | Q(has_overmind_access=True))
+                return model.objects.all()
+            # staff see user from his workspaces
+            if self.request.user.has_overmind_access:
+                # getting accessible workspaces
+                accessible_workspaces = UserRoleWorkspace.objects.filter(user=self.request.user)
+                workspace_slugs = []
+                for accessible_workspace in accessible_workspaces:
+                    workspace_slugs.append(accessible_workspace.workspace)
+                # get all related roles
+                return model.objects.filter(
+                    user_role_workspaces__in=UserRoleWorkspace.objects.filter(workspace__in=workspace_slugs)
+                )
+            # users see nothing
+            return None
 

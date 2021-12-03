@@ -3,7 +3,6 @@ from munity.views import MunityViewSet
 from rest_framework import serializers
 from pprint import pprint
 
-from ..models import MunityGroupableModel
 from .models import File
 
 class FileSerializer(serializers.ModelSerializer):

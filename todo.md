@@ -18,7 +18,7 @@
 [x] Add permisions check from role
 
 ## Records
-[ ] Record MunityModel event
+[x] Record MunityModel event
 
 ## Invitation
 [ ] Creation invitation system
@@ -27,14 +27,13 @@
 [x] Tout Munity ont un workspace DEMO avec des seeds
 
 
-## Add celery system
 [x] Deplacer le menu a overmind gauche
 [x] Le root de overmind est le template atlantis
 [x] Ouvrir l'app dans un nouvel onglet
-[ ] Arriver sur la page de map de keyoss sur le preview de "DEMO"
+[x] Arriver sur la page de map de keyoss sur le preview de "DEMO"
 [x] Mettre en grisé Admin / Deployment et me nu en haut
 [x] Changer l nom du user...
 
-## User management
+[ ] Workspace settings
 [x] Set role workspace role to users
 [ ] Refresh token

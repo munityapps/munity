@@ -64,6 +64,8 @@ munity/records/migrations/0005_remove_record_workspace.py
 munity/records/migrations/0006_record_workspace.py
 munity/records/migrations/0007_alter_record_workspace.py
 munity/records/migrations/0008_remove_record_model_name.py
+munity/records/migrations/0009_auto_20211202_1229.py
+munity/records/migrations/0010_auto_20211202_1252.py
 munity/records/migrations/__init__.py
 munity/settings/__init__.py
 munity/settings/admin.py

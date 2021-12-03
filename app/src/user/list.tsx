@@ -3,7 +3,7 @@ import moment from 'moment';
 import { Column } from 'primereact/column';
 import { Button } from "primereact/button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faTrash, faUserCog, faUserShield } from "@fortawesome/free-solid-svg-icons";
 import { faEdit } from '@fortawesome/free-regular-svg-icons';
 import MunityDataTable from '../layouts/components/MunityDataTable';
 import UserForm from './form';
@@ -96,28 +96,30 @@ const UserList: FunctionComponent<{}> = () => {
             dataKey="id"
             filters={{
                 'username': { operator: "and", constraints: [{ value: null, matchMode: "contains" }] },
-                'firstname': { operator: "and", constraints: [{ value: null, matchMode: "contains" }] },
-                'lastname': { operator: "and", constraints: [{ value: null, matchMode: "contains" }] },
+                // 'firstname': { operator: "and", constraints: [{ value: null, matchMode: "contains" }] },
+                // 'lastname': { operator: "and", constraints: [{ value: null, matchMode: "contains" }] },
                 'email': { operator: "and", constraints: [{ value: null, matchMode: "contains" }] },
                 'created': { operator: "and", constraints: [{ value: null, matchMode: "dateIs" }] }
             }}
             filterDisplay="menu"
-            globalFilterFields={['username', 'firstname', 'lastname', 'email', 'created']}
-            emptyMessage="No users found."
+            globalFilterFields={['username', /**'firstname', 'lastname', **/'email', 'created']}
+            emptyMessage="Aucun utilisteur trouvé."
         >
             <Column body={(user:User) =>
                 user?.avatar && (typeof user.avatar !== "string") ?
                     <Avatar className="p-mr-2" size="xlarge" image={getURLForFile(user.avatar.file)} /> :
                     <Avatar icon="pi pi-user" className="p-mr-2" size="xlarge" />
             } />
-            <Column field="username" header="Username" filter filterPlaceholder="Search by username" />
+            <Column field="username" header="Identifiant" filter filterPlaceholder="Rechercher par identifiant" />
             <Column field="email" header="Email" filter filterPlaceholder="Search by db email" />
-            <Column field="first_name" header="Firstname" filter filterPlaceholder="Search by firstname" />
-            <Column field="last_name" header="Lastname" filter filterPlaceholder="Search by lastname" />
-            <Column body={(user:User) => user.is_superuser ? <div style={{fontStyle:'italic'}}>All</div> : user.user_role_workspaces.map(role => {
+            {/* <Column field="first_name" header="Firstname" filter filterPlaceholder="Search by firstname" />
+            <Column field="last_name" header="Lastname" filter filterPlaceholder="Search by lastname" /> */}
+            <Column body={(user:User) => user.user_role_workspaces.map(role => {
                 return `${role.workspace} (${roles.results.find((r:Role) => r.id === role.role)?.name})`
-            }).join(", ")} header="Workspaces" filter filterPlaceholder="Search by workspaces" />
-            <Column field="created" body={user => <div>{moment(new Date(user.created)).fromNow()}</div>} header="Created at" filter filterPlaceholder="Search by date of creation" />
+            }).join(", ")} header="Projets" />
+            <Column field="created" body={user => <div>{moment(new Date(user.created)).fromNow()}</div>} header="Créé" />
+            <Column field="is_superuser" header="Administrateur" body={user => <div>{user.is_superuser? <FontAwesomeIcon icon={faUserShield}/> : ''}</div>}/>
+            <Column field="has_overmind_access" header="Gestionnaire" body={user => <div>{user.has_overmind_access ? <FontAwesomeIcon icon={faUserCog}/> : ''}</div>}/>
             <Column body={actions} bodyStyle={{ display: 'flex', justifyContent: 'flex-end' }} />
         </MunityDataTable>
     </>;

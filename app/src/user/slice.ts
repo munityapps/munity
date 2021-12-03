@@ -15,6 +15,7 @@ export interface User {
     id: string,
     avatar: File | string | undefined,
     is_superuser: boolean,
+    has_overmind_access: boolean,
     last_name: string,
     modified: Date,
     roles: string[],

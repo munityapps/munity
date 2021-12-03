@@ -18,7 +18,7 @@ class MunityViewSet(viewsets.ModelViewSet):
             return model.objects.filter(Q(workspace=None) | Q(workspace=self.kwargs["workspace_pk"]))
         return model.objects.all()
 
-    def destroy(self, request, workspace_pk=None, pk=None):
+    def destroy(self, request, pk=None, workspace_pk=None):
         deleted_model = self.serializer_class.Meta.model.objects.get(pk=pk)
         ctype = ContentType.objects.get_for_model(deleted_model)
         response = super().destroy(request, workspace_pk, pk=pk)
@@ -26,7 +26,7 @@ class MunityViewSet(viewsets.ModelViewSet):
             previous_value = None,
             diff_value = None,
             action = 'delete',
-            workspace = Workspace.objects.get(slug=workspace_pk),
+            workspace = Workspace.objects.filter(slug=workspace_pk).first(),
             user = request.user,
             product_object_id = pk,
             product_content_type = ctype
@@ -43,7 +43,7 @@ class MunityViewSet(viewsets.ModelViewSet):
             previous_value = None,
             diff_value = None,
             action = 'create',
-            workspace = Workspace.objects.get(slug=workspace_pk),
+            workspace = Workspace.objects.filter(slug=workspace_pk).first(),
             user = request.user,
             product_object_id = model_id,
             product_content_type = ctype
@@ -51,9 +51,9 @@ class MunityViewSet(viewsets.ModelViewSet):
         record.save()
         return response
 
-    def update(self, request, workspace_pk=None, pk=None, partial=False):
+    def update(self, request, pk=None, workspace_pk=None, partial=False):
         old_model = self.serializer_class.Meta.model.objects.get(pk=pk)
-        response = super().update(request, workspace_pk, pk)
+        response = super().update(request, pk=pk, workspace_pk=workspace_pk, partial=partial)
         new_model = self.serializer_class.Meta.model.objects.get(pk=pk)
         diff = DeepDiff(
             old_model,
@@ -66,7 +66,7 @@ class MunityViewSet(viewsets.ModelViewSet):
                 previous_value = json.dumps(self.serializer_class(old_model).data, cls=UUIDEncoder),
                 diff_value = diff,
                 action = 'update',
-                workspace = Workspace.objects.get(slug=workspace_pk),
+                workspace = Workspace.objects.filter(slug=workspace_pk).first(),
                 user = request.user,
                 product_object_id = pk,
                 product_content_type = ctype
