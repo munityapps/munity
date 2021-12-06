@@ -11,7 +11,7 @@ const NotificationManager = () => {
 
 	useEffect(() => {
 		if (newNotification) {
-			toast(newNotification.message, {
+			toast(t(newNotification.message), {
 				type: newNotification.type,
 				...newNotification.options
 			});

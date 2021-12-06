@@ -22,6 +22,7 @@
     "firstname": "Firstname",
     "lastname": "Lastname",
     "mail": "Mail",
+    "phone": "Phone number",
     "confirm_password": "Confirm password",
     "is_superuser": "Is super user",
     "has_overmind_access": "Is project manager",

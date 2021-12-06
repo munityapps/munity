@@ -10,6 +10,7 @@ export interface UserRoleWorkspace {
 export interface User {
     created: Date,
     email: string,
+    phone_number: string,
     first_name: string,
     generic_groups: string[],
     id: string,

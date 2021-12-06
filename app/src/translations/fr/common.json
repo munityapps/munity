@@ -22,6 +22,7 @@
     "firstname": "Prénom",
     "lastname": "Nom",
     "mail": "Email",
+    "phone": "Téléphone",
     "confirm_password": "Confirmatoin du mot de passe",
     "is_superuser": "Super administrateur",
     "has_overmind_access": "Administrateur",

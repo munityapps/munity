@@ -7,16 +7,18 @@ import { logout } from '../../../authentication/slice';
 import UserForm from '../../../user/form';
 import { setUserInEdition } from '../../../user/slice';
 import { getURLForFile } from '../../../helper';
+import { useTranslation } from 'react-i18next';
 
 const NavbarRight = () => {
     let menu = useRef<Menu>(null);
     const dispatch = useAppDispatch();
     const currentUser = useAppSelector(state => state.authentication.currentUser)
     const [showForm, setShowForm] = useState<boolean>(false);
+    const { t } = useTranslation();
 
     return <div className="right-part">
         <div className="hi-message">
-            Hi, &nbsp;<strong>{currentUser?.username}</strong>
+            {t('common:hi')}, &nbsp;<strong>{currentUser?.username}</strong>
         </div>
         <UserForm show={showForm} onClose={() => {
             setShowForm(false);

@@ -29,6 +29,7 @@ class UserSerializer(serializers.ModelSerializer):
             "generic_groups",
             "user_role_workspaces",
             "password",
+            "phone_number"
         ]
         model = User
         extra_kwargs = {

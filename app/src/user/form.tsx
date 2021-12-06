@@ -27,6 +27,7 @@ const UserForm: FunctionComponent<{ show: boolean, onClose: Function }> = props 
     const dispatch = useDispatch();
     const [firstname, setFirstname] = useState<string>("");
     const [lastname, setLastname] = useState<string>("");
+    const [phone, setPhone] = useState<string>("");
     const [email, setEmail] = useState<string>("");
     const [errorField, setErrorField] = useState<string[]>([]);
     const [username, setUsername] = useState<string>("");
@@ -60,7 +61,7 @@ const UserForm: FunctionComponent<{ show: boolean, onClose: Function }> = props 
         if (updateSuccess) {
             dispatch(addNotification({
                 type: 'success',
-                message: 'User updated'
+                message: t('error:User updated')
             }));
         }
     }, [updateSuccess, dispatch]);
@@ -70,7 +71,7 @@ const UserForm: FunctionComponent<{ show: boolean, onClose: Function }> = props 
         if (createSuccess) {
             dispatch(addNotification({
                 type: 'success',
-                message: 'User created'
+                message: t('error:User created')
             }));
         }
     }, [createSuccess, dispatch]);
@@ -79,7 +80,7 @@ const UserForm: FunctionComponent<{ show: boolean, onClose: Function }> = props 
         if (createError) {
             dispatch(addNotification({
                 type: 'error',
-                message: 'Cannot create user'
+                message: t('error:Cannot create user')
             }));
         }
     }, [createError, dispatch]);
@@ -91,6 +92,7 @@ const UserForm: FunctionComponent<{ show: boolean, onClose: Function }> = props 
             setLastname(userInEdition.last_name);
             setUsername(userInEdition.username);
             setEmail(userInEdition.email);
+            setPhone(userInEdition.phone_number || '');
             setIsSuperuser(userInEdition.is_superuser);
             setHasOvermindAccess(userInEdition.has_overmind_access);
             setUserRoleWorkspaces(userInEdition.user_role_workspaces);
@@ -101,6 +103,7 @@ const UserForm: FunctionComponent<{ show: boolean, onClose: Function }> = props 
             setLastname('');
             setUsername('');
             setEmail('');
+            setPhone('');
             setIsSuperuser(false);
             setHasOvermindAccess(false);
             setUploadedAvatar(undefined);
@@ -154,6 +157,7 @@ const UserForm: FunctionComponent<{ show: boolean, onClose: Function }> = props 
             const user: Partial<User> = {
                 first_name: firstname,
                 last_name: lastname,
+                phone_number: phone,
                 username,
                 is_superuser: isSuperuser,
                 has_overmind_access: hasOvermindAccess,
@@ -168,6 +172,7 @@ const UserForm: FunctionComponent<{ show: boolean, onClose: Function }> = props 
             user.first_name = firstname;
             user.last_name = lastname;
             user.username = username;
+            user.phone_number= phone;
             user.user_role_workspaces = userRoleWorkspaces.filter(ws_role => ws_role.workspace !== '' && ws_role.role !== '') || [];
             user.is_superuser = isSuperuser;
             user.has_overmind_access = hasOvermindAccess;
@@ -220,6 +225,12 @@ const UserForm: FunctionComponent<{ show: boolean, onClose: Function }> = props 
                     <label htmlFor="firstname4" className="p-col-12 p-md-2">{t('common:mail')}</label>
                     <div className="p-col-12 p-md-10">
                         <InputText id="email" type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
+                    </div>
+                </div>
+                <div className="p-field p-grid">
+                    <label htmlFor="phone" className="p-col-12 p-md-2">{t('common:phone')}</label>
+                    <div className="p-col-12 p-md-10">
+                        <InputText id="phone" type="text" value={phone} onChange={(e) => setPhone(e.target.value)} />
                     </div>
                 </div>
                 <div className="p-field p-grid">
