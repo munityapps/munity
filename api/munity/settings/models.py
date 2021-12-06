@@ -6,7 +6,6 @@ from ..models import MunityModel
 class Settings(MunityModel):
     key = models.CharField(max_length=100)
     value = models.JSONField()
-    # workspace from MunityModel
 
     def __str__(self):
         return f"{self.key}@{self.workspace or 'overmind'}"

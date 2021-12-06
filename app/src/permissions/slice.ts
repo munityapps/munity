@@ -2,8 +2,8 @@ import { sliceFactory } from '../factory/slice';
 
 export interface Ressource {
     id: number,
-    app_mode: string,
-    label: string,
+    app_label: string,
+    model: string,
 }
 
 export interface Permission {

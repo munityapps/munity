@@ -38,9 +38,9 @@ const MunityDataTable : React.FunctionComponent<DataTableProps & {createNew:Mous
 
     const header = <div className="p-d-flex p-jc-between">
         <div>
-            <Button type="button" icon="pi pi-plus" label="New" className="p-button" onClick={props.createNew} />
+            <Button type="button" icon="pi pi-plus" label="Nouveau" className="p-button" onClick={props.createNew} />
             &nbsp;
-            <Button type="button" icon="pi pi-filter-slash" label="Clear" className="p-button-outlined" onClick={initFilters} />
+            <Button type="button" icon="pi pi-filter-slash" label="Effacer les filtres" className="p-button-outlined" onClick={initFilters} />
         </div>
         <span className="p-input-icon-left">
             <i className="pi pi-search" />

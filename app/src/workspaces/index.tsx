@@ -20,6 +20,7 @@ const Workspace = (props: { navbar:JSX.Element, newRoutes: Partial<Route>[] }) =
             <Switch>
                 {props.newRoutes}
                 <Route path="/workspace/:workspace_slug/users" component={Users} />
+                <Route path="/workspace/:workspace_slug/" component={Users} />
             </Switch>
         </div>
     </>

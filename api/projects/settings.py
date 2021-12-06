@@ -168,6 +168,7 @@ SIMPLE_JWT = {
     "REFRESH_TOKEN_LIFETIME": timedelta(
         minutes=env.int("ACCESS_TOKEN_LIFETIME", default=60 * 60 * 24 * 14)
     ),
+    "ROTATE_REFRESH_TOKENS": True,
     "AUTH_HEADER_TYPES": ("JWT", "Bearer"),
     "USER_ID_FIELD": "id",
 }

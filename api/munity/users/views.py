@@ -50,14 +50,18 @@ class UserSerializer(serializers.ModelSerializer):
         if 'user_role_workspaces' in validated_data:
             user_role_workspaces_data = validated_data.pop('user_role_workspaces')
 
-            user_workspaces = []
+            # add new rights
+            user_new_workspaces = []
             for user_role_workspace_data in user_role_workspaces_data:
-                user_workspaces.append(user_role_workspace_data.get("workspace"))
+                workspace = user_role_workspace_data.get("workspace")
+                user_new_workspaces.append(workspace)
+                UserRoleWorkspace.objects.filter(user=instance).filter(workspace=workspace).delete()
                 UserRoleWorkspace.objects.update_or_create(
                     user=instance, **user_role_workspace_data
                 )
-            # remove removed rights
-            UserRoleWorkspace.objects.filter(user=instance).exclude(workspace__in=user_workspaces).delete()
+
+            # remove revoked rights
+            UserRoleWorkspace.objects.filter(user=instance).exclude(workspace__in=user_new_workspaces).delete()
 
         user = super(self.__class__, self).update(instance, validated_data)
         if 'password' in validated_data:
@@ -97,8 +101,9 @@ class UsersViewSet(MunityViewSet):
     filterset_class = UsersFilter
 
     def destroy(self, request, pk=None, workspace_pk=None):
-        # we have to check if an "has_overmind_access" user can update this user
-        if request.user.has_overmind_access and not request.user.is_superuser:
+        # we suppose that user as permission USER DELETE for current workspace
+        # but we need to perform some sanity check
+        if not request.user.is_superuser:
             accessible_workspaces = UserRoleWorkspace.objects.filter(user=self.request.user)
             workspace_slugs = []
             for accessible_workspace in accessible_workspaces:
@@ -108,13 +113,14 @@ class UsersViewSet(MunityViewSet):
                 user_role_workspaces__in=UserRoleWorkspace.objects.filter(workspace__in=workspace_slugs)
             ).first()
             if not user_to_delete:
-                raise PermissionDenied({"message":"You don't have permission to access"})
+                raise PermissionDenied({"message":"You cannot remove user, you don't have any workspace in common"})
         response = super().destroy(request, pk=pk , workspace_pk=workspace_pk)
         return response
 
     def create(self, request, workspace_pk=None):
-        # user with overmind access only can only create user for there workspace
-        if request.user.has_overmind_access and not request.user.is_superuser:
+        # we suppose that user as permission USER CREATE for current workspace
+        # but we need to perform some sanity check
+        if not request.user.is_superuser:
             if request.data.get('is_superuser'):
                 raise PermissionDenied({"message":"You cannot create superuser"})
 
@@ -127,28 +133,38 @@ class UsersViewSet(MunityViewSet):
                 raise PermissionDenied({"message":"Cannot create user without roles"})
             for user_role_workspace in user_role_workspaces:
                 if user_role_workspace.get('workspace') not in workspace_slugs:
-                    raise PermissionDenied({"message":"You don't have permission to access"})
+                    raise PermissionDenied({"message":"You don't have permission to add user on this workspace"})
         response = super().create(request, workspace_pk)
 
         return response
 
     def update(self, request, workspace_pk=None, pk=None, partial=False):
-        # user with overmind access only can only create user for there workspace
-        if request.user.has_overmind_access and not request.user.is_superuser:
+        # we suppose that user as permission USER UPDATE for current workspace
+        # but we need to perform some sanity check
+        if not request.user.is_superuser:
             if request.data.get('is_superuser'):
-                raise PermissionDenied({"message":"You cannot create superuser"})
+                raise PermissionDenied({"message":"You cannot grant superuser privilege"})
 
-            accessible_workspaces = UserRoleWorkspace.objects.filter(user=self.request.user)
-            workspace_slugs = []
-            for accessible_workspace in accessible_workspaces:
-                workspace_slugs.append(accessible_workspace.workspace.slug)
+            edited_user = self.get_queryset().filter(pk=pk).first()
+            if edited_user is None:
+                raise PermissionDenied({"message":"You cannot see this user"})
 
-            user_role_workspaces = request.data.get('user_role_workspaces')
-            for user_role_workspace in user_role_workspaces:
-                if user_role_workspace.get('workspace') not in workspace_slugs:
-                    raise PermissionDenied({"message":"You don't have permission to change this access"})
+            if edited_user.is_superuser:
+                raise PermissionDenied({"message":"You cannot edit superuser"})
+
+            # update role if needed
+            if 'user_role_workspaces' in request.data:
+                accessible_workspaces = UserRoleWorkspace.objects.filter(user=self.request.user)
+                workspace_slugs = []
+                for accessible_workspace in accessible_workspaces:
+                    workspace_slugs.append(accessible_workspace.workspace.slug)
+
+                user_role_workspaces = request.data.get('user_role_workspaces')
+                for user_role_workspace in user_role_workspaces:
+                    if user_role_workspace.get('workspace') not in workspace_slugs:
+                        raise PermissionDenied({"message":"You don't have permission to change this access"})
+
         response = super().update(request, pk=pk, workspace_pk=workspace_pk, partial=partial)
-
         return response
 
     # since user access workspaces by role, we have to adapt access permission through role and not workpace FK
@@ -175,4 +191,3 @@ class UsersViewSet(MunityViewSet):
                 )
             # users see nothing
             return None
-

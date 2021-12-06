@@ -17,12 +17,6 @@ class GenericGroupSerializer(serializers.ModelSerializer):
         model = GenericGroup
 
 
-    def create(self, validated_data):
-        pass
-        # request = self.context.get("request")
-        # print(request)
-        # return serializers.ModelSerializer.create(validated_data)
-
 class GenericGroupsFilter(filters.FilterSet):
     class Meta:
         fields = {

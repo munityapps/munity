@@ -12,7 +12,7 @@ export const getWorkspaceEndpoint = (endpoint:string) => {
     const result = pathname.match(re);
     const workspace = result ? result[1] : null;
     if (workspace) {
-        return `workspaces/${workspace}${endpoint}`
+        return `/workspaces/${workspace}${endpoint}`
     } else {
         return endpoint;
     }

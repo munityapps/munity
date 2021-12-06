@@ -3,6 +3,8 @@ from rest_framework import viewsets
 from deepdiff import DeepDiff
 from django.db.models.query_utils import Q
 
+from rest_framework.response import Response
+
 from .workspaces.models import Workspace
 from .records.models import Record
 
@@ -14,14 +16,23 @@ import json
 class MunityViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         model = self.serializer_class.Meta.model
+
+        # filter request to current model workspace
         if "workspace_pk" in self.kwargs:
-            return model.objects.filter(Q(workspace=None) | Q(workspace=self.kwargs["workspace_pk"]))
+            return model.objects.filter(workspace=self.kwargs["workspace_pk"])
         return model.objects.all()
 
     def destroy(self, request, pk=None, workspace_pk=None):
+        # store model that will be deleted
         deleted_model = self.serializer_class.Meta.model.objects.get(pk=pk)
+
+        # get its content type
         ctype = ContentType.objects.get_for_model(deleted_model)
-        response = super().destroy(request, workspace_pk, pk=pk)
+
+        # destroy item
+        response = super().destroy(request=request, workspace_pk=workspace_pk, pk=pk)
+
+        # record the vicious action!
         record = Record.objects.create(
             previous_value = None,
             diff_value = None,
@@ -35,7 +46,16 @@ class MunityViewSet(viewsets.ModelViewSet):
         return response
 
     def create(self, request, workspace_pk=None):
-        response = super().create(request, workspace_pk)
+        # getting workspace
+        current_workspace = Workspace.objects.filter(slug=workspace_pk).first()
+
+        # add new workspace params
+        request.data['workspace'] = current_workspace
+
+        # get response
+        response = super().create(request=request, workspace_pk=workspace_pk)
+
+        # storing record
         model_id = dict(response.data).get('id')
         new_model = self.serializer_class.Meta.model.objects.get(pk=model_id)
         ctype = ContentType.objects.get_for_model(new_model)
@@ -43,7 +63,7 @@ class MunityViewSet(viewsets.ModelViewSet):
             previous_value = None,
             diff_value = None,
             action = 'create',
-            workspace = Workspace.objects.filter(slug=workspace_pk).first(),
+            workspace = current_workspace,
             user = request.user,
             product_object_id = model_id,
             product_content_type = ctype
@@ -52,15 +72,26 @@ class MunityViewSet(viewsets.ModelViewSet):
         return response
 
     def update(self, request, pk=None, workspace_pk=None, partial=False):
+        # for now we API cannot move item across workspace, we dont add workspace to serializer
+
+        # keep a record for old data
         old_model = self.serializer_class.Meta.model.objects.get(pk=pk)
+
+        # update model
         response = super().update(request, pk=pk, workspace_pk=workspace_pk, partial=partial)
+
+        # get new data
         new_model = self.serializer_class.Meta.model.objects.get(pk=pk)
+
+        # calculate diff
         diff = DeepDiff(
             old_model,
             new_model,
             exclude_paths=["root.modified"]
         )
         ctype = ContentType.objects.get_for_model(old_model)
+
+        # store record if change was made
         if diff:
             record = Record.objects.create(
                 previous_value = json.dumps(self.serializer_class(old_model).data, cls=UUIDEncoder),

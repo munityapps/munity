@@ -25,12 +25,14 @@ munity/authorization/migrations/0003_auto_20211017_2031.py
 munity/authorization/migrations/0004_auto_20211017_2104.py
 munity/authorization/migrations/0005_auto_20211017_2105.py
 munity/authorization/migrations/0006_auto_20211019_0904.py
+munity/authorization/migrations/0007_auto_20211202_2134.py
 munity/authorization/migrations/__init__.py
 munity/files/__init__.py
 munity/files/apps.py
 munity/files/models.py
 munity/files/views.py
 munity/files/migrations/0001_initial.py
+munity/files/migrations/0002_file_generic_groups.py
 munity/files/migrations/__init__.py
 munity/generic_groups/__init__.py
 munity/generic_groups/admin.py
@@ -75,6 +77,7 @@ munity/settings/tests.py
 munity/settings/views.py
 munity/settings/migrations/0001_initial.py
 munity/settings/migrations/0002_alter_settings_workspace.py
+munity/settings/migrations/0003_settings_generic_groups.py
 munity/settings/migrations/__init__.py
 munity/users/__init__.py
 munity/users/admin.py
@@ -100,6 +103,8 @@ munity/users/migrations/0015_auto_20211118_2214.py
 munity/users/migrations/0016_auto_20211121_1907.py
 munity/users/migrations/0017_alter_user_options.py
 munity/users/migrations/0018_user_avatar.py
+munity/users/migrations/0019_user_has_overmind_access.py
+munity/users/migrations/0020_delete_usersviewset.py
 munity/users/migrations/__init__.py
 munity/workspaces/__init__.py
 munity/workspaces/admin.py
@@ -116,6 +121,10 @@ munity/workspaces/migrations/0006_auto_20211017_2105.py
 munity/workspaces/migrations/0007_delete_environmentconfig.py
 munity/workspaces/migrations/0008_alter_workspace_db_connection.py
 munity/workspaces/migrations/0009_alter_workspace_slug.py
+munity/workspaces/migrations/0010_alter_workspace_options.py
+munity/workspaces/migrations/0011_auto_20211206_0106.py
+munity/workspaces/migrations/0012_alter_workspace_name.py
+munity/workspaces/migrations/0013_alter_workspace_db_connection.py
 munity/workspaces/migrations/__init__.py
 munityapps.egg-info/PKG-INFO
 munityapps.egg-info/SOURCES.txt

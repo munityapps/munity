@@ -11,7 +11,7 @@ const NavbarCenter = () => {
     return <div className="middle-part">
         <Switch>
             <Route path="/workspace/:slug">
-                <Button onClick={() => history.push(`/workspace/${workspace_slug}/users`)} className={`p-button-link ${location.pathname.match(/^\/workspace\/[^/]+\/users/g) ? ' active' : ''}`}>Users</Button>
+                <Button onClick={() => history.push(`/workspace/${workspace_slug}/users`)} className={`p-button-link ${(location.pathname.match(/^\/workspace\/[^/]+\/users/g) || location.pathname.match(/^\/workspace\/[^/]+\/?/g)) ? ' active' : ''}`}>Users</Button>
             </Route>
         </Switch>
     </div>;

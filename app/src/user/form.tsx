@@ -92,6 +92,7 @@ const UserForm: FunctionComponent<{ show: boolean, onClose: Function }> = props 
             setIsSuperuser(userInEdition.is_superuser);
             setHasOvermindAccess(userInEdition.has_overmind_access);
             setUserRoleWorkspaces(userInEdition.user_role_workspaces);
+            setUploadedAvatar(undefined);
         } else {
             setErrorField([]);
             setFirstname('');
@@ -100,6 +101,7 @@ const UserForm: FunctionComponent<{ show: boolean, onClose: Function }> = props 
             setEmail('');
             setIsSuperuser(false);
             setHasOvermindAccess(false);
+            setUploadedAvatar(undefined);
             setUserRoleWorkspaces([{
                 workspace: '',
                 role: ''
@@ -180,10 +182,10 @@ const UserForm: FunctionComponent<{ show: boolean, onClose: Function }> = props 
             <div className="p-d-flex p-jc-center p-m-2">
                 {
                     uploadedAvatar ?
-                        <Avatar className="p-mr-2" size="xlarge" image={uploadedAvatar.file} /> :
+                        <Avatar shape="circle" className="p-mr-2" size="xlarge" image={uploadedAvatar.file} /> :
                         userInEdition?.avatar && (typeof userInEdition.avatar !== "string") ?
-                            <Avatar className="p-mr-2" size="xlarge" image={getURLForFile(userInEdition.avatar.file)} /> :
-                            <Avatar icon="pi pi-user" className="p-mr-2" size="xlarge" />
+                            <Avatar shape="circle" className="p-mr-2" size="xlarge" image={getURLForFile(userInEdition.avatar.file)} /> :
+                            <Avatar shape="circle" icon="pi pi-user" className="p-mr-2" size="xlarge" />
                 }
                 <SimpleUploader
                     onUpload={(e: FileUploadUploadParams) => {
@@ -261,7 +263,7 @@ const UserForm: FunctionComponent<{ show: boolean, onClose: Function }> = props 
                                     newUserRoleWorkspaces[rowIndex] = newUserRoleWorkspace;
                                     setUserRoleWorkspaces(newUserRoleWorkspaces);
                                 }} />
-                            }} header="Workspace" />
+                            }} header="Projet" />
                             <Column body={(role, { rowIndex }) => {
                                 return <SelectButton value={role.role} options={roles.results.map((r: Role) => {
                                     return {
@@ -275,7 +277,7 @@ const UserForm: FunctionComponent<{ show: boolean, onClose: Function }> = props 
                                     newUserRoleWorkspaces[rowIndex] = newUserRoleWorkspace;
                                     setUserRoleWorkspaces(newUserRoleWorkspaces);
                                 }} />
-                            }} header="Role" />
+                            }} header="Type de compte" />
                             <Column body={(role, { rowIndex }) => {
                                 if (role.role === '' || role.workspace === '') return null
                                 return <div>

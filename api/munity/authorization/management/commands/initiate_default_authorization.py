@@ -7,9 +7,9 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         self.stdout.write("Adding Owner, Admin and User role")
-        (owner_role, _) = Role.objects.update_or_create(
-            name="Owner"
-        )
+        # (owner_role, _) = Role.objects.update_or_create(
+        #     name="Owner"
+        # )
 
         (admin_role, _) = Role.objects.update_or_create(
             name="Admin"
@@ -20,7 +20,7 @@ class Command(BaseCommand):
         )
 
         # godmode=1
-        owner_role.permissions.set(Permission.objects.all())
+        # owner_role.permissions.set(Permission.objects.all())
         # can do everything but edit/create workspace
         admin_role.permissions.set(Permission.objects.exclude(
             Q(action=["delete", "update", "create"]) &

@@ -97,7 +97,7 @@ const WorkspaceList: FunctionComponent<{}> = () => {
             ).indexOf(props.workspace.slug) > -1
         ).map((u: User) => {
             return u.avatar && typeof u.avatar !== "string" ?
-                <Avatar className="p-mr-2" size="xlarge" image={getURLForFile(u.avatar.file)} /> :
+                <Avatar shape="circle" className="p-mr-2" size="xlarge" image={getURLForFile(u.avatar.file)} /> :
                 <Avatar icon="pi pi-user" className="p-mr-1" shape="circle" size="large" />
         })
 
@@ -111,10 +111,10 @@ const WorkspaceList: FunctionComponent<{}> = () => {
             </div>
             <div className="text">
                 <div className="title">
-                    {props.workspace.slug}
+                    {props.workspace.name}
                 </div>
                 <div className="metric">
-                    -
+                    {props.workspace.slug}
                 </div>
                 <div className="usedBy">
                     <AvatarGroup className="p-mb-3">
@@ -128,7 +128,7 @@ const WorkspaceList: FunctionComponent<{}> = () => {
 
     return <div className="workspace-wrapper">
         <div className="workspace-cards">
-            <div className="workspace-title">Workspace list</div>
+            <div className="workspace-title">Liste des projets</div>
             <WorkspaceForm show={showForm} onClose={() => setShowForm(false)} />
             {workspaces?.results.map(w => {
                 return <WorkspaceCard key={w.slug} workspace={w} />

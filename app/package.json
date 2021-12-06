@@ -1,6 +1,6 @@
 {
     "name": "munityapps",
-    "version": "0.2.19",
+    "version": "0.2.31",
     "description": "Frontend part of Munity - reduce technical debt and create your saas faster!",
     "author": "cyril@dbyzero.com",
     "private": false,
@@ -57,6 +57,7 @@
         "react-thunk": "^1.0.0",
         "react-toastify": "^8.0.2",
         "react-transition-group": "^4.4.2",
+        "slugify": "^1.6.3",
         "socket.io-client": "^4.0.1"
     },
     "devDependencies": {

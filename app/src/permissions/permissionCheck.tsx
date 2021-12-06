@@ -8,8 +8,8 @@ import jwtDecode from 'jwt-decode';
 import { useAppDispatch, useAppSelector } from '../hooks';
 
 // Redux
-import { useGetUsersQuery, User,  UserRoleWorkspace } from '../user/slice';
-import { logout,  setAccessGranted, setCurrentUser } from '../authentication/slice';
+import { useGetUsersQuery, User, UserRoleWorkspace } from '../user/slice';
+import { logout, refreshToken, setAccessGranted, setCurrentUser } from '../authentication/slice';
 import { addNotification } from '../notifications/slice';
 
 // Components
@@ -20,7 +20,7 @@ const PermissionCheck: React.FC<{
     const dispatch = useAppDispatch();
 
     // isReady is redux ready and api url set
-    const { JWTaccess, currentUser, accessGranted } = useAppSelector((state) => state.authentication);
+    const { JWTaccess, JWTrefresh, currentUser, accessGranted } = useAppSelector((state) => state.authentication);
     const { data: users, error: errorGetUsers } = useGetUsersQuery();
 
     const location = useLocation();
@@ -90,7 +90,8 @@ const PermissionCheck: React.FC<{
                 const result = pathname.match(re);
 
                 const redirectToFirstWorkspace = () => {
-                    history.push(`/workspace/${currentUser.user_role_workspaces[0].workspace}`)
+                    // history.push(`/workspace/${currentUser.user_role_workspaces[0].workspace}`)
+                    window.location.href = (`${window.location.protocol}//${window.location.host}/workspace/${currentUser.user_role_workspaces[0].workspace}`);
                 }
 
                 // case 3 : A user is on overmind, need to redirect
@@ -116,14 +117,21 @@ const PermissionCheck: React.FC<{
     }, [
         users,
         errorGetUsers,
-        JWTaccess,
         dispatch,
         currentUser,
         history,
         location.pathname
     ]);
 
-    if (!accessGranted) return <props.loadingWorkspace/>;
+    // finally we set the refresh token routune
+    useEffect(() => {
+        if (accessGranted) {
+            dispatch(refreshToken({refresh:JWTrefresh}));
+            setInterval(() => dispatch(refreshToken({refresh:JWTrefresh})), 10 * 60 * 1000);
+        }
+    }, [accessGranted, dispatch]);
+
+    if (!accessGranted) return <props.loadingWorkspace />;
 
     return <>{props.children}</>
 }

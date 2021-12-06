@@ -20,9 +20,6 @@
 ## Records
 [x] Record MunityModel event
 
-## Invitation
-[ ] Creation invitation system
-
 ## Add mail system
 [x] Tout Munity ont un workspace DEMO avec des seeds
 
@@ -34,6 +31,14 @@
 [x] Mettre en grisé Admin / Deployment et me nu en haut
 [x] Changer l nom du user...
 
-[ ] Workspace settings
-[x] Set role workspace role to users
-[ ] Refresh token
+[x] Workspace settings
+[x] Set role workspace\ role to users
+[x] Refresh token
+
+[x] Fix save on workspace
+[x] Clean les get unique (surement pb de workspace dans le get_queryset) pour les users
+[x] Utiliser les groupes pour ajouter des role aux users
+
+## Invitation
+[ ] Creation invitation system
+[ ] Logs

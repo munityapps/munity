@@ -5,6 +5,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 export interface Workspace {
     slug: string,
+    name: string,
     db_connection: string
 }
 

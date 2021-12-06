@@ -107,8 +107,8 @@ const UserList: FunctionComponent<{}> = () => {
         >
             <Column body={(user:User) =>
                 user?.avatar && (typeof user.avatar !== "string") ?
-                    <Avatar className="p-mr-2" size="xlarge" image={getURLForFile(user.avatar.file)} /> :
-                    <Avatar icon="pi pi-user" className="p-mr-2" size="xlarge" />
+                    <Avatar shape="circle" className="p-mr-2" size="xlarge" image={getURLForFile(user.avatar.file)} /> :
+                    <Avatar shape="circle" icon="pi pi-user" className="p-mr-2" size="xlarge" />
             } />
             <Column field="username" header="Identifiant" filter filterPlaceholder="Rechercher par identifiant" />
             <Column field="email" header="Email" filter filterPlaceholder="Search by db email" />
