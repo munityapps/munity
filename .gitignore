@@ -12,6 +12,11 @@ api/coverage
 api/.nyc_output
 api/uploads
 
+# TODO files
+todo.md
+todo.txt
+todo
+
 # Logs
 logs
 *.log
