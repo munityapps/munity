@@ -1,4 +1,13 @@
 {
 	"welcome": "Bienvenue !",
-	"welcome_text": "Bienvenue sur votre plateforme!"
+	"welcome_text": "Bienvenue sur votre plateforme!",
+    "drag_and_drop": "Glissez et déposez vos fichiers ici",
+    "send_a_file": "Envoyer un fichier",
+    "remove_filters": "Enlever les filtres",
+    "keyword_search": "Recherche globale",
+    "you_need": "Vous avez besoin de ",
+    "to_access_feature": " pour accéder à cette feature",
+    "change_avatar": "Changer d'avatar",
+    "user_form": "Formulaire utilisateur",
+    "are_you_sure": "Êtes vous sûrs de vouloir continuer"
 }

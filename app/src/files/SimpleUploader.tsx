@@ -2,6 +2,7 @@ import React from 'react';
 import { FileUpload, FileUploadBeforeSendParams, FileUploadHandlerParam, FileUploadSelectParams, FileUploadUploadParams } from 'primereact/fileupload';
 import { useAppSelector } from '../hooks';
 import { getAPIUrl, getWorkspaceEndpoint } from '../helper';
+import { useTranslation } from 'react-i18next';
 
 const SimpleUploader: React.FC<{
     onUpload?:(e: FileUploadUploadParams) => void,
@@ -13,6 +14,7 @@ const SimpleUploader: React.FC<{
     auto?: boolean,
 }> = props => {
     const { JWTaccess } = useAppSelector(state => state.authentication)
+    const { t } = useTranslation();
     return <FileUpload
         mode="basic"
         name="file"
@@ -26,7 +28,7 @@ const SimpleUploader: React.FC<{
         maxFileSize={props.maxFileSize || 8000000}
         onUpload={props.onUpload}
         auto={props.auto}
-        chooseLabel={props.label ? props.label : "Envoyer un fichier"}
+        chooseLabel={props.label ? props.label : t('app:send_a_file')}
     />
 }
 

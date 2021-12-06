@@ -40,11 +40,11 @@ const MunityDataTable : React.FunctionComponent<DataTableProps & {createNew:Mous
         <div>
             <Button type="button" icon="pi pi-plus" label="Nouveau" className="p-button" onClick={props.createNew} />
             &nbsp;
-            <Button type="button" icon="pi pi-filter-slash" label="Effacer les filtres" className="p-button-outlined" onClick={initFilters} />
+            <Button type="button" icon="pi pi-filter-slash" label={t('app:remove_filters')} className="p-button-outlined" onClick={initFilters} />
         </div>
         <span className="p-input-icon-left">
             <i className="pi pi-search" />
-            <InputText value={globalFilter} onChange={onGlobalFilterChange} placeholder={t('common: Keyword search')} />
+            <InputText value={globalFilter} onChange={onGlobalFilterChange} placeholder={t('app:keyword_search')} />
         </span>
     </div>
     return <DataTable

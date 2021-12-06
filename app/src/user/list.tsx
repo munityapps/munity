@@ -16,12 +16,14 @@ import { Avatar } from "primereact/avatar";
 import { Role, useGetRolesQuery } from "../permissions/slice";
 import { ProgressSpinner } from "primereact/progressspinner";
 import { getURLForFile } from "../helper";
+import { useTranslation } from "react-i18next";
 
 const UserList: FunctionComponent<{}> = () => {
     const dispatch = useDispatch();
     const [showForm, setShowForm] = useState<boolean>(false);
     const { data: users, error:errorGetUsers } = useGetUsersQuery();
     const { data: roles, isFetching:isFetchingRole } = useGetRolesQuery();
+    const { t } = useTranslation();
 
     const [deleteUser, { isError: deleteError, isSuccess: deleteSuccess }] = useDeleteUserMutation();
 
@@ -29,7 +31,7 @@ const UserList: FunctionComponent<{}> = () => {
         if (errorGetUsers) {
             dispatch(addNotification({
                 type: 'error',
-                message: 'Cannot get users'
+                message: t('errors:Cannot get users')
             }));
         }
     }, [errorGetUsers, dispatch]);
@@ -39,7 +41,7 @@ const UserList: FunctionComponent<{}> = () => {
         if (deleteError) {
             dispatch(addNotification({
                 type: 'error',
-                message: 'Cannot delete user'
+                message: t('errors:Cannot delete user')
             }));
         }
     }, [deleteError, dispatch]);
@@ -48,7 +50,7 @@ const UserList: FunctionComponent<{}> = () => {
         if (deleteSuccess) {
             dispatch(addNotification({
                 type: 'success',
-                message: 'user deleted'
+                message: t('errors:User deleted')
             }));
         }
     }, [deleteSuccess, dispatch]);
@@ -59,18 +61,18 @@ const UserList: FunctionComponent<{}> = () => {
                 dispatch(setUserInEdition(u));
                 setShowForm(true);
             }}>
-                <FontAwesomeIcon icon={faEdit} />&nbsp; {` Edit`}
+                <FontAwesomeIcon icon={faEdit} />&nbsp; {` ${t('common:edit')}`}
             </Button>
         </div>
         <div>
             <Button onClick={() =>
                 confirmPopup({
-                    message: 'Are you sure you want to proceed?',
+                    message: t('app:are_you_sure'),
                     icon: 'pi pi-exclamation-triangle',
                     accept: () => deleteUser(u.id),
                     reject: () => { }
                 })}>
-                <FontAwesomeIcon icon={faTrash} />&nbsp; {` Delete `}
+                <FontAwesomeIcon icon={faTrash} />&nbsp; {` ${t('common:delete')}`}
             </Button>
         </div>
     </div >;
@@ -103,23 +105,23 @@ const UserList: FunctionComponent<{}> = () => {
             }}
             filterDisplay="menu"
             globalFilterFields={['username', /**'firstname', 'lastname', **/'email', 'created']}
-            emptyMessage="Aucun utilisteur trouvé."
+            emptyMessage={t('errors:No user found')}
         >
             <Column body={(user:User) =>
                 user?.avatar && (typeof user.avatar !== "string") ?
                     <Avatar shape="circle" className="p-mr-2" size="xlarge" image={getURLForFile(user.avatar.file)} /> :
                     <Avatar shape="circle" icon="pi pi-user" className="p-mr-2" size="xlarge" />
             } />
-            <Column field="username" header="Identifiant" filter filterPlaceholder="Rechercher par identifiant" />
-            <Column field="email" header="Email" filter filterPlaceholder="Search by db email" />
+            <Column field="username" header={t('common:username')} filter filterPlaceholder="Search by username" />
+            <Column field="email" header={t('common:mail')} filter filterPlaceholder="Search by db email" />
             {/* <Column field="first_name" header="Firstname" filter filterPlaceholder="Search by firstname" />
             <Column field="last_name" header="Lastname" filter filterPlaceholder="Search by lastname" /> */}
             <Column body={(user:User) => user.user_role_workspaces.map(role => {
                 return `${role.workspace} (${roles.results.find((r:Role) => r.id === role.role)?.name})`
-            }).join(", ")} header="Projets" />
-            <Column field="created" body={user => <div>{moment(new Date(user.created)).fromNow()}</div>} header="Créé" />
-            <Column field="is_superuser" header="Administrateur" body={user => <div>{user.is_superuser? <FontAwesomeIcon icon={faUserShield}/> : ''}</div>}/>
-            <Column field="has_overmind_access" header="Gestionnaire" body={user => <div>{user.has_overmind_access ? <FontAwesomeIcon icon={faUserCog}/> : ''}</div>}/>
+            }).join(", ")} header={t('common:projects')} />
+            <Column field="created" body={user => <div>{moment(new Date(user.created)).fromNow()}</div>} header={t('common:created')} />
+            <Column field="is_superuser" header={t('common:is_superuser')} body={user => <div>{user.is_superuser? <FontAwesomeIcon icon={faUserShield}/> : ''}</div>}/>
+            <Column field="has_overmind_access" header={t('common:has_overmind_access')} body={user => <div>{user.has_overmind_access ? <FontAwesomeIcon icon={faUserCog}/> : ''}</div>}/>
             <Column body={actions} bodyStyle={{ display: 'flex', justifyContent: 'flex-end' }} />
         </MunityDataTable>
     </>;

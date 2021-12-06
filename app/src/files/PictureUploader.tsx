@@ -5,6 +5,7 @@ import { Button } from 'primereact/button';
 import { Tag } from 'primereact/tag';
 import { addNotification } from '../notifications/slice';
 import { useAppDispatch, useAppSelector } from '../hooks';
+import { useTranslation } from 'react-i18next';
 
 const PictureUploader: React.FC<FileUploadProps> = props => {
     const fileUploadRef = useRef<any>(null);
@@ -12,6 +13,7 @@ const PictureUploader: React.FC<FileUploadProps> = props => {
     const [totalSize, setTotalSize] = useState<number>(0);
     const dispatch = useAppDispatch();
     const { JWTaccess } = useAppSelector(state => state.authentication)
+    const { t } = useTranslation();
 
     const onTemplateSelect = (e: FileUploadSelectParams) => {
         let _totalSize = totalSize;
@@ -87,7 +89,7 @@ const PictureUploader: React.FC<FileUploadProps> = props => {
         return (
             <div className="p-d-flex p-ai-center p-dir-col">
                 <i className="pi pi-image p-mt-3 p-p-5" style={{ 'fontSize': '5em', borderRadius: '50%', backgroundColor: 'var(--surface-b)', color: 'var(--surface-d)' }}></i>
-                <span style={{ 'fontSize': '1.2em', color: 'var(--text-color-secondary)' }} className="p-my-5">Drag and Drop Image Here</span>
+                <span style={{ 'fontSize': '1.2em', color: 'var(--text-color-secondary)' }} className="p-my-5">{t('app:drag_and_drop')}</span>
             </div>
         )
     }

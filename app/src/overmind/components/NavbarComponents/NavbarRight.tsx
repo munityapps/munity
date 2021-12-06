@@ -7,16 +7,18 @@ import { logout } from '../../../authentication/slice';
 import UserForm from '../../../user/form';
 import { getURLForFile } from '../../../helper';
 import { setUserInEdition } from '../../../user/slice';
+import { useTranslation } from 'react-i18next';
 
 const NavbarRight = () => {
     let menu = useRef<Menu>(null);
     const dispatch = useAppDispatch();
     const currentUser = useAppSelector(state => state.authentication.currentUser)
     const [showForm, setShowForm] = useState<boolean>(false);
+    const { t } = useTranslation();
 
     return <div className="right-part">
         <div className="hi-message">
-            Salut, &nbsp;<strong>{currentUser?.username}</strong>
+            {t('common:hi')}, &nbsp;<strong>{currentUser?.username}</strong>
         </div>
         <UserForm show={showForm} onClose={() => {setShowForm(false);dispatch(setUserInEdition(null))}}/>
         { currentUser.avatar ?
@@ -27,7 +29,7 @@ const NavbarRight = () => {
             model={
                 [
                     {
-                        label: 'Mon profile',
+                        label: t('common:profil'),
                         icon: 'pi pi-user-edit',
                         command: () => {
                             setShowForm(true);
@@ -35,7 +37,7 @@ const NavbarRight = () => {
                         }
                     },
                     {
-                        label: 'Déconnexion',
+                        label: t('common:logout'),
                         icon: 'pi pi-sign-out',
                         command: () => {
                             dispatch(logout())

@@ -21,6 +21,7 @@ import { FileUploadUploadParams } from 'primereact/fileupload';
 import SimpleUploader from '../files/SimpleUploader';
 import { File } from '../files/slice';
 import { getURLForFile } from "../helper";
+import { useTranslation } from "react-i18next";
 
 const UserForm: FunctionComponent<{ show: boolean, onClose: Function }> = props => {
     const dispatch = useDispatch();
@@ -37,6 +38,7 @@ const UserForm: FunctionComponent<{ show: boolean, onClose: Function }> = props 
     const [hasOvermindAccess, setHasOvermindAccess] = useState<boolean>(false);
     const { userInEdition } = useAppSelector<UserState>(state => state.user)
     const currentUser = useAppSelector(state => state.authentication.currentUser)
+    const { t } = useTranslation()
 
     // get workspaces on overmind
     const { data: workspaces } = useGetWorkspacesQuery();
@@ -49,7 +51,7 @@ const UserForm: FunctionComponent<{ show: boolean, onClose: Function }> = props 
         if (updateError) {
             dispatch(addNotification({
                 type: 'error',
-                message: 'Cannot update user'
+                message: t('error:Cannot update user')
             }));
         }
     }, [updateError, dispatch]);
@@ -134,14 +136,14 @@ const UserForm: FunctionComponent<{ show: boolean, onClose: Function }> = props 
             error.push('username');
             dispatch(addNotification({
                 type: 'error',
-                message: "L'identifiant est obligatoire",
+                message: "Username required"
             }))
         }
         if (newPassword.length > 0 && newPassword !== confirmPassword) {
             error.push('password');
             dispatch(addNotification({
                 type: 'error',
-                message: "Les mots de passe sont différents",
+                message: "Password are different"
             }))
         }
         if (error.length > 0) {
@@ -178,7 +180,7 @@ const UserForm: FunctionComponent<{ show: boolean, onClose: Function }> = props 
     };
 
     return <>
-        <MunityDialog title="User form" visible={props.show} onSave={saveUser} onHide={props.onClose}>
+        <MunityDialog title={t('app:user_form')} visible={props.show} onSave={saveUser} onHide={props.onClose}>
             <div className="p-d-flex p-jc-center p-m-2">
                 {
                     uploadedAvatar ?
@@ -191,43 +193,43 @@ const UserForm: FunctionComponent<{ show: boolean, onClose: Function }> = props 
                     onUpload={(e: FileUploadUploadParams) => {
                         setUploadedAvatar(JSON.parse(e.xhr.response));
                     }}
-                    label="Changer d'avatar"
+                    label={t('app:change_avatar')}
                     auto
                 />
             </div>
             <div className="p-fluid">
                 <div className="p-field p-grid">
-                    <label htmlFor="firstname4" className="p-col-12 p-md-2">Identifiant</label>
+                    <label htmlFor="firstname4" className="p-col-12 p-md-2">{t('common:username')}</label>
                     <div className="p-col-12 p-md-10">
                         <InputText id="username" className={errorField.includes('username') ? 'p-invalid' : ''} type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
                     </div>
                 </div>
                 <div className="p-field p-grid">
-                    <label htmlFor="firstname4" className="p-col-12 p-md-2">Prénom</label>
+                    <label htmlFor="firstname4" className="p-col-12 p-md-2">{t('common:firstname')}</label>
                     <div className="p-col-12 p-md-10">
                         <InputText id="firstname" type="text" value={firstname} onChange={(e) => setFirstname(e.target.value)} />
                     </div>
                 </div>
                 <div className="p-field p-grid">
-                    <label htmlFor="firstname4" className="p-col-12 p-md-2">Nom</label>
+                    <label htmlFor="firstname4" className="p-col-12 p-md-2">{t('common:lastname')}</label>
                     <div className="p-col-12 p-md-10">
                         <InputText id="lastname" type="text" value={lastname} onChange={(e) => setLastname(e.target.value)} />
                     </div>
                 </div>
                 <div className="p-field p-grid">
-                    <label htmlFor="firstname4" className="p-col-12 p-md-2">Email</label>
+                    <label htmlFor="firstname4" className="p-col-12 p-md-2">{t('common:mail')}</label>
                     <div className="p-col-12 p-md-10">
                         <InputText id="email" type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
                     </div>
                 </div>
                 <div className="p-field p-grid">
-                    <label htmlFor="password" className="p-col-12 p-md-2">Mot de passe</label>
+                    <label htmlFor="password" className="p-col-12 p-md-2">{t('common:password')}</label>
                     <div className="p-col-12 p-md-10">
                         <InputText id="password" className={errorField.includes('password') ? 'p-invalid' : ''} type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
                     </div>
                 </div>
                 <div className="p-field p-grid">
-                    <label htmlFor="confirm_password" className="p-col-12 p-md-2">Confirmer le mot de passe</label>
+                    <label htmlFor="confirm_password" className="p-col-12 p-md-2">{t('common:confirm_password')}</label>
                     <div className="p-col-12 p-md-10">
                         <InputText id="confirm_password" className={errorField.includes('password') ? 'p-invalid' : ''} type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
                     </div>
@@ -238,14 +240,14 @@ const UserForm: FunctionComponent<{ show: boolean, onClose: Function }> = props 
                         <div className="p-col-12 p-md-2">
                             <Checkbox inputId="is_superuser" value={true} onChange={() => setIsSuperuser(!isSuperuser)} checked={isSuperuser} />
                         </div>
-                        <label htmlFor="is_superuser" className="p-col-12 p-md-10">Est administrateur</label>
+                        <label htmlFor="is_superuser" className="p-col-12 p-md-10">{t('common:is_superuser')}</label>
                     </div>
                 }
                 <div className="p-field p-grid">
                     <div className="p-col-12 p-md-2">
                         <Checkbox inputId="has_overmind_access" value={true} onChange={() => setHasOvermindAccess(!hasOvermindAccess)} checked={hasOvermindAccess} />
                     </div>
-                    <label htmlFor="has_overmind_access" className="p-col-12 p-md-10">Est gestionnaire</label>
+                    <label htmlFor="has_overmind_access" className="p-col-12 p-md-10">{t('common:has_overmind_access')}</label>
                 </div>
             </div>
             {

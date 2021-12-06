@@ -1,3 +1,13 @@
 {
-    "cannot_login": "Mauvais identifiants"
+    "cannot_login": "Mauvais identifiants",
+    "Cannot update user": "Impossible de mettre à jour l'utilisateur",
+    "User updated": "Utilisateur mise à jour",
+    "User created": "Utilisateur créé",
+    "Cannot create user": "Impossible de créer l'utilisateur",
+    "Username required": "L'identifiant est obligatoire",
+    "Password are different": "Les mots de passe sont différents",
+    "Cannot get users": "Impossible de récupérer les utilisateurs",
+    "Cannot delete user": "Impossible de supprimer l'utilisateur",
+    "User deleted": "Utilisateur supprimé",
+    "No user found": "Aucun utilisateur trouvé"
 }

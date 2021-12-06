@@ -1,4 +1,13 @@
 {
 	"welcome": "Welcome!",
-	"welcome_text": "Welcome on your platform"
+	"welcome_text": "Welcome on your platform",
+    "drag_and_drop": "Drag and drop file here",
+    "send_a_file": "Send a file",
+    "remove_filters": "Remove filters",
+    "keyword_search": "Keyword search",
+    "you_need": "You need",
+    "to_access_feature": " to access this feature",
+    "change_avatar": "Change avatar",
+    "user_form": "User form",
+    "are_you_sure": "Are you sure to continue?"
 }
