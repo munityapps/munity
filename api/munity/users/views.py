@@ -172,7 +172,7 @@ class UsersViewSet(MunityViewSet):
     def get_queryset(self):
         model = self.serializer_class.Meta.model
         if "workspace_pk" in self.kwargs:
-            return model.objects.filter(Q(id=self.request.user.id) | Q(user_role_workspaces__workspace=self.kwargs["workspace_pk"]))
+            return model.objects.filter(Q(id=self.request.user.id) | Q(user_role_workspaces__workspace=self.kwargs["workspace_pk"])).distinct()
         # WE ARE ON OVERMIND!
         else:
             # super user see all overmind users

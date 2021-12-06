@@ -112,7 +112,7 @@ const WorkspaceForm: FunctionComponent<{ show: boolean, onClose: Function }> = p
     };
 
     return <>
-        <MunityDialog title="Workspace form" visible={props.show} onSave={saveWorkspace} onHide={props.onClose}>
+        <MunityDialog title="Nom de projet" visible={props.show} onSave={saveWorkspace} onHide={props.onClose}>
             <div className="p-fluid">
                 <div className="p-field p-grid">
                     <label htmlFor="name" className="p-col-12 p-md-2">Nom</label>

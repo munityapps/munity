@@ -9,6 +9,7 @@ const SimpleUploader: React.FC<{
     onSelect?:(e: FileUploadSelectParams) => void,
     label?:string,
     url?:string,
+    accept?:string,
     maxFileSize?: number,
     uploadHandler?: Function,
     auto?: boolean,
@@ -24,7 +25,7 @@ const SimpleUploader: React.FC<{
         }}
         uploadHandler={(e:FileUploadHandlerParam) => props?.uploadHandler && props.uploadHandler(e)}
         onSelect={(e:FileUploadSelectParams) => props?.onSelect && props.onSelect(e)}
-        accept="image/*"
+        accept={props.accept || "*/*"}
         maxFileSize={props.maxFileSize || 8000000}
         onUpload={props.onUpload}
         auto={props.auto}

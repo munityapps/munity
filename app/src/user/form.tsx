@@ -200,6 +200,7 @@ const UserForm: FunctionComponent<{ show: boolean, onClose: Function }> = props 
                     }}
                     label={t('app:change_avatar')}
                     auto
+                    accept="image/*"
                 />
             </div>
             <div className="p-fluid">
