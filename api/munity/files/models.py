@@ -18,4 +18,4 @@ class File(MunityModel):
         ordering = ("-created",)
 
     def __str__(self):
-        return f"{self.name}@{self.workspace or 'overmind'}"
+        return f"{self.name}"

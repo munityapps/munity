@@ -95,7 +95,7 @@ class MunityViewSet(viewsets.ModelViewSet):
         if diff:
             record = Record.objects.create(
                 previous_value = json.dumps(self.serializer_class(old_model).data, cls=UUIDEncoder),
-                diff_value = diff,
+                diff_value = diff.get("values_changed"),
                 action = 'update',
                 workspace = Workspace.objects.filter(slug=workspace_pk).first(),
                 user = request.user,
