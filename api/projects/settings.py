@@ -63,7 +63,7 @@ INSTALLED_APPS = [
     "munity.records",
     "munity.settings",
     "munity.files",
-    # "munity.authentication",
+    "munity.authenticate",
     # App
 ]
 

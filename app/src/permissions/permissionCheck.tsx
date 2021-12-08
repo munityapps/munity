@@ -53,7 +53,7 @@ const PermissionCheck: React.FC<{
             } else {
                 dispatch(addNotification({
                     type: 'error',
-                    message: 'Unknow user',
+                    message: 'error:user_cannot_access',
                     options: {
                         draggable: true
                     }

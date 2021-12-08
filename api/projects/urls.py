@@ -23,6 +23,7 @@ from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from munity.rest import overmind_router, workspace_router
 from rest_framework import permissions
+from munity.authenticate.views import MyTokenObtainPairView
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -64,6 +65,7 @@ apiUrls = [
 ]
 
 urlpatterns = [
+    re_path(r"^v1/auth/jwt/create/?", MyTokenObtainPairView.as_view(), name="jwt-create"),
     path("v1/", include((apiUrls, "api"), namespace="v1")),
     path("", RedirectView.as_view(url="/v1")),
     path("doc", RedirectView.as_view(url="/v1/redoc")),

@@ -1,3 +1,4 @@
 {
-    "cannot_login": "Wrong username or password"
+    "cannot_login": "Wrong username or password",
+    "missing_params": "Please fill all required fields"
 }

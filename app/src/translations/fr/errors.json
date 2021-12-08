@@ -9,5 +9,7 @@
     "Cannot get users": "Impossible de récupérer les utilisateurs",
     "Cannot delete user": "Impossible de supprimer l'utilisateur",
     "User deleted": "Utilisateur supprimé",
-    "No user found": "Aucun utilisateur trouvé"
+    "No user found": "Aucun utilisateur trouvé",
+    "missing_params": "Tous les champs ne sont pas envoyés",
+    "Network Error": "Impossible de contacter le serveur"
 }

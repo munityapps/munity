@@ -172,7 +172,19 @@ class UsersViewSet(MunityViewSet):
     def get_queryset(self):
         model = self.serializer_class.Meta.model
         if "workspace_pk" in self.kwargs:
-            return model.objects.filter(Q(id=self.request.user.id) | Q(user_role_workspaces__workspace=self.kwargs["workspace_pk"])).distinct()
+            # super user see all workspace users
+            if self.request.user.is_superuser:
+                return model.objects.filter(Q(id=self.request.user.id) | Q(user_role_workspaces__workspace=self.kwargs["workspace_pk"])).distinct()
+            else:
+                # getting accessible workspaces
+                accessible_workspaces = UserRoleWorkspace.objects.filter(user=self.request.user)
+                workspace_slugs = []
+                for accessible_workspace in accessible_workspaces:
+                    workspace_slugs.append(accessible_workspace.workspace)
+                # get all related roles
+                return model.objects.filter(
+                    user_role_workspaces__in=UserRoleWorkspace.objects.filter(workspace__in=workspace_slugs).filter(workspace__in=[self.kwargs["workspace_pk"]])
+                )
         # WE ARE ON OVERMIND!
         else:
             # super user see all overmind users

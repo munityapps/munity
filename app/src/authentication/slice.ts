@@ -53,9 +53,16 @@ export const authenticate = createAsyncThunk(
                     }
                 }))
             } else if (err instanceof Error) {
+                let message = `errors:${err.message.trim()}`;
+                if (err.message.trim() === 'Request failed with status code 400') {
+                    message = 'errors:missing_params';
+                }
+                if (err.message.trim() === 'Request failed with status code 401') {
+                    message = 'errors:cannot_login';
+                }
                 dispatch(addNotification({
                     type: 'error',
-                    message: 'errors:cannot_login',
+                    message,
                     options: {
                         draggable: true
                     }

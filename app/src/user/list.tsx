@@ -120,8 +120,8 @@ const UserList: FunctionComponent<{}> = () => {
                 return `${role.workspace} (${roles.results.find((r:Role) => r.id === role.role)?.name})`
             }).join(", ")} header={t('common:projects')} />
             <Column field="created" body={user => <div>{moment(new Date(user.created)).fromNow()}</div>} header={t('common:created')} />
-            <Column field="is_superuser" header={t('common:is_superuser')} body={user => <div>{user.is_superuser? <FontAwesomeIcon icon={faUserShield}/> : ''}</div>}/>
-            <Column field="has_overmind_access" header={t('common:has_overmind_access')} body={user => <div>{user.has_overmind_access ? <FontAwesomeIcon icon={faUserCog}/> : ''}</div>}/>
+            {/* <Column field="is_superuser" header={t('common:is_superuser')} body={user => <div>{user.is_superuser? <FontAwesomeIcon icon={faUserShield}/> : ''}</div>}/>
+            <Column field="has_overmind_access" header={t('common:has_overmind_access')} body={user => <div>{user.has_overmind_access ? <FontAwesomeIcon icon={faUserCog}/> : ''}</div>}/> */}
             <Column body={actions} bodyStyle={{ display: 'flex', justifyContent: 'flex-end' }} />
         </MunityDataTable>
     </>;
