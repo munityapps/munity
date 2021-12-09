@@ -28,7 +28,6 @@ lerna-debug.log*
 
 # APP
 app/node_modules/*
-app/build/*
 app/lib/
 
 # WEBSOCKET
