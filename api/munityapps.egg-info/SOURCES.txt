@@ -10,6 +10,7 @@ munity/rest.py
 munity/tests.py
 munity/utils.py
 munity/views.py
+munity/authenticate/views.py
 munity/authorization/__init__.py
 munity/authorization/admin.py
 munity/authorization/apps.py

@@ -1,4 +1,5 @@
 munity
+munity/authenticate/
 munity/authorization/
 munity/authorization/management/commands
 munity/authorization/migrations
