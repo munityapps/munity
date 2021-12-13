@@ -4,6 +4,8 @@ from rest_framework import serializers
 from django.db.models.query_utils import Q
 from .models import User, UserRoleWorkspace
 from rest_framework.exceptions import PermissionDenied
+from rest_framework.response import Response
+from rest_framework import status
 
 from ..views import MunityViewSet
 
@@ -135,9 +137,17 @@ class UsersViewSet(MunityViewSet):
             for user_role_workspace in user_role_workspaces:
                 if user_role_workspace.get('workspace') not in workspace_slugs:
                     raise PermissionDenied({"message":"You don't have permission to add user on this workspace"})
-        response = super().create(request, workspace_pk)
 
-        return response
+
+        if 'generic_groups' in request.data:
+            generic_groups = request.data.pop('generic_groups')
+            response = super().create(request, workspace_pk)
+            new_user = User.objects.filter(id=response.data.get("id")).first()
+            new_user.generic_groups.set(generic_groups)
+            new_user.save()
+            return Response(UserSerializer(new_user).data, status=status.HTTP_201_CREATED)
+
+        return super().create(request, workspace_pk)
 
     def update(self, request, workspace_pk=None, pk=None, partial=False):
         # we suppose that user as permission USER UPDATE for current workspace

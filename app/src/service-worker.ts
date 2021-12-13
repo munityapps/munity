@@ -36,7 +36,7 @@ registerRoute(
       return false;
     }
 
-    // If this is a URL that starts with /_, skip.
+    // If this is a URL that starts with /_, tscskip.
     if (url.pathname.startsWith('/_')) {
       return false;
     }

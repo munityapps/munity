@@ -1,5 +1,7 @@
 from django.contrib.contenttypes.models import ContentType
 from rest_framework import viewsets
+from rest_framework.response import Response
+from rest_framework import status
 from deepdiff import DeepDiff
 
 from .workspaces.models import Workspace
@@ -49,8 +51,16 @@ class MunityViewSet(viewsets.ModelViewSet):
         # add new workspace params
         request.data['workspace'] = current_workspace
 
-        # get response
-        response = super().create(request=request, workspace_pk=workspace_pk)
+        # create instance, link groups, get response
+        if 'generic_groups' in request.data.keys():
+            generic_groups = request.data.pop('generic_groups')
+            _response = super().create(request, workspace_pk)
+            instance = self.serializer_class.Meta.model.objects.filter(id=_response.data.get("id")).first()
+            instance.generic_groups.set(generic_groups)
+            instance.save()
+            response = Response(self.serializer_class(instance).data, status=status.HTTP_201_CREATED)
+        else:
+            response = super().create(request, workspace_pk)
 
         # storing record
         model_id = dict(response.data).get('id')
