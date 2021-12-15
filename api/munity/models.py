@@ -16,6 +16,7 @@ class MunityModel(TimeStampedModel):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     generic_groups = models.ManyToManyField('generic_groups.GenericGroup', blank=True)
+    disabled = models.BooleanField(default=False)
     workspace = models.ForeignKey(
         "workspaces.Workspace", to_field="slug", on_delete=models.CASCADE, null=True, blank=True
     )

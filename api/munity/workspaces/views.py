@@ -36,13 +36,14 @@ class WorkspacesViewSet(viewsets.ModelViewSet):
     # since user access workspaces by role, we have to adapt access permission through role and not workpace FK
     def get_queryset(self):
         model = self.serializer_class.Meta.model
+        queryset = model.objects.filter(disabled=False)
         # super user see all
         if self.request.user.is_superuser:
-            return model.objects.all()
+            return queryset.all()
         # users see only there workspaces
         accessible_workspaces = UserRoleWorkspace.objects.filter(user=self.request.user)
         workspace_slugs = []
         for accessible_workspace in accessible_workspaces:
             workspace_slugs.append(accessible_workspace.workspace)
-        return model.objects.filter(slug__in=workspace_slugs)
+        return queryset.filter(slug__in=workspace_slugs)
 

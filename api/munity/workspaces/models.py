@@ -6,6 +6,7 @@ class Workspace(TimeStampedModel):
     class Meta:
         ordering = ("slug",)
 
+    disabled = models.BooleanField(default=False)
     slug = models.SlugField(primary_key=True, max_length=50, unique=True)
     name = models.CharField(max_length=258, blank=True, null=False, default="")
     db_connection = models.CharField(max_length=100, blank=True, null=True, default=True)

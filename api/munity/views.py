@@ -17,9 +17,10 @@ class MunityViewSet(viewsets.ModelViewSet):
         model = self.serializer_class.Meta.model
 
         # filter request to current model workspace
+        queryset = model.objects.filter(disabled=False)
         if "workspace_pk" in self.kwargs:
-            return model.objects.filter(workspace=self.kwargs["workspace_pk"])
-        return model.objects.all()
+            return queryset.filter(workspace=self.kwargs["workspace_pk"])
+        return queryset.all()
 
     def destroy(self, request, pk=None, workspace_pk=None):
         # store model that will be deleted

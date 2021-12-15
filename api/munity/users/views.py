@@ -181,10 +181,11 @@ class UsersViewSet(MunityViewSet):
     # since user access workspaces by role, we have to adapt access permission through role and not workpace FK
     def get_queryset(self):
         model = self.serializer_class.Meta.model
+        queryset = model.objects.filter(disabled=False)
         if "workspace_pk" in self.kwargs:
             # super user see all workspace users
             if self.request.user.is_superuser:
-                return model.objects.filter(Q(id=self.request.user.id) | Q(user_role_workspaces__workspace=self.kwargs["workspace_pk"])).distinct()
+                return queryset.filter(Q(id=self.request.user.id) | Q(user_role_workspaces__workspace=self.kwargs["workspace_pk"])).distinct()
             else:
                 # getting accessible workspaces
                 accessible_workspaces = UserRoleWorkspace.objects.filter(user=self.request.user)
@@ -192,7 +193,7 @@ class UsersViewSet(MunityViewSet):
                 for accessible_workspace in accessible_workspaces:
                     workspace_slugs.append(accessible_workspace.workspace)
                 # get all related roles
-                return model.objects.filter(
+                return queryset.filter(
                     user_role_workspaces__in=UserRoleWorkspace.objects.filter(workspace__in=workspace_slugs).filter(workspace__in=[self.kwargs["workspace_pk"]])
                 )
         # WE ARE ON OVERMIND!
@@ -200,7 +201,7 @@ class UsersViewSet(MunityViewSet):
             # super user see all overmind users
             if self.request.user.is_superuser:
                 # return model.objects.filter(Q(is_superuser=True) | Q(has_overmind_access=True))
-                return model.objects.all()
+                return queryset.all()
             # staff see user from his workspaces
             if self.request.user.has_overmind_access:
                 # getting accessible workspaces
@@ -209,7 +210,7 @@ class UsersViewSet(MunityViewSet):
                 for accessible_workspace in accessible_workspaces:
                     workspace_slugs.append(accessible_workspace.workspace)
                 # get all related roles
-                return model.objects.filter(
+                return queryset.filter(
                     user_role_workspaces__in=UserRoleWorkspace.objects.filter(workspace__in=workspace_slugs)
                 )
             # users see nothing

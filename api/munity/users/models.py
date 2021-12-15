@@ -14,6 +14,7 @@ class User(AbstractUser, MunityModel):
     avatar = models.ForeignKey("files.File", related_name="avatars", on_delete=models.CASCADE, blank=True, null=True, default=None)
     # user are related to workspace by role., dont use munitymodel workspaces
     workspace = None
+    disabled = models.BooleanField(default=False)
     has_overmind_access = models.BooleanField(default=False, blank=True)
 
     class Meta:
