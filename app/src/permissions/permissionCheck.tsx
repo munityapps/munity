@@ -123,7 +123,7 @@ const PermissionCheck: React.FC<{
         location.pathname
     ]);
 
-    // finally we set the refresh token routune
+    // finally we set the refresh token routine
     useEffect(() => {
         if (accessGranted) {
             dispatch(refreshToken({refresh:JWTrefresh}));
