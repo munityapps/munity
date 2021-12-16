@@ -1,5 +1,3 @@
-# syntax = docker/dockerfile:experimental
-
 FROM python:3.9-slim
 ENV PYTHONUNBUFFERED 1
 
@@ -9,7 +7,7 @@ RUN apt-get install -y libgdal-dev libffi-dev git curl
 RUN mkdir /code
 WORKDIR /code
 COPY requirements.txt /code/
-RUN --mount=type=cache,target=/root/.cache/pip pip install -r requirements.txt
+RUN pip install -r requirements.txt
 
 EXPOSE 8000
 
