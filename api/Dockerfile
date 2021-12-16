@@ -12,3 +12,5 @@ RUN pip install -r requirements.txt
 EXPOSE 8000
 
 COPY . /code/
+
+CMD ["python", "manage.py", "runserver", "0:8000"]
