@@ -27,6 +27,7 @@ munity/authorization/migrations/0004_auto_20211017_2104.py
 munity/authorization/migrations/0005_auto_20211017_2105.py
 munity/authorization/migrations/0006_auto_20211019_0904.py
 munity/authorization/migrations/0007_auto_20211202_2134.py
+munity/authorization/migrations/0008_auto_20211215_1622.py
 munity/authorization/migrations/__init__.py
 munity/files/__init__.py
 munity/files/apps.py
@@ -34,6 +35,7 @@ munity/files/models.py
 munity/files/views.py
 munity/files/migrations/0001_initial.py
 munity/files/migrations/0002_file_generic_groups.py
+munity/files/migrations/0003_file_disabled.py
 munity/files/migrations/__init__.py
 munity/generic_groups/__init__.py
 munity/generic_groups/admin.py
@@ -53,6 +55,7 @@ munity/generic_groups/migrations/0003_rename_related_workspace_genericgroup_work
 munity/generic_groups/migrations/0004_remove_genericgroup_workspace.py
 munity/generic_groups/migrations/0005_genericgroup_workspace.py
 munity/generic_groups/migrations/0006_alter_genericgroup_workspace.py
+munity/generic_groups/migrations/0007_genericgroup_disabled.py
 munity/generic_groups/migrations/__init__.py
 munity/records/__init__.py
 munity/records/admin.py
@@ -79,6 +82,7 @@ munity/settings/views.py
 munity/settings/migrations/0001_initial.py
 munity/settings/migrations/0002_alter_settings_workspace.py
 munity/settings/migrations/0003_settings_generic_groups.py
+munity/settings/migrations/0004_settings_disabled.py
 munity/settings/migrations/__init__.py
 munity/users/__init__.py
 munity/users/admin.py
@@ -107,6 +111,7 @@ munity/users/migrations/0018_user_avatar.py
 munity/users/migrations/0019_user_has_overmind_access.py
 munity/users/migrations/0020_delete_usersviewset.py
 munity/users/migrations/0021_user_phone_number.py
+munity/users/migrations/0022_user_disabled.py
 munity/users/migrations/__init__.py
 munity/workspaces/__init__.py
 munity/workspaces/admin.py
@@ -127,6 +132,7 @@ munity/workspaces/migrations/0010_alter_workspace_options.py
 munity/workspaces/migrations/0011_auto_20211206_0106.py
 munity/workspaces/migrations/0012_alter_workspace_name.py
 munity/workspaces/migrations/0013_alter_workspace_db_connection.py
+munity/workspaces/migrations/0014_workspace_disabled.py
 munity/workspaces/migrations/__init__.py
 munityapps.egg-info/PKG-INFO
 munityapps.egg-info/SOURCES.txt
