@@ -151,7 +151,6 @@ FILE_UPLOAD_HANDLER = [
     "django.core.files.uploadhandler.TemporaryFileUploadHandler"
 ]
 
-
 DJOSER = {
     "USER_ID_FIELD": "id",
     "HIDE_USERS": False,

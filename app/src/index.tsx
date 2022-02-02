@@ -17,6 +17,7 @@ import OvermindNavbar from './overmind/components/Navbar';
 import OvermindNavbarLeft from './overmind/components/NavbarComponents/NavbarLeft';
 import OvermindNavbarCenter from './overmind/components/NavbarComponents/NavbarCenter';
 import OvermindNavbarRight from './overmind/components/NavbarComponents/NavbarRight';
+import Projects from './fake/Project';
 
 // Configuration
 import reportWebVitals from './reportWebVitals';
@@ -45,14 +46,9 @@ ReactDOM.render(
                         rightPart={OvermindNavbarRight}
                     />}
                     overmindSidebar={<OvermindSidebar newMenuButton={[
-                        // <div className="menu">
-                        //     <Button className="p-button-link ">
-                        //         Integration 2
-                        //     </Button>
-                        // </div>
                     ]}/>}
                     newOvermindRoutes={[
-                        <Route key={'foobar'} path="/foobar" component={() => <>OVERMIND FOOBAR</>} />
+                        <Route key={'foobar'} path="/foobar" component={() => <>OVERMIND FOOBAR</>} />,
                     ]}
                     newWorkspaceRoutes={[
                         <Route key={'foobar'} path="/workspace/:workspace_slug/foobar" component={() => <>WORKSPACE FOOBAR</>} />
@@ -60,6 +56,7 @@ ReactDOM.render(
                     loadingWorkspace={LoadingMunity}
                     logoLogin={logo}
                 >
+                    <Route key={'projects'} path="/projects" component={Projects} />
                     {/* Custom routes */}
                 </MunityApp>
             </React.StrictMode>

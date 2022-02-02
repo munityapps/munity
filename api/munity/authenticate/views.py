@@ -16,7 +16,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     def get_token(cls, user):
         token = super().get_token(user)
         user.password = "********"
-        token["user_at_first_login"] = UserSerializer(user).data
+        #token["user_at_first_login"] = UserSerializer(user).data
 
         return token
 
@@ -24,10 +24,7 @@ class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
 
     def post(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-
         response = super().post(request, args, kwargs)
-        # we assume that credentials are correct if parent class do not trigg errors
 
         ctype = ContentType.objects.get_for_model(User)
         accesst_token = response.data.get("access")

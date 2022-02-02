@@ -14,6 +14,7 @@ class Record(TimeStampedModel):
     previous_value = models.JSONField(null=True)
     diff_value = models.JSONField(null=True)
     user = models.ForeignKey(User, on_delete=SET_NULL, null=True)
+
     workspace = models.ForeignKey(Workspace, on_delete=SET_NULL, null=True)
     product_object_id = models.UUIDField()
     product_content_type = models.ForeignKey(

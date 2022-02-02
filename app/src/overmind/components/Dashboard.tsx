@@ -5,6 +5,11 @@ import iconOvmIncome from '../../assets/icon_ovm_income.svg';
 import iconOvmUser from '../../assets/icon_ovm_user.svg';
 import iconOvmAction from '../../assets/icon_ovm_action.svg';
 import iconOvmCustomer from '../../assets/icon_ovm_customer.svg';
+import munityLogo from '../../assets/keyos.png';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Button } from 'primereact/button';
+import { useTranslation } from 'react-i18next';
+import { faExternalLinkAlt, faLink } from '@fortawesome/free-solid-svg-icons';
 
 let category = [];
 let dottedBase = +new Date();
@@ -209,7 +214,17 @@ const option2 = {
 
 
 const Dashboard = () => {
+    const { t } = useTranslation();
     return <div className="dashboard">
+        <div style={{marginTop:0, marginBottom:'20px', color:'#FFFFFF !important'}} className="income-graph p-shadow-4 p-jc-between p-d-flex p-ai-center">
+            <div className="title" style={{color:'white'}}>
+                <img style={{ height: '32px', transform: 'translateY(3px)' }} src={munityLogo} alt="munityLogo" />
+                &nbsp; Dashboard for project Keyoss
+            </div>
+            <Button className="p-shadow-4"  style={{borderRadius:'50px', marginRight:'8px', height:'50px'}} onClick={() => window.location.href="https://keyoss.munityapps.com/workspace/cc-cuisine"}>
+                <FontAwesomeIcon icon={faExternalLinkAlt} />&nbsp;View my project
+            </Button>
+        </div>
         <div className="metrics">
             <div className="metric p-shadow-4">
                 <img src={iconOvmIncome} alt="iconme" />

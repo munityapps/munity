@@ -32,7 +32,7 @@ const NavbarRight = () => {
             model={
                 [
                     {
-                        label: 'Mon profile',
+                        label: 'Mon profil',
                         icon: 'pi pi-user-edit',
                         command: () => {
                             setShowForm(true);

@@ -10,7 +10,7 @@
     "developers":"Développeurs",
     "learn":"Base de connaissance",
     "feed":"Fils d'actualité",
-    "profil":"Mon profile",
+    "profil":"Mon profil",
     "logout":"Se déconnecter",
     "project_name":"Mon projet",
     "monitoring": "Analyses",
@@ -29,5 +29,6 @@
     "delete": "Effacer",
     "edit": "Editer",
     "created": "Créé le",
-    "hi": "Bonjour"
+    "hi": "Bonjour",
+    "get_source_code": "Cloner le projet"
 }

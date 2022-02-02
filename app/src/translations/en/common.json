@@ -29,5 +29,6 @@
     "delete": "Delete",
     "edit": "Edit",
     "created": "Created",
-    "hi": "Hi"
+    "hi": "Hi",
+    "get_source_code": "Get project source code"
 }

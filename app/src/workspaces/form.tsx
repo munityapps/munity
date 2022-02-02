@@ -5,16 +5,26 @@ import { InputText } from "primereact/inputtext";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../hooks";
 import { addNotification } from "../notifications/slice";
+import { FileUploadUploadParams } from 'primereact/fileupload';
+import SimpleUploader from '../files/SimpleUploader';
+import { File } from '../files/slice';
+import { getURLForFile } from "../helper";
 import slugify from 'slugify';
+import { useTranslation } from "react-i18next";
+import { Checkbox } from "primereact/checkbox";
 
 const WorkspaceForm: FunctionComponent<{ show: boolean, onClose: Function }> = props => {
     const dispatch = useDispatch();
+    const { t } = useTranslation()
+
     const [slug, setSlug] = useState<string>("");
     const [name, setName] = useState<string>("");
     const [errors, setErrors] = useState<Array<string>>([]);
     const [dbConnection, setDbConnection] = useState<string>("");
+    const [disabled, setDisabled] = useState<boolean>(false);
     const { workspaceInEdition } = useAppSelector(state => state.workspace)
     const [slugHasBeenSetByUser, setSlugHasBeenSetByUser] = useState<Boolean>(false);
+    const [uploadedIcon, setUploadedIcon] = useState<File | undefined>(undefined);
 
     const [createWorkspace, { isLoading: isCreating, isError: createError, isSuccess: createSuccess }] = useCreateWorkspaceMutation();
     const [updateWorkspace, { isLoading: isUpdating, isError: updateError, isSuccess: updateSuccess }] = useUpdateWorkspaceMutation();
@@ -70,10 +80,12 @@ const WorkspaceForm: FunctionComponent<{ show: boolean, onClose: Function }> = p
             setSlug(workspaceInEdition.slug);
             setDbConnection(workspaceInEdition.db_connection);
             setSlugHasBeenSetByUser(true);
+            setDisabled(workspaceInEdition.disabled);
         } else {
             setSlugHasBeenSetByUser(false);
             setName('');
             setSlug('');
+            setDisabled(false);
             setDbConnection('');
         }
     }, [workspaceInEdition, props.show]);
@@ -99,12 +111,16 @@ const WorkspaceForm: FunctionComponent<{ show: boolean, onClose: Function }> = p
             const ws: Workspace = {
                 name,
                 slug,
-                db_connection: dbConnection
+                icon: uploadedIcon?.id,
+                db_connection: dbConnection,
+                disabled: disabled
             }
             createWorkspace(ws);
         } else {
             const ws: Workspace = Object.assign({}, workspaceInEdition);
             ws.name = name;
+            ws.icon = uploadedIcon?.id;
+            ws.disabled = disabled;
             ws.db_connection = dbConnection;
             updateWorkspace(ws);
         }
@@ -114,7 +130,24 @@ const WorkspaceForm: FunctionComponent<{ show: boolean, onClose: Function }> = p
     return <>
         <MunityDialog title="Nom de projet" visible={props.show} onSave={saveWorkspace} onHide={props.onClose}>
             <div className="p-fluid">
-                <div className="p-field p-grid">
+                <div className="p-d-flex p-jc-center p-m-2 p-flex-column p-ai-center">
+                    {
+                        uploadedIcon ?
+                            <img alt="icon" width="200px" src={uploadedIcon.file} /> :
+                            workspaceInEdition?.icon && (typeof workspaceInEdition.icon !== "string") ?
+                                <img alt="icon" width="200px" src={getURLForFile(workspaceInEdition.icon.file)} /> :
+                                null
+                    }
+                    <SimpleUploader
+                        onUpload={(e: FileUploadUploadParams) => {
+                            setUploadedIcon(JSON.parse(e.xhr.response));
+                        }}
+                        label={t('app:change_icon')}
+                        auto
+                        accept="image/*"
+                    />
+                </div>
+                <div style={{marginTop:'32px'}} className="p-field p-grid">
                     <label htmlFor="name" className="p-col-12 p-md-2">Nom</label>
                     <div className="p-col-12 p-md-10">
                         <InputText className={errors.includes('name') ? 'p-invalid' : ''} id="name" type="text" value={name} onChange={(e) => setName(e.target.value)} />
@@ -131,6 +164,12 @@ const WorkspaceForm: FunctionComponent<{ show: boolean, onClose: Function }> = p
                                 }));
                             }}
                         />
+                    </div>
+                </div>
+                <div className="p-field p-grid">
+                    <label className={'p-col-12 p-md-2'} htmlFor="disabled">Disabled</label>
+                    <div className={'p-col-12 p-md-10'}>
+                        <Checkbox id="disabled" onChange={() => setDisabled(!disabled)} checked={disabled} /><br />
                     </div>
                 </div>
             </div>

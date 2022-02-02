@@ -23,6 +23,7 @@
     "noEmit": true
   },
   "include": [
-    "src/"
-, "public/service-worker.ts"  ]
+    "src/",
+    "public/service-worker.ts"
+  ]
 }

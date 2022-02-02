@@ -106,7 +106,11 @@ const WorkspaceList: FunctionComponent<{}> = () => {
 
         return <div className="workspace-card p-shadow-4">
             <div className="illustration">
-                <img src={monsterImg} alt="monster" />
+                {
+                    props.workspace.icon && typeof props.workspace.icon !== "string" ?
+                        <img alt="icon" src={getURLForFile(props.workspace.icon.file)} /> :
+                        <img src={monsterImg} alt="monster" />
+                }
                 {actions(props.workspace)}
             </div>
             <div className="text">

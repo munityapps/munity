@@ -10,6 +10,7 @@
     .sidebar {
         background-color:#5F00EF;
         flex:1;
+        position: relative;
         .project {
             margin:10px 0px 0px 20px;
             color: white;
@@ -48,8 +49,50 @@
             }
             font-weight: bold;
         }
+        .download {
+            position:absolute;
+            top:calc(100vh - 130px);
+            left:0px;
+            width:100%;
+            font-size: 16px;
+            display:flex;
+            justify-content: center;
+            padding:0 24px;
+            button {
+                color:var(--secondary-color-text) !important;
+                width: 100%;
+                border-radius: 32px;;
+                text-align: center;
+                justify-content: center;
+            }
+            svg {
+                color:var(--secondary-color-text) !important;
+                font-size:32px;
+                margin-right:8px;
+            }
+        }
     }
     .main {
         flex:5;
     }
+}
+
+
+.terminal-demo p {
+    margin-top: 0;
+    font-size:14px;
+}
+.terminal-demo .p-terminal {
+    width: 100%;
+    background-color: #212121;
+    color: #fff;
+}
+.terminal-demo .p-terminal .p-terminal-command {
+    color: #80cbc4;
+}
+.terminal-demo .p-terminal .p-terminal-prompt {
+    color: #ffd54f;
+}
+.terminal-demo .p-terminal .p-terminal-response {
+    color: #9fa8da;
 }

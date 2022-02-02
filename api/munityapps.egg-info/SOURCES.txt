@@ -133,6 +133,7 @@ munity/workspaces/migrations/0011_auto_20211206_0106.py
 munity/workspaces/migrations/0012_alter_workspace_name.py
 munity/workspaces/migrations/0013_alter_workspace_db_connection.py
 munity/workspaces/migrations/0014_workspace_disabled.py
+munity/workspaces/migrations/0015_workspace_icon.py
 munity/workspaces/migrations/__init__.py
 munityapps.egg-info/PKG-INFO
 munityapps.egg-info/SOURCES.txt

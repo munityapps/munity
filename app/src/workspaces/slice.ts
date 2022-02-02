@@ -2,10 +2,13 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { RootState } from '../store'
 import { getAPIUrl } from '../helper';
 import { createSlice } from '@reduxjs/toolkit';
+import { File } from '../files/slice';
 
 export interface Workspace {
     slug: string,
     name: string,
+    disabled: boolean,
+    icon: File | string | undefined,
     db_connection: string
 }
 
