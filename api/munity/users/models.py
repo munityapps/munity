@@ -16,6 +16,7 @@ class User(AbstractUser, MunityModel):
     workspace = None
     disabled = models.BooleanField(default=False)
     has_overmind_access = models.BooleanField(default=False, blank=True)
+    informations = models.JSONField(default="{}", blank=True)
 
     class Meta:
         ordering = (Func(F("username"), function='Lower'),)
