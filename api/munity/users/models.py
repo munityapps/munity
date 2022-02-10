@@ -12,11 +12,11 @@ class User(AbstractUser, MunityModel):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     phone_number = models.CharField(max_length=20, blank=True, null=True, default=None)
     avatar = models.ForeignKey("files.File", related_name="avatars", on_delete=models.CASCADE, blank=True, null=True, default=None)
-    # user are related to workspace by role., dont use munitymodel workspaces
+    # user are related to workspace by role., don't use munity model workspaces
     workspace = None
     disabled = models.BooleanField(default=False)
     has_overmind_access = models.BooleanField(default=False, blank=True)
-    informations = models.JSONField(default="{}", blank=True)
+    informations = models.JSONField(default=dict, blank=True)
 
     class Meta:
         ordering = (Func(F("username"), function='Lower'),)

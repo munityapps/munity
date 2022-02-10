@@ -112,6 +112,7 @@ munity/users/migrations/0019_user_has_overmind_access.py
 munity/users/migrations/0020_delete_usersviewset.py
 munity/users/migrations/0021_user_phone_number.py
 munity/users/migrations/0022_user_disabled.py
+munity/users/migrations/0023_user_informations.py
 munity/users/migrations/__init__.py
 munity/workspaces/__init__.py
 munity/workspaces/admin.py

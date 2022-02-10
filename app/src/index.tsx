@@ -23,7 +23,6 @@ import Projects from './fake/Project';
 import reportWebVitals from './reportWebVitals';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
-
 // Style
 import './styles.scss';
 import logo from './assets/logo.png';

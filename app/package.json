@@ -43,7 +43,7 @@
         "i18next-xhr-backend": "^3.2.2",
         "jwt-decode": "^3.1.2",
         "moment": "^2.29.1",
-        "munityapps": "^0.2.18",
+        "munityapps": "^0.2.49",
         "primeflex": "2.0.0",
         "primeicons": "4.1.0",
         "primereact": "^7.0.1",

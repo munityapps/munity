@@ -54,6 +54,45 @@ services:
             - POSTGRES_PORT=${POSTGRES_PORT}
             - PGDATA=/var/lib/postgresql/data
 
+    celery_beat:
+        build:
+            context: ./api
+            dockerfile: ./Dockerfile
+        restart: always
+        volumes:
+            - ./api:/code
+        depends_on:
+            - db
+            - redis
+        command: /usr/local/bin/celery -A projects beat -l info
+        env_file:
+            - .env
+
+    celery_worker:
+        build:
+            context: ./api
+            dockerfile: ./Dockerfile
+        restart: always
+        volumes:
+            - ./api:/code
+        depends_on:
+            - db
+            - redis
+        command: /usr/local/bin/watchmedo auto-restart --directory=/code --pattern=*.py --recursive -- /usr/local/bin/celery -A projects worker -l info
+        env_file:
+            - .env
+
+    redis:
+        init: true
+        image: redis:6-alpine
+        restart: always
+        volumes:
+            - volume-redis:/data
+        env_file:
+            - .env
+
 volumes:
     volume-db:
         name: ${APP_URL}-munity-volume-db
+    volume-redis:
+        name: ${APP_URL}-munity-volume-redis
