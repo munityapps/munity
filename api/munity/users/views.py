@@ -214,5 +214,5 @@ class UsersViewSet(MunityViewSet):
                 return queryset.filter(
                     user_role_workspaces__in=UserRoleWorkspace.objects.filter(workspace__in=workspace_slugs)
                 )
-            # users see nothing
-            return None
+        # users see nothing
+        raise PermissionDenied({"message":"You cannot get users from overmind"})

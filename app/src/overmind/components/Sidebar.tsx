@@ -1,7 +1,6 @@
 import 'react-toastify/dist/ReactToastify.css';
 
 import munityLogo from '../../assets/logo512.png';
-import keyossLogo from '../../assets/keyos.png';
 import iconOvmGraph from '../../assets/icon_ovm_graph.svg';
 import iconOvmAdmin from '../../assets/icon_ovm_admin.svg';
 import iconOvmDeploy from '../../assets/icon_ovm_deploy.svg';
@@ -27,13 +26,6 @@ const OvermindSidebar: React.FC<{ newMenuButton?: Partial<React.Component>[] }> 
     const { t } = useTranslation();
 
     return <div className="sidebar">
-        <div className="project">
-            <img src={keyossLogo} alt="logo" />
-            <div>
-                <div className="legend">{t('common:project_name')}</div>
-                <div className="project-name">Keyoss</div>
-            </div>
-        </div>
         <div className="menu">
             <Button className={`p-button-link ${location.pathname.match(/^\/$/g) ? 'active' : null}`} onClick={() => history.push('/')}>
                 <img src={iconOvmGraph} alt="graph" /> {t('common:monitoring')}
