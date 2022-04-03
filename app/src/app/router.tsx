@@ -5,6 +5,7 @@ import { Route, Switch } from 'react-router';
 
 const AppRouter: React.FC<{
     children: object,
+    demoMode: boolean,
     loadingWorkspace: React.FC,
     overmindSidebar: JSX.Element,
     workspaceNavbar: JSX.Element,
@@ -17,8 +18,8 @@ const AppRouter: React.FC<{
     return <>
         <Switch>
             {props.children}
-            <Route path="/workspace/:workspace_slug" children={<Workspace navbar={props.workspaceNavbar} newRoutes={props.newWorkspaceRoutes} />} />
-            <Route path="/" children={<Overmind navbar={props.overmindNavbar} sidebar={props.overmindSidebar} newRoutes={props.newOvermindRoutes} />} />
+            <Route path="/workspace/:workspace_slug" children={<Workspace demoMode={props.demoMode} navbar={props.workspaceNavbar} newRoutes={props.newWorkspaceRoutes} />} />
+            <Route path="/" children={<Overmind demoMode={props.demoMode} navbar={props.overmindNavbar} sidebar={props.overmindSidebar} newRoutes={props.newOvermindRoutes} />} />
         </Switch>
     </>;
 }

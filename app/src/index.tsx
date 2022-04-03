@@ -34,6 +34,7 @@ ReactDOM.render(
         <Providers>
             <React.StrictMode>
                 <MunityApp
+                    demoMode={true}
                     workspaceNavbar={<Navbar
                         leftPart={NavbarLeft}
                         centerPart={NavbarCenter}
@@ -44,7 +45,7 @@ ReactDOM.render(
                         centerPart={OvermindNavbarCenter}
                         rightPart={OvermindNavbarRight}
                     />}
-                    overmindSidebar={<OvermindSidebar newMenuButton={[
+                    overmindSidebar={<OvermindSidebar demoMode={true} newMenuButton={[
                     ]}/>}
                     newOvermindRoutes={[
                         <Route key={'foobar'} path="/foobar" component={() => <>OVERMIND FOOBAR</>} />,

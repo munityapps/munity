@@ -8,7 +8,7 @@ import User from '../user';
 import './styles.scss';
 import Dashboard from './components/Dashboard';
 
-const Overmind = (props: { navbar:JSX.Element, sidebar: JSX.Element, newRoutes: Partial<Route>[] }) => {
+const Overmind = (props: { demoMode: boolean, navbar:JSX.Element, sidebar: JSX.Element, newRoutes: Partial<Route>[] }) => {
     const dispatch = useAppDispatch();
     useEffect(() => {
         dispatch(setWorkspace(null));
@@ -21,9 +21,9 @@ const Overmind = (props: { navbar:JSX.Element, sidebar: JSX.Element, newRoutes: 
             <div className="main">
                 <Switch>
                     {props.newRoutes}
-                    <Route path="/workspaces" component={WorkspaceList} />
+                    { props.demoMode && <Route path="/workspaces" component={WorkspaceList} />}
                     <Route path="/users" component={User} />
-                    <Route path="/" component={Dashboard} />
+                    <Route path="/" component={props.demoMode ? Dashboard : WorkspaceList} />
                 </Switch>
             </div>
         </div>

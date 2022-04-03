@@ -6,7 +6,7 @@ import { useAppDispatch } from "../hooks";
 
 import './styles.scss';
 
-const Workspace = (props: { navbar:JSX.Element, newRoutes: Partial<Route>[] }) => {
+const Workspace = (props: { demoMode:boolean, navbar:JSX.Element, newRoutes: Partial<Route>[] }) => {
     let { workspace_slug } = useParams<{ workspace_slug: string }>();
     const dispatch = useAppDispatch();
 

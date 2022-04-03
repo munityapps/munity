@@ -24,7 +24,8 @@ const MunityApp: React.FC<{
     overmindNavbar: JSX.Element,
     workspaceNavbar: JSX.Element,
     newOvermindRoutes: Partial<Route>[],
-    newWorkspaceRoutes: Partial<Route>[]
+    newWorkspaceRoutes: Partial<Route>[],
+    demoMode: boolean,
 }> = props => {
     const dispatch = useAppDispatch();
     // isReady is redux ready and api url set
@@ -52,6 +53,7 @@ const MunityApp: React.FC<{
         {!JWTaccess ? <LoginForm logo={props.logoLogin}/> :
             <PermissionCheck loadingWorkspace={props.loadingWorkspace}>
                 <AppRouter
+                    demoMode={props.demoMode}
                     loadingWorkspace={props.loadingWorkspace}
                     overmindSidebar = { props.overmindSidebar }
                     workspaceNavbar = { props.workspaceNavbar }
